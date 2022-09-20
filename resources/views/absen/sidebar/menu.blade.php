@@ -9,9 +9,8 @@
                 <div class="sb-nav-link-icon"><i class="fa fa-bar-chart"></i></div>
                 Statistik Absensi
             </a>
-
-            <a class="nav-link {{ Request::is('absen/data_absensi_pegawai') ? 'active' : ''}}" href="/absen/data_absensi_pegawai">
-                <div class="sb-nav-link-icon"><i class="fa fa-bar-chart"></i></div>
+	    <a class="nav-link {{ Request::is('absen/data_absensi_pegawai') ? 'active' : ''}}" href="/absen/data_absensi_pegawai">
+                <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
                 Data Absensi
             </a>
 
@@ -31,7 +30,7 @@
             @can("absensiHrd")
             <a class="nav-link {{ Request::is('absen_data*') ? 'active' : ''}}" href="/absen_data">
                 <div class="sb-nav-link-icon"><i class="fa fa-newspaper"></i></div>
-                Data Absensi
+                Upload Data Absensi
             </a>
             
             <a class="nav-link {{ Request::is('absen_pengaturan*') ? 'active' : ''}}" href="/absen_pengaturan2">
