@@ -21,6 +21,7 @@ class LemburCatatan extends Migration
             $table->foreignId('lembur_absensi_id')->nullable(); //foreignId untuk menampilkan perhitungan Jam 
             $table->date('tanggal');
             $table->boolean('hari_libur')->default(false);
+            $table->boolean('lembur_pagi')->nullable()->default(0);
             $table->text('keterangan');
             $table->timestamps();
         });

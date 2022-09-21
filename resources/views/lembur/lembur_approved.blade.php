@@ -73,7 +73,7 @@
                                                     </td>
                                                 @endif
                                                 </td>
-                                                <td align="center">
+                                                <td>
                                                     <a href="/lembur/print/{{ $d->id }}/{{ Str::slug($d->periode) }}" class="btn btn-primary btn-xs">
                                                         <i class="fa fa-print" data-toogle="tooltip" data-placement="top" title="print"></i>
                                                     </a>
@@ -105,9 +105,21 @@
                                                                                 <h4>Apakah Anda Yakin Ingin Menerima Pengeajuan Lembur ?</h4>
                                                                                 <h5>Pengjaun dari : <strong>{{ $d->nama }}</strong></h5>
                                                                                 <h5>Periode  : <strong>{{ $d->periode }}</strong></h5>
+                                                                                <textarea name="komentar" rows="5" class="form-control"></textarea>
+
+                                                                                <div class="form-group mt-3">
+                                                                                    <div class="form-check form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="1" checked>
+                                                                                        <label class="form-check-label" >Setuju</label>
+                                                                                    </div>
+                                                                                    <div class="form-check form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="0">
+                                                                                        <label class="form-check-label">Tidak Setuju</label>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <input type="hidden" name="lembur_pengajuan_id" value="{{ $d->id }}">
-                                                                                <div class="form-group mt-5">
-                                                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Terima </button>
+                                                                                <div class="form-group mt-3">
+                                                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Kirim </button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>

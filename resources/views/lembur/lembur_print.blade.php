@@ -113,7 +113,7 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>{{ format_jam($total_lembur_libur) }}</td>
+        <td align="center">{{ format_jam($total_lembur_libur) }}</td>
     </tr>
     @endif
     <tr>
@@ -130,14 +130,21 @@
         <td>Diterima Oleh</td>
     </tr>
     <tr align="center">
-        <td>{{ tanggl_id($tanggal_pengajuan[0]->created_at) }} <br>
+        <td>
             @if($qr_diajukan != null)
+            {{ tanggl_id($tanggal_pengajuan[0]->created_at) }} <br>
                 {!! QrCode::size(100)->generate(request()->getSchemeAndHttpHost()."/validasi"."/".$qr_diajukan); !!}
                 {{-- {!! request()->getSchemeAndHttpHost()."/validasi"."/".$qr_diajukan !!} --}}
+            @else
+            <br>
+            <br>
+            <br>
+            <br>
             @endif
         </td>
-        <td>@if(count($tanggal_approve) > 0)  {{ tanggl_id($tanggal_approve[0]->created_at) }} <br>@endif 
+        <td>
             @if($qr_disetujui != null)
+            @if(count($tanggal_approve) > 0)  {{ tanggl_id($tanggal_approve[0]->created_at) }} <br>@endif 
                 {!! QrCode::size(100)->generate(request()->getSchemeAndHttpHost()."/validasi"."/".$qr_disetujui); !!}
                 {{-- {!! request()->getSchemeAndHttpHost()."/validasi"."/".$qr_disetujui !!} --}}
             @endif

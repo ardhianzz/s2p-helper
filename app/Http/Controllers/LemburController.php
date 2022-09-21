@@ -36,20 +36,32 @@ class LemburController extends Controller
         }
 
         public function proses_terima_pengajuan(Request $request){
-        //dd($request->lembur_pengajuan_id);
-        //
+        //dd($request->all());
+        
         $id['id'] = $request->lembur_pengajuan_id;
         $lembur['status'] = "Selesai";
-
+        
+        $riwayat['status_pengajuan'] = "Selesai";
+        $riwayat['komentar'] = "Pengajuan Diterima oleh Department HR&GA <br>".$request->komentar;
         $riwayat['created_at'] = date("Y-m-d H:i:s");
         $riwayat['lembur_pengajuan_id'] = $id['id'];
-        $riwayat['status_pengajuan'] = "Selesai";
-        $riwayat['komentar'] = "Pengajuan Diterima oleh Department HR&GA";
 
+        if($request->aksi_hrd == 0){
+            //Pengajuan Ditolak;
+            $lembur['status'] = "Dikembalikan";
+            $riwayat['komentar'] = "Pengajuan Dikembalikan oleh Department HR&GA <br>".$request->komentar;
+            $riwayat['status_pengajuan'] = "Dikembalikan";
+        }
+
+        //generate QR Code jika status selesai
         if($lembur['status'] == "Selesai"){
             $this->generate_qrlink("Lembur-Selesai", $riwayat['lembur_pengajuan_id'], "aktif");
         }else{
-            DB::table("validasi")->where("modul","=", "Lembur-Selesai")
+            DB::table("validasi")->where("modul","=", "Lembur-Disetujui")
+                                 ->where("id_validasi", "=", $id['id'])
+                                 ->update(["status"=>"tidak-aktif"]);
+                                 
+            DB::table("validasi")->where("modul","=", "Lembur-Diajukan")
                                  ->where("id_validasi", "=", $id['id'])
                                  ->update(["status"=>"tidak-aktif"]);
         }
@@ -115,20 +127,20 @@ class LemburController extends Controller
         $qr_selesai = DB::table('validasi')->where('modul', "Lembur-Selesai")->where("id_validasi", $request->pengajuan_lembur_id)->get();
         
         //generate link validasi
-        if(count($qr_diajukan) > 0){
+        if(count($qr_diajukan) > 0 && $qr_diajukan[0]->status == "aktif"){
             $data['qr_diajukan'] = $qr_diajukan[0]->link_validasi."?kec=".$qr_diajukan[0]->link_validasi_cek;
         }else{
             $data['qr_diajukan'] = "";
         }
 
 
-        if(count($qr_disetujui) > 0){
+        if(count($qr_disetujui) > 0 && $qr_disetujui[0]->status == "aktif"){
             $data['qr_disetujui'] = $qr_disetujui[0]->link_validasi."?kec=".$qr_disetujui[0]->link_validasi_cek;
         }else{
             $data['qr_disetujui'] = "";
         }
 
-        if(count($qr_selesai) > 0){
+        if(count($qr_selesai) > 0 && $qr_selesai[0]->status == "aktif"){
             $data['qr_selesai'] = $qr_selesai[0]->link_validasi."?kec=".$qr_selesai[0]->link_validasi_cek;
         }else{
             $data['qr_selesai'] = "";
@@ -428,6 +440,7 @@ class LemburController extends Controller
         $data['tanggal'] = $request->tanggal;
         $data['keterangan'] = $request->keterangan;
         $data['hari_libur'] = $request->hari_libur;
+        $data['lembur_pagi'] = $request->lembur_pagi;
         $data['lembur_pengajuan_id'] = $request->lembur_pengajuan_id;
         $data['created_at'] = date("Y-m-d H:i:s");
         
