@@ -17,8 +17,55 @@
                 <div class="card-header d-flex justify-content-between">
                     <h5> Pengajuan Lembur Hari Biasa </h5>
                     <span>
-                        <button class="btn btn-primary" id="rubah" type="button" onclick="togleRubah()">Rubah</button>
-                        <button class="btn btn-success" id="setuju">Persetujuan</button>
+                        <button class="btn btn-primary" id="rubah" type="button" onclick="togleRubah()">Edit</button>
+
+                        @if ( DB::table("lembur_pengajuan")->where("id", request()->id)->get()[0]->status == "Disetujui")
+
+                            <button class="btn btn-success btn-xs" 
+                                    data-toggle="modal" 
+                                    data-target="#tambahData">
+                                    Persetujuan
+                            </button>
+
+
+                            <div class="modal fade" id="tambahData" tabindex="-1" role="dialog"
+                            aria-labelledby="tambahData"
+                            aria-hidden="true">
+
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="tambahData">Terima Pengajuan</h5>
+                                                <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/lembur/terima_pengajuan_lembur" method="POST">
+                                                @csrf
+                                                <h4>Apakah Anda Yakin Ingin Menerima Pengajuan Lembur ?</h4>
+                                                <textarea name="komentar" rows="5" class="form-control"></textarea>
+
+                                                <div class="form-group mt-3">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="1" checked>
+                                                        <label class="form-check-label" >Setuju</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="0">
+                                                        <label class="form-check-label">Tidak Setuju</label>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="lembur_pengajuan_id" value="{{ request()->id }}">
+                                                <div class="form-group mt-3">
+                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Kirim </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </span>
                 </div>
                 <div class="card-body table-respom">
@@ -196,14 +243,14 @@
 function togleRubah(){
     var status = document.getElementById("rubah").innerHTML;
     
-    if(status == "Rubah"){
+    if(status == "Edit"){
         document.getElementById("rubah").innerHTML = "Batal";
 
         for(var i=0; i<document.forms.form_lembur.length; i++){
             document.forms.form_lembur[i].hidden = false;
         }
     }else{
-        document.getElementById("rubah").innerHTML = "Rubah";
+        document.getElementById("rubah").innerHTML = "Edit";
         for(var i=0; i<document.forms.form_lembur.length; i++){
             document.forms.form_lembur[i].hidden = true;
         }
@@ -256,11 +303,21 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
  var n_total_biasa           = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur); 
 
 
+
  //Merubah Tampilan Pada Web Browser dan Values pada Hidden Input
-    document.getElementById("jam_lembur"+id).innerHTML           = toHourse(n_jam_lembur).substr(0,5);
-    document.getElementById("i_jam_lembur"+id).value             = toHourse(n_jam_lembur).substr(0,5);
+    if(n_jam_lembur == undefined){
+
+        document.getElementById("jam_lembur"+id).innerHTML           = "00:00";
+        document.getElementById("i_jam_lembur"+id).value             = "00:00";
+        document.getElementById("total_lembur_biasa").innerHTML      = "00:00";
+    }else{
+
+        document.getElementById("jam_lembur"+id).innerHTML           = toHourse(n_jam_lembur).substr(0,5);
+        document.getElementById("i_jam_lembur"+id).value             = toHourse(n_jam_lembur).substr(0,5);
+    }
+    
     if(n_total_biasa == undefined){ 
-        document.getElementById("total_lembur_biasa").innerHTML  = "00:00";
+        document.getElementById("i_total_biasa").value           = "00:00";
     }else{
         document.getElementById("total_lembur_biasa").innerHTML  = toHourse(n_total_biasa).substr(0,5);
         document.getElementById("i_total_biasa").value           = toHourse(n_total_biasa).substr(0,5);
@@ -280,7 +337,7 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
     }
 
 function jam_lembur_baru(a,b){
-        if(b > a) { return b-a; }
+        if(b => a) { return b-a; }
         if(b < a) { 
             if(b > 479 ){
                 return 0;
