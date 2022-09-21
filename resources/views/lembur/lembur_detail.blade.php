@@ -102,7 +102,7 @@
                                 <thead>
                                     <tr>
                                         <td width="50px">Nomor</td>
-                                        <td width="150px">Tanggal </td>
+                                        <td width="150px">Tanggal</td>
                                         <td>Keterangan</td>
                                         <td width="150px">Aksi</td>
                                     </tr>
@@ -179,13 +179,26 @@
                                                                 </div>
 
                                                                 <div class="form-group mb-4">
+                                                                    <div for=""> <b> Pengajuan lembur ini pada Hari ? </b></div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="radio" name="hari_libur" value="0" checked>
+                                                                        <input class="form-check-input" type="radio" name="hari_libur" value="0" @if($i->hari_libur == 0) checked @endif>
                                                                         <label class="form-check-label" >Hari Biasa</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="radio" name="hari_libur" value="1">
+                                                                        <input class="form-check-input" type="radio" name="hari_libur" value="1" @if($i->hari_libur == 1) checked @endif>
                                                                         <label class="form-check-label">Hari Libur</label>
+                                                                    </div>
+                                                                </div>
+                    
+                                                                <div class="form-group mb-4">
+                                                                    <div for=""> <b>Pengajuan lembur ini termasuk Lembur Pagi (sebelum jam Masuk Kantor)? </b></div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="lembur_pagi" value="0" @if($i->lembur_pagi == 0) checked @endif>
+                                                                        <label class="form-check-label" >Bukan Lembur Pagi</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="lembur_pagi" value="1" @if($i->lembur_pagi == 1) checked @endif>
+                                                                        <label class="form-check-label">Lembur Pagi</label>
                                                                     </div>
                                                                 </div>
 

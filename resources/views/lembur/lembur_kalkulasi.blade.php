@@ -36,6 +36,7 @@
                                     <tr>
                                         <td width="10px">No</td>
                                         <td width="90px">Tanggal</td>
+                                        <td width="90px">Lembur Pagi</td>
                                         <td width="200px">Keterangan / Deskripsi</td>
                                         @if($pengaturan_jam->edit_jam_masuk == 1) <td width="90px">Standar Jam <br> Masuk</td> @endif
                                         @if($pengaturan_jam->edit_jam_kerja == 1) <td width="90px">Durasi <br> Kerja </td> @endif
@@ -52,6 +53,14 @@
                                             <tr>
                                                 <td>{{ $loop->index+1 }}</td>
                                                 <td>{{ tanggl_id($d->tanggal) }}</td>
+                                                <td>
+                                                    @if($d->lembur_pagi == 1)
+                                                        Ya
+                                                    @else
+                                                        Tidak
+                                                    @endif
+                                                    <input type="hidden" name="lembur_pagi[]" value="{{ $d->lembur_pagi }}">
+                                                </td>
                                                 <td> <input type="text" name="keterangan[]" value="{{ $d->keterangan }}" class="form-control"> </td>
 
                                                 @if($pengaturan_jam->edit_jam_masuk == 1)
@@ -120,7 +129,7 @@
                                                     @endif
                                                 </td>
                                                 <td>    <div id="jum_lembur_{{ $d->id }}"> 
-                                                            {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar) }} 
+                                                            {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) }} 
                                                         </div>
                                                         <input type="hidden" 
                                                                name="jam_lembur[]" 
@@ -140,7 +149,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="6">Total</td>
+                                        <td colspan="7">Total</td>
                                         <td class="bg-info">
                                             <div id="total_biasa">
                                                 {{ $total_lembur_biasa = menit_to_jam($total_lembur) }}
