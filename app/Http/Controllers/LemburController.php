@@ -19,6 +19,8 @@ class LemburController extends Controller
            
             $pengajuan["total_biasa"] = $request->total_biasa;
             $pengajuan["total_libur"] = $request->total_libur;
+            $pengajuan['updated_at']  = date("Y-m-d H:i:s");
+            
             DB::table("lembur_pengajuan")->where("id", $request->pengajuan_id)->update($pengajuan);
 
             for($i=0; $i<count($request->id); $i++){
@@ -167,8 +169,9 @@ class LemburController extends Controller
 
     public function lembur_approved(Request $request){
 
-        $data_pengajuan = Lembur::get_pengajuan_lembur_hrd($request->cari);
 
+        $data_pengajuan  = Lembur::get_pengajuan_lembur_hrd($request->nama, $request->periode);
+        //$data_pengajuan2 = Lembur::where();
 
         return view("lembur.lembur_approved",[
             "title" => "Pengajuan Lembur",
@@ -178,7 +181,8 @@ class LemburController extends Controller
 
     public function lembur_approve_aksi(Request $request){
         $id['id'] = $request->pengajuan_lembur_id;
-        $data['status'] = $request->status;
+        $data['status']     = $request->status;
+        $data['updated_at'] = date("Y-m-d H:i:s");
 
         $riwayat['lembur_pengajuan_id'] = $id['id'];
         $riwayat['status_pengajuan'] = $data['status'];
@@ -264,6 +268,7 @@ class LemburController extends Controller
         $data["total_biasa"]            = $request->total_biasa;
         $data["total_libur"]            = $request->total_libur;
         $data['status']                 = "Diajukan";
+        $data['updated_at']             = date("Y-m-d H:i:s");
 
     
 
@@ -364,6 +369,8 @@ class LemburController extends Controller
         $data['total_biasa'] = "00:00:00";
         $data['total_libur'] = "00:00:00";
         $data['status'] = "Belum Diajukan";
+        $data['updated_at'] = date("Y-m-d H:i:s");
+        $data['created_at'] = date("Y-m-d H:i:s");
 
         $riwayat['status_pengajuan'] = "Belum Diajukan";
         $riwayat['created_at'] = date("Y-m-d H:i:s");

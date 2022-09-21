@@ -8,6 +8,11 @@
     a{
         text-decoration: none;
     }
+    input::placeholder {
+        font-weight: bold;
+        opacity: .5;
+    }
+
 </style>
         <div class="container-fluid px-4">
             <h1 class="mt-4">{{ $title }}</h1>
@@ -17,31 +22,42 @@
 
             <!-- <div class="row"> -->
                 <div class="content">
-                    <div class="box">
-                        <div class="box-header">
+                    <div class="card">
+
+                        {{-- <div class="card-header">
                             <form action="/lembur_approved" method="get" class="form-inline">
                                 <input type="search" placeholder="cari nama.." name="cari" value="{{ request()->cari }}">
                                 <button class="btn btn-dark inline">Cari</button>
                             </form>
-                        </div>
-                        <div class="box-body">
-                            
+                        </div> --}}
+
+                        <div class="card-body">
                                 <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td align="center" width="80px">No</td>
-                                            <td>Nama</td>
-                                            <td>Periode</td>
-                                            <td align="center" width="150px">Hari Biasa</td>
-                                            <td align="center" width="150px">Hari Libur</td>
-                                            <td align="center" width="100px">Status</td>
-                                            <td align="center" width="150px">Aksi</td>
-                                        </tr>
-                                    </thead>
+                                    <form action="/lembur_approved" method="GET" class="form-inline">@csrf
+                                        <thead>
+                                            <tr style="vertical-align: middle" class="bg-secondary text-light">
+                                                <td align="center" width="80px"><strong>No</strong> </td>
+                                                <td>
+                                                    <input type="text" name="nama" placeholder="Nama" class="form-control" value="{{ request()->nama }}" id="filterNama">
+                                                </td>
+                                                <td width="300px">
+                                                    <input type="text" name="periode" placeholder="Periode" class="form-control" value="{{ request()->periode }}" id="filterPeriode">
+                                                </td>
+                                                <td align="center" width="180px"><strong>  Hari Biasa </strong></td>
+                                                <td align="center" width="180px"><strong>  Hari Libur </strong></td>
+                                                <td align="center" width="100px">
+                                                    <strong> Status</strong>
+                                                </td>
+                                                <td align="center" width="150px">
+                                                    <input type="submit" name="Cari" value="Cari" class="btn btn-dark form-control">
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </form>
                                     <tbody>
                                         @if(count($pengajuan_lembur) > 0)
                                         @foreach ($pengajuan_lembur as $d)
-                                            <tr>
+                                            <tr style="vertical-align: middle">
                                                 <td align="center">{{ $pengajuan_lembur->firstItem() + $loop->index  }}</td>
                                                 <td>{{ $d->nama }}</td>
                                                 <td>{{ $d->periode }}</td>
@@ -50,7 +66,7 @@
                                                 @if($d->status == "Disetujui")
                                                     <td align="center" class="bg-info">
                                                         <a href="/lembur_approved/detail_hrd/{{ $d->id }}">
-                                                            <div class="text-light">
+                                                            <div class="text-dark">
                                                                 {{ $d->status }}
                                                             </div>
                                                         </a>
@@ -73,9 +89,9 @@
                                                     </td>
                                                 @endif
                                                 </td>
-                                                <td>
+                                                <td align="center">
                                                     <a href="/lembur/print/{{ $d->id }}/{{ Str::slug($d->periode) }}" class="btn btn-primary btn-xs">
-                                                        <i class="fa fa-print" data-toogle="tooltip" data-placement="top" title="print"></i>
+                                                        <i class="fa fa-print text-light" data-toogle="tooltip" data-placement="top" title="print"></i>
                                                     </a>
 
                                                         @if ($d->status == "Disetujui")
@@ -85,50 +101,47 @@
                                                                     data-target="#tambahData{{ $d->id }}">
                                                                     <i class="fa fa-check-circle" data-toogle="tooltip" data-placement="top" title="Terima Pengajuan "></i>
                                                             </button>
+                                                        @endif
+                                                </td>
+                                                <div class="modal fade" id="tambahData{{ $d->id }}" tabindex="-1" role="dialog"
+                                                    aria-labelledby="tambahData{{ $d->id }}"
+                                                    aria-hidden="true">
 
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="tambahData{{ $d->id }}">Terima Pengajuan</h5>
+                                                                        <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="/lembur/terima_pengajuan_lembur" method="POST">
+                                                                        @csrf
+                                                                        <h4>Apakah Anda Yakin Ingin Menerima Pengejuan Lembur ?</h4>
+                                                                        <h5>Pengajuan dari : <strong>{{ $d->nama }}</strong></h5>
+                                                                        <h5>Periode  : <strong>{{ $d->periode }}</strong></h5>
+                                                                        <textarea name="komentar" rows="5" class="form-control"></textarea>
 
-                                                            <div class="modal fade" id="tambahData{{ $d->id }}" tabindex="-1" role="dialog"
-                                                            aria-labelledby="tambahData{{ $d->id }}"
-                                                            aria-hidden="true">
-
-                                                                <div class="modal-dialog modal-lg" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="tambahData{{ $d->id }}">Terima Pengajuan</h5>
-                                                                                <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
+                                                                        <div class="form-group mt-3">
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="aksi_hrd" value="1" checked>
+                                                                                <label class="form-check-label" >Setuju</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="aksi_hrd" value="0">
+                                                                                <label class="form-check-label">Tidak Setuju</label>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="modal-body">
-                                                                            <form action="/lembur/terima_pengajuan_lembur" method="POST">
-                                                                                @csrf
-                                                                                <h4>Apakah Anda Yakin Ingin Menerima Pengejuan Lembur ?</h4>
-                                                                                <h5>Pengajuan dari : <strong>{{ $d->nama }}</strong></h5>
-                                                                                <h5>Periode  : <strong>{{ $d->periode }}</strong></h5>
-                                                                                <textarea name="komentar" rows="5" class="form-control"></textarea>
-
-                                                                                <div class="form-group mt-3">
-                                                                                    <div class="form-check form-check-inline">
-                                                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="1" checked>
-                                                                                        <label class="form-check-label" >Setuju</label>
-                                                                                    </div>
-                                                                                    <div class="form-check form-check-inline">
-                                                                                        <input class="form-check-input" type="radio" name="aksi_hrd" value="0">
-                                                                                        <label class="form-check-label">Tidak Setuju</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input type="hidden" name="lembur_pengajuan_id" value="{{ $d->id }}">
-                                                                                <div class="form-group mt-3">
-                                                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Kirim </button>
-                                                                                </div>
-                                                                            </form>
+                                                                        <input type="hidden" name="lembur_pengajuan_id" value="{{ $d->id }}">
+                                                                        <div class="form-group mt-3">
+                                                                            <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Kirim </button>
                                                                         </div>
-                                                                    </div>
+                                                                    </form>
                                                                 </div>
                                                             </div>
-                                                        @endif
-
-                                                </td>
+                                                        </div>
+                                                    </div>
                                             </tr>
 
 
@@ -156,8 +169,6 @@
                 </div>
             <!-- </div> -->
         </div>
-
-
 
 
 
