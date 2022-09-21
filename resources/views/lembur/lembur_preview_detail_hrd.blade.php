@@ -337,8 +337,8 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
     }
 
 function jam_lembur_baru(a,b){
-        if(b > a) { return b-a; }
-        if(b < a) { 
+        if(b >= a) { return b-a; }
+        if(b <= a) { 
             if(b > 479 ){
                 return 0;
             }else{
