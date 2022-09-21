@@ -66,7 +66,8 @@ class Lembur extends Model
         
     }
 
-    static function get_pengajuan_lembur_hrd($data){
+    //static function get_pengajuan_lembur_hrd($data){
+    static function get_pengajuan_lembur_hrd($nama="", $periode=""){
         return DB::table("pegawai")
                     ->join("lembur_pengajuan", "lembur_pengajuan.user_id", "=" ,"pegawai.user_id")
                     ->select(   "pegawai.user_id", 
@@ -76,10 +77,9 @@ class Lembur extends Model
                                 "lembur_pengajuan.total_libur",
                                 "lembur_pengajuan.status",
                                 "lembur_pengajuan.id")
-                     ->where("lembur_pengajuan.status", "Disetujui")
-                     ->orWhere("lembur_pengajuan.status", "Diajukan")
-                     ->orWhere("lembur_pengajuan.status", "Selesai")
-                     ->Where("pegawai.nama", "like", "%".$data."%")
+                     ->where("lembur_pengajuan.status", "!=", "Belum Diajukan")
+                     ->where("lembur_pengajuan.periode", "like", "%".$periode."%")
+                     ->where("pegawai.nama", "like", "%".$nama."%")
                      ->orderBy("lembur_pengajuan.id", "desc")
                     ->paginate(10);
     }

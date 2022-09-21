@@ -167,8 +167,9 @@ class LemburController extends Controller
 
     public function lembur_approved(Request $request){
 
-        $data_pengajuan = Lembur::get_pengajuan_lembur_hrd($request->cari);
 
+        $data_pengajuan  = Lembur::get_pengajuan_lembur_hrd($request->nama, $request->periode);
+        //$data_pengajuan2 = Lembur::where();
 
         return view("lembur.lembur_approved",[
             "title" => "Pengajuan Lembur",
