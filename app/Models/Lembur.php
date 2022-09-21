@@ -80,7 +80,7 @@ class Lembur extends Model
                      ->where("lembur_pengajuan.status", "!=", "Belum Diajukan")
                      ->where("lembur_pengajuan.periode", "like", "%".$periode."%")
                      ->where("pegawai.nama", "like", "%".$nama."%")
-                     ->orderBy("lembur_pengajuan.id", "desc")
+                     ->orderBy("lembur_pengajuan.updated_at", "desc")
                     ->paginate(10);
     }
 
