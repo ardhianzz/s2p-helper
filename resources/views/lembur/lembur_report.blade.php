@@ -7,6 +7,13 @@
     a{
         text-decoration: none;
     }
+    
+    input::placeholder {
+    font-weight: bold;
+    opacity: .5;
+    color: red;
+    }
+    
 </style>
 <div hidden>
     {{ $jenis_report    = request()->jenis_report }}
@@ -23,7 +30,7 @@
         </ol>
     </div>
     
-    <div class="content">
+    {{-- <div class="content">
         <div class="box">
             <div class="box-header">
                 <a href="#" class="btn btn-dark text-light btn-sm" data-toggle="collapse" id="hide_filter" aria-expanded="true">
@@ -39,9 +46,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="mb-2"><strong>Periode</strong></div>
-                                            <select name="periode" class="form-control">
+                                            <select name="periode" class="form-control" id="periode_lembur">
                                                 @foreach ($periode as $p)
-                                                    <option value="{{ $p->periode }}" id="periode_lembur"
+                                                    <option value="{{ $p->periode }}"
                                                         @if(request()->periode == $p->periode) selected @endif>
                                                          {{ $p->periode }}</option>
                                                 @endforeach
@@ -53,8 +60,8 @@
                                         <div class="form-group">
                                             <div class="mb-2"><strong>Jenis Laporan</strong></div>
                                             <select name="jenis_report" class="form-control">
-                                                <option value="detail"  @if($jenis_report == false || $jenis_report == "detail") selected @endif>Detail</option>
-                                                <option value="general" @if($jenis_report == false || $jenis_report == "general") selected @endif>General</option>
+                                                <option value="detail"  @if(request()->jenis_report == "detail") selected @endif>Detail</option>
+                                                <option value="general" @if(request()->jenis_report == "general") selected @endif>General</option>
                                             </select>
                                         </div>
                                     </div>
@@ -63,13 +70,15 @@
                                         <div class="form-group">
                                             <div class="mb-2"><strong>Status</strong></div>
                                             <select name="filter" class="form-control">
-                                                <option @if($filter == "diajukan") selected @endif value="semua">Semua</option>
-                                                <option @if($filter == "diajukan") selected @endif value="disetujui">Disetujui</option>
-                                                <option @if($filter == "diajukan") selected @endif value="diajukan">Diajukan</option>
-                                                <option @if($filter == "diajukan") selected @endif value="selesai">Selesai</option>
+                                                <option @if(request()->filter == "semua") selected @endif value="semua">Semua</option>
+                                                <option @if(request()->filter == "disetujui") selected @endif value="disetujui">Disetujui</option>
+                                                <option @if(request()->filter == "diajukan") selected @endif value="diajukan">Diajukan</option>
+                                                <option @if(request()->filter == "selesai") selected @endif value="selesai">Selesai</option>
                                             </select>
                                         </div>
                                     </div>
+
+
                                 </div>
                             
                                 <div class="form-group mt-3">
@@ -84,17 +93,78 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <hr>
+
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header nav justify-content-between">
-                    <h5>Laporan Lembur</h5>
-                    <h5>
-                        
-                        <button class="btn btn-dark text-light" onclick="ExportToExcel('xlsx')">Export to Excel</button>
-                    </h5>
+                <div class="card-header">
+                    <form action="/lembur_report" method="get" > @csrf
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="mb-2"><strong>Periode</strong></div>
+                                            <select name="periode" class="form-control" id="periode_lembur">
+                                                @foreach ($periode as $p)
+                                                    <option value="{{ $p->periode }}"
+                                                        @if(request()->periode == $p->periode) selected @endif>
+                                                         {{ $p->periode }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="mb-2"><strong>Jenis Laporan</strong></div>
+                                            <select name="jenis_report" class="form-control">
+                                                <option value="detail"  @if(request()->jenis_report == "detail") selected @endif>Detail</option>
+                                                <option value="general" @if(request()->jenis_report == "general") selected @endif>General</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="mb-2"><strong>Status</strong></div>
+                                            <select name="filter" class="form-control">
+                                                <option @if(request()->filter == "semua") selected @endif value="semua">Semua</option>
+                                                <option @if(request()->filter == "disetujui") selected @endif value="disetujui">Disetujui</option>
+                                                <option @if(request()->filter == "diajukan") selected @endif value="diajukan">Diajukan</option>
+                                                <option @if(request()->filter == "selesai") selected @endif value="selesai">Selesai</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 d-flex justify-content-between">
+                                        <span>
+                                            <div class="mb-2"><strong>&nbsp;</strong></div>
+                                            <button class="btn btn-dark text-light">
+                                                <i class="fa fa-check"></i>
+                                                Apply
+                                            </button>
+                                        </span>
+
+                                        <div class="col-md-4">
+                                            <div class="mb-2"><strong>&nbsp;</strong></div>
+                                            <button class="btn btn-success btn-block" onclick="ExportToExcel('xlsx')">
+                                                <i class="fa fa-file-excel" style="font-size: 20px"></i> &nbsp;
+                                                Export to Excel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="col-md-2">
+                                        <div class="mb-2"><strong>&nbsp;</strong></div>
+                                        <button class="btn btn-success btn-block" onclick="ExportToExcel('xlsx')">
+                                            <i class="fa fa-file-excel" style="font-size: 20px"></i> &nbsp;
+                                            Export to Excel
+                                        </button>
+                                    </div> --}}
+                                </div> 
+                            </form>
                 </div>
                 <div class="card-body">
                     @if(request()->jenis_report == null || request()->jenis_report== "general")

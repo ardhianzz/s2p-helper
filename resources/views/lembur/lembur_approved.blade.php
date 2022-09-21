@@ -8,6 +8,11 @@
     a{
         text-decoration: none;
     }
+    input::placeholder {
+        font-weight: bold;
+        opacity: .5;
+    }
+
 </style>
         <div class="container-fluid px-4">
             <h1 class="mt-4">{{ $title }}</h1>
@@ -30,21 +35,21 @@
                                 <table class="table table-bordered table-striped">
                                     <form action="/lembur_approved" method="GET" class="form-inline">@csrf
                                         <thead>
-                                            <tr style="vertical-align: middle" class="bg-dark text-light">
-                                                <td align="center" width="80px">No</td>
+                                            <tr style="vertical-align: middle" class="bg-secondary text-light">
+                                                <td align="center" width="80px"><strong>No</strong> </td>
                                                 <td>
                                                     <input type="text" name="nama" placeholder="Nama" class="form-control" value="{{ request()->nama }}" id="filterNama">
                                                 </td>
                                                 <td width="300px">
                                                     <input type="text" name="periode" placeholder="Periode" class="form-control" value="{{ request()->periode }}" id="filterPeriode">
                                                 </td>
-                                                <td align="center" width="180px">Hari Biasa</td>
-                                                <td align="center" width="180px">Hari Libur</td>
+                                                <td align="center" width="180px"><strong>  Hari Biasa </strong></td>
+                                                <td align="center" width="180px"><strong>  Hari Libur </strong></td>
                                                 <td align="center" width="100px">
-                                                    Status
+                                                    <strong> Status</strong>
                                                 </td>
                                                 <td align="center" width="150px">
-                                                    <input type="submit" name="Cari" value="Cari" class="btn btn-primary form-control">
+                                                    <input type="submit" name="Cari" value="Cari" class="btn btn-dark form-control">
                                                 </td>
                                             </tr>
                                         </thead>
@@ -61,7 +66,7 @@
                                                 @if($d->status == "Disetujui")
                                                     <td align="center" class="bg-info">
                                                         <a href="/lembur_approved/detail_hrd/{{ $d->id }}">
-                                                            <div class="text-light">
+                                                            <div class="text-dark">
                                                                 {{ $d->status }}
                                                             </div>
                                                         </a>
@@ -86,7 +91,7 @@
                                                 </td>
                                                 <td align="center">
                                                     <a href="/lembur/print/{{ $d->id }}/{{ Str::slug($d->periode) }}" class="btn btn-primary btn-xs">
-                                                        <i class="fa fa-print" data-toogle="tooltip" data-placement="top" title="print"></i>
+                                                        <i class="fa fa-print text-light" data-toogle="tooltip" data-placement="top" title="print"></i>
                                                     </a>
 
                                                         @if ($d->status == "Disetujui")
