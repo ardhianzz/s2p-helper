@@ -26,7 +26,7 @@
     <div class="content">
         <div class="box">
             <div class="box-header">
-                <a href="#" class="btn btn-primary btn-sm" data-toggle="collapse" id="hide_filter" aria-expanded="true">
+                <a href="#" class="btn btn-dark text-light btn-sm" data-toggle="collapse" id="hide_filter" aria-expanded="true">
                     <i class="fa fa-filter"></i>
                     <span class="hidden-xs" >Filter</span>
                 </a>
@@ -35,9 +35,10 @@
                         <div class="card-body">
                             <form action="/lembur_report" method="get" >
                                 <div class="row">
+
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="periode"><strong>Periode Lembur</strong></label>
+                                            <div class="mb-2"><strong>Periode</strong></div>
                                             <select name="periode" class="form-control">
                                                 @foreach ($periode as $p)
                                                     <option value="{{ $p->periode }}" id="periode_lembur"
@@ -49,81 +50,30 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group mt-3">
+                                        <div class="form-group">
                                             <div class="mb-2"><strong>Jenis Laporan</strong></div>
-                                            <div class="form-check form-check-inline">
-                                                <input  class="form-check-input" 
-                                                        type="radio" 
-                                                        name="jenis_report" 
-                                                        id="inlineRadio1" 
-                                                        value="general" 
-                                                        @if($jenis_report == false || $jenis_report == "general") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio1">General</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" 
-                                                        type="radio" 
-                                                        name="jenis_report" 
-                                                        id="inlineRadio2" 
-                                                        value="detail" 
-                                                        @if($jenis_report == "detail") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio2">Detail</label>
-                                            </div>
+                                            <select name="jenis_report" class="form-control">
+                                                <option value="detail"  @if($jenis_report == false || $jenis_report == "detail") selected @endif>Detail</option>
+                                                <option value="general" @if($jenis_report == false || $jenis_report == "general") selected @endif>General</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group mt-3">
+                                        <div class="form-group">
                                             <div class="mb-2"><strong>Status</strong></div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" 
-                                                        type="radio" 
-                                                        name="filter" 
-                                                        id="inlineRadio1" 
-                                                        value="semua"  
-                                                        @if($filter == false || $filter == "semua") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio1">Semua</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" 
-                                                        type="radio" 
-                                                        name="filter" 
-                                                        id="inlineRadio2" 
-                                                        value="disetujui" 
-                                                        @if($filter == "disetujui") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio2">Disetujui</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" 
-                                                        type="radio" 
-                                                        name="filter" 
-                                                        id="inlineRadio2" 
-                                                        value="diajukan" 
-                                                        @if($filter == "diajukan") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio2">Diajukan</label>
-                                            </div>
-        
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" 
-                                                        type="radio" 
-                                                        name="filter" 
-                                                        id="inlineRadio3" 
-                                                        value="selesai" 
-                                                        @if($filter == "selesai") checked @endif>
-                                                <label class="form-check-label" for="inlineRadio3">Selesai</label>
-                                            </div>
+                                            <select name="filter" class="form-control">
+                                                <option @if($filter == "diajukan") selected @endif value="semua">Semua</option>
+                                                <option @if($filter == "diajukan") selected @endif value="disetujui">Disetujui</option>
+                                                <option @if($filter == "diajukan") selected @endif value="diajukan">Diajukan</option>
+                                                <option @if($filter == "diajukan") selected @endif value="selesai">Selesai</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                
-
-                                
-
-
-                                
-
+                            
                                 <div class="form-group mt-3">
-                                    <button class="btn btn-dark text-light btn-block">
+                                    <button class="btn btn-dark text-light">
                                         <i class="fa fa-check"></i>
                                         Apply
                                     </button>
