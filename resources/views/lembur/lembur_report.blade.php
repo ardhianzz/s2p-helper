@@ -38,7 +38,9 @@
                                     <label for="periode"><strong>Periode Lembur</strong></label>
                                     <select name="periode" class="form-control">
                                         @foreach ($periode as $p)
-                                            <option value="{{ $p->periode }}" @if($periode_hari_ini == $p->periode) selected @endif id="periode_lembur"> {{ $p->periode }}</option>
+                                            <option value="{{ $p->periode }}" id="periode_lembur"
+                                                @if(request()->periode == $p->periode) selected @endif>
+                                                 {{ $p->periode }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -157,6 +159,7 @@
                             <td width="50px">No</td>
                             <td>Nama</td>
                             <td>Tanggal Lembur</td>
+                            <td>Lembur Pagi</td>
                             <td>Keterangan</td>
                             <td >Jam Masuk</td>
                             <td >Jam Pulang Standar</td>
@@ -169,6 +172,13 @@
                             <td >{{ $loop->index+1 }}</td>
                             <td>{{ $i->nama }}</td>
                             <td>{{ tanggl_id($i->tanggal) }}</td>
+                            <td>
+                                @if($i->lembur_pagi == 1)
+                                    Ya
+                                @else
+                                    Tidak
+                                @endif
+                            </td>
                             <td>{{ $i->keterangan }}</td>
                             <td>{{ format_jam($i->jam_masuk) }}</td>
                             <td>{{ format_jam($i->jam_pulang_standar) }}</td>

@@ -32,29 +32,42 @@
         return $jam2.":".$menit;
     }
 
-    function jumlah_lembur($jam_pulang, $jam_standar){
+    function jumlah_lembur($jam_pulang, $jam_standar, $lembur_pagi=0, $jam_masuk, $jam_masuk_kantor){
+        //hitung Jumlah Lembur Pagi
+        $pagi = 0;
+        if($lembur_pagi == 1){
+            //jam masuk standar - jam masuk // dalam bentuk menit
+            $pagi = to_menit($jam_masuk_kantor) - to_menit($jam_masuk);
+        }
+
         //Cek dulu apakah jam pulang standar lebih kecil dari pada jam pulang sebenarnya
         //Batas Lembur Malam Sampai Jam 7:59 Pagi Atau = 479;
         if(to_menit($jam_standar) > to_menit($jam_pulang) ){
             //Cek : Apakah pulang terlalu awal atau lembur melewati tengah malam;
             if(to_menit($jam_pulang) > 479){
                //Hasil jika pulangnya terlalu awal
+               if($lembur_pagi == 1){ return menit_to_jam($pagi); }
                return "00:00";
             }else{
                 //Hasil jika pulangnya melebihi tengah malam;
                 //(24:00 - Jam Pulang Standar) + Jam Lembur Malam
                 $jam1 = (1440 - to_menit($jam_standar))+to_menit($jam_pulang);
+                if($lembur_pagi == 1){ return menit_to_jam($pagi+$jam1); }
                 return menit_to_jam($jam1);
             }
         }
 
-        $total  = to_menit($jam_pulang) - to_menit($jam_standar);
-        $jam    = floor($total/60);
-                if($jam < 1){ $jam2 = "00"; }elseif($jam<10){ $jam2= "0".$jam; }else{ $jam2 = $jam; }
-        $m      = $total-($jam*60);
-                if($m < 10){ $menit = "0".$m; }else{ $menit = $m; }
 
-        return $jam2.":".$menit;
+        //lembur Normal
+        $total  = to_menit($jam_pulang) - to_menit($jam_standar);
+        // $jam    = floor($total/60);
+        //         if($jam < 1){ $jam2 = "00"; }elseif($jam<10){ $jam2= "0".$jam; }else{ $jam2 = $jam; }
+        // $m      = $total-($jam*60);
+        //         if($m < 10){ $menit = "0".$m; }else{ $menit = $m; }
+        
+        if($lembur_pagi == 1){ return menit_to_jam($pagi+$total); }
+        return menit_to_jam($total);
+        //return $jam2.":".$menit;
     }
 
     function jam_pulang_standar($data, $jam_masuk, $jam_kerja){

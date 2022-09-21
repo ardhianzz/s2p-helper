@@ -281,6 +281,7 @@ class LemburController extends Controller
             for($x=0; $x<=count($request->hari_libur)-1; $x++){
                     $data2["lembur_pengajuan_id"]     = $lembur_id;
                     $data2["hari_libur"]              = $request->hari_libur[$x];
+                    $data2["lembur_pagi"]             = $request->lembur_pagi[$x];
                     $data2["tanggal"]                 = $request->tanggal[$x];
                     $data2["keterangan"]              = $request->keterangan[$x];
                     $data2["jam_masuk_kantor"]        = $request->jam_masuk_kantor[$x];
@@ -427,6 +428,7 @@ class LemburController extends Controller
         $data['tanggal'] = $request->tanggal;
         $data['keterangan'] = $request->keterangan;
         $data['hari_libur'] = $request->hari_libur;
+        $data['lembur_pagi'] = $request->lembur_pagi;
         
         if(DB::table("lembur_catatan")->where($id)->update($data)){
             return back()->with("success", "Penambahan Data Berhasil");
