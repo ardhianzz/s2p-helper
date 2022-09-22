@@ -39,11 +39,28 @@ class AbsensiController extends Controller
             $awal = $y2."-".$m2."-".$d2;
         }
 
+        $pageView = 10;
+        if($request->pageView != null){
+            $pageView = $request->pageView;
+        }
+        
         return view("absen.absensi_pegawai", [
             "title" => "Absensi Pegawai",
+            "awal"  => date_create($akhir),
+            "akhir" => date_create($awal),
             "periode" => DB::table("lembur_pengajuan")->where("user_id", auth()->user()->id)->distinct()->get(["id","periode"]),
             "absensi" => Absensi::where("absen_id", $absen_id)->
-                                  whereBetween("tanggal", [$akhir, $awal])->orderBy("tanggal", "desc")->paginate(10),
+                                select(
+                                    "lembur_absensi.id",
+                                    "lembur_absensi.absen_id",
+                                    "lembur_absensi.nama",
+                                    "lembur_absensi.tanggal",
+                                    "lembur_absensi.jam_masuk",
+                                    "lembur_absensi.jam_pulang",
+                                    "lembur_catatan.keterangan",
+                                    )->
+                                leftJoin("lembur_catatan", "lembur_absensi.id", "=", "lembur_catatan.lembur_absensi_id")->
+                                whereBetween("lembur_absensi.tanggal", [$akhir, $awal])->orderBy("lembur_absensi.tanggal", "desc")->paginate($pageView),
         ]);
     }
 

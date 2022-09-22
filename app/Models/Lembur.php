@@ -137,15 +137,17 @@ class Lembur extends Model
             ->where("lembur_pengajuan.periode", $data['periode'])    
             ->where("lembur_absensi.absen_id", $id_absen[0]["lembur_absen_id"])
             
-            ->select(
-            
+            ->select(           
             "lembur_catatan.tanggal", 
             "lembur_catatan.keterangan", 
             "lembur_catatan.hari_libur", 
             "lembur_catatan.lembur_pagi", 
+            "lembur_catatan.id as catatan_id",
+
             "lembur_absensi.jam_masuk", 
             "lembur_absensi.jam_pulang", 
-            "lembur_absensi.id", 
+            "lembur_absensi.id",
+            
             "pegawai.user_id", 
             "pegawai.lembur_absen_id" )    
         ->get();

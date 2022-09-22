@@ -12,6 +12,9 @@ class Absensi extends Model
     protected $guarded = ['id'];
     protected $table = 'lembur_absensi';
 
+    public function lembur_catatan(){
+        return $this->belongsTo(LemburCatatan::class);
+    }
 
     static function get_mapped(){
 

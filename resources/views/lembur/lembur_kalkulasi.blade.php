@@ -49,6 +49,8 @@
                                 <tbody>
                                     <div hidden>{{ $total_lembur = 0; }}</div>
                                     @foreach ($jam_lembur as $d)
+                                        <input type="hidden" name="lembur_absensi_id[]" value="{{ $d->id }}">
+                                        <input type="hidden" name="catatan_id[]" value="{{ $d->catatan_id }}">
                                         @if ($d->hari_libur == 0)
                                             <tr>
                                                 <td>{{ $loop->index+1 }}</td>
@@ -219,8 +221,7 @@
                                                 </td>
                                                 <td>   
                                                     <div id="jum_jam_libur_{{ $d->id }}">
-                                                                        {{-- jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) --}}
-                                                        {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) }}
+                                                        {{ $jum_jam_lembur = jumlah_lembur_libur($d->jam_masuk, $d->jam_pulang) }}
                                                     </div>
                                                         <input  type="hidden" 
                                                                 name="jam_lembur[]" 
