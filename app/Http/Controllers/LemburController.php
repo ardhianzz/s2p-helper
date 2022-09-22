@@ -453,8 +453,9 @@ class LemburController extends Controller
         $data['created_at'] = date("Y-m-d H:i:s");
 
         //validate jika lembur sudah diajukan maka tidak bisa menambah data
-
-        if(DB::table("lembur_pengajuan")->where("id", $data["lembur_pengajuan_id"])->get()[0]->status != "Belum Diajukan"){
+        $valid = DB::table("lembur_pengajuan")->where("id", $data["lembur_pengajuan_id"])->get()[0]->status;
+        
+        if($valid == "Selesai" || $valid == "Diajukan" || $valid == "Disetujui"){
             return back()->with("error", "Periode Lembur ini sudah diajukan");
         }
         
