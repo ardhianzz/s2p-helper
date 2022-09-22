@@ -262,7 +262,7 @@ class LemburController extends Controller
     }
 
     public function lembur_simpan_total(Request $request){
-        //dd($request);
+        // dd($request);
         $user_id['user_id']             = Auth::user()->id;
         $periode['periode']             = $request->lembur_pengajuan_periode;
         $data["total_biasa"]            = $request->total_biasa;
