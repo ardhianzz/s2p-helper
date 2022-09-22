@@ -12,7 +12,6 @@
         font-weight: bold;
         opacity: .5;
     }
-
 </style>
         <div class="container-fluid px-4">
             <h1 class="mt-4">{{ $title }}</h1>
@@ -93,7 +92,6 @@
                                                     <a href="/lembur/print/{{ $d->id }}/{{ Str::slug($d->periode) }}" class="btn btn-primary btn-xs">
                                                         <i class="fa fa-print text-light" data-toogle="tooltip" data-placement="top" title="print"></i>
                                                     </a>
-
                                                         @if ($d->status == "Disetujui")
 
                                                             <button class="btn btn-success btn-xs" 

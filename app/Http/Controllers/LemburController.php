@@ -443,8 +443,7 @@ class LemburController extends Controller
         return back()->with("error", "Penambahan Data Gagal");
     }
 
-    public function lembur_pengajuan_harian(Request $request){
-        
+    public function lembur_pengajuan_harian(Request $request){        
         $data['user_id'] = Auth::user()->id;
         $data['tanggal'] = $request->tanggal;
         $data['keterangan'] = $request->keterangan;
@@ -452,9 +451,14 @@ class LemburController extends Controller
         $data['lembur_pagi'] = $request->lembur_pagi;
         $data['lembur_pengajuan_id'] = $request->lembur_pengajuan_id;
         $data['created_at'] = date("Y-m-d H:i:s");
+
+        //validate jika lembur sudah diajukan maka tidak bisa menambah data
+
+        if(DB::table("lembur_pengajuan")->where("id", $data["lembur_pengajuan_id"])->get()[0]->status != "Belum Diajukan"){
+            return back()->with("error", "Periode Lembur ini sudah diajukan");
+        }
         
-        
-        $validated = DB::table("lembur_catatan")->where("tanggal", $data['tanggal'])->where("lembur_pengajuan_id", $data['lembur_pengajuan_id'])->count();
+        $validated = DB::table("lembur_catatan")->where("tanggal", $data['tanggal'])->where("user_id", $data['user_id'])->count();
             
             if($validated == 0 && $data['tanggal'] <= today()){
                 DB::table("lembur_catatan")->insert($data);     

@@ -13,21 +13,35 @@ use Illuminate\Support\Collection;
 
 class AbsensiController extends Controller
 {
+    public function proses_catatan_lembur(Request $request){
+        dd($request->all());
+    }
 
     public function absensi_pegawai(Request $request){
+        //dd($request->daterange);
         $user_id = auth()->user()->id;
         $absen_id = Pegawai::where("user_id", $user_id)->get()[0]->lembur_absen_id;
 
-        if($request->cari_awal == null || $request->cari_akhir == null){
+        if($request->daterange == null){
             $awal = Absensi::where("absen_id", $absen_id)->orderBy("tanggal", "desc")->get()[0]->tanggal;
             $akhir = Absensi::where("absen_id", $absen_id)->orderBy("tanggal", "desc")->get()[29]->tanggal;
-        }else{
-            $awal = request()->cari_awal;
-            $akhir = request()->cari_akhir;
+        }else{ 
+            $str  = $request->daterange;
+            $y1 = substr($str, 6,4);
+            $m1 = substr($str, 0,2);
+            $d1 = substr($str, 3,2);
+
+            $y2 = substr($str, 19,4);
+            $m2 = substr($str, 13,2);
+            $d2 = substr($str, 16,2);
+
+            $akhir  = $y1."-".$m1."-".$d1;
+            $awal = $y2."-".$m2."-".$d2;
         }
 
         return view("absen.absensi_pegawai", [
             "title" => "Absensi Pegawai",
+            "periode" => DB::table("lembur_pengajuan")->where("user_id", auth()->user()->id)->distinct()->get(["id","periode"]),
             "absensi" => Absensi::where("absen_id", $absen_id)->
                                   whereBetween("tanggal", [$akhir, $awal])->orderBy("tanggal", "desc")->paginate(10),
         ]);
