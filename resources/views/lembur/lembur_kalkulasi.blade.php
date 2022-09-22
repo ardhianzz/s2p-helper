@@ -219,7 +219,8 @@
                                                 </td>
                                                 <td>   
                                                     <div id="jum_jam_libur_{{ $d->id }}">
-                                                        {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $d->jam_masuk) }}
+                                                                        {{-- jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) --}}
+                                                        {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) }}
                                                     </div>
                                                         <input  type="hidden" 
                                                                 name="jam_lembur[]" 
