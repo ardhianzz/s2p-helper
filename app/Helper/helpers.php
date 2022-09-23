@@ -37,6 +37,9 @@
     }
 
     function jumlah_lembur($jam_pulang, $jam_standar, $lembur_pagi=0, $jam_masuk, $jam_masuk_kantor){
+        if(to_menit($jam_masuk) == 0 && to_menit($jam_pulang) == 0){
+            return menit_to_jam(0);
+        }
         //hitung Jumlah Lembur Pagi
         $pagi = 0;
         if($lembur_pagi == 1){
