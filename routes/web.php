@@ -60,6 +60,9 @@ Route::group(['middleware' => ["auth"]], function(){
 
 
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
+    Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
+    
+    
     
     Route::get('/kendaraan', [KendaraanController::class, 'index']);
     Route::get('/kendaraan/mobil', [KendaraanController::class, 'daftar_kendaraan']);

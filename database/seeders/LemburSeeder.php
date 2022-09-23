@@ -143,7 +143,12 @@ class LemburSeeder extends Seeder
          Jabatan::create(['nama'=> "Senior Staff"]);
          Jabatan::create(['nama'=> "Staff"]);
          Jabatan::create(['nama'=> "Office Boy"]);
-         Jabatan::create(['nama'=> "Driver"]); 
+         Jabatan::create(['nama'=> "Driver"]);
+         
+         DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Jam Masuk 07.30", "pegawai_jabatan_id" => "7"]);
+         DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Jam Masuk 07.30", "pegawai_jabatan_id" => "8"]);
+         DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Lembur Pagi", "pegawai_jabatan_id" => "7"]);
+         DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Lembur Pagi", "pegawai_jabatan_id" => "8"]);
          
          PegawaiLevelUser::create(['nama' => 'Administrator']);
          PegawaiLevelUser::create(['nama' => 'Administrator HRD']);

@@ -35,6 +35,9 @@
             
             <div class="dropdown-menu">
               <a class="dropdown-item" href="/profile/{{ auth()->user()->id }}">Profile</a>
+              @if(in_array(auth()->user()->id , explode(",",env("ADMIN_SYSTEM"))))
+                <a class="dropdown-item" href="/main/administrator">Administrator</a>
+              @endif
               <hr>
               <a class="dropdown-item" href="/logout">Logout</a>
             </div>
@@ -47,8 +50,11 @@
     
     </div> 
 
-    <div class="container">
+    {{-- <div class="container"> --}}
+    <div class="row d-flex justify-content-center">
       <div class="card-deck mb-12 text-center">
+        
+
         
         @can("pegawaiHrd")
           <div class="card mb-4 box-shadow">
@@ -76,22 +82,54 @@
           </div>
         @endcan
 
-
-
-
-
-
-
-          <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
-            </div>
-            <div class="card-body">
-              <a href="/lembur">
-                <span class="material-icons" style="font-size: 190px;">access_time</span>
-              </a>
-            </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
           </div>
+          <div class="card-body">
+            <a href="/lembur">
+              <span class="material-icons" style="font-size: 190px;">access_time</span>
+            </a>
+          </div>
+        </div>
+
+        @can("pegawaiHrd")
+         <div class="card mb-4 box-shadow">
+             <div class="card-header">
+               <h4 class="my-0 font-weight-normal">Kendaraan</h4>
+             </div>
+             <div class="card-body">
+               <a href="/kendaraan">
+                 <span class="material-icons" style="font-size: 190px;">minor_crash</span>
+               </a>
+             </div>
+          </div>
+        @endcan
+
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+          </div>
+          <div class="card-body">
+            <a href="/absen">
+              <span class="material-icons" style="font-size: 190px;">co_present</span>
+            </a>
+          </div>
+        </div>
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
 
 
           {{-- <div class="card mb-4 box-shadow">
@@ -104,35 +142,6 @@
               </a>
             </div>
           </div> --}}
-
-       @can("pegawaiHrd")
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Kendaraan</h4>
-            </div>
-            <div class="card-body">
-              <a href="/kendaraan">
-                <span class="material-icons" style="font-size: 190px;">minor_crash</span>
-              </a>
-            </div>
-          </div>
-          @endcan
-
-
-
-
-                    <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
-            </div>
-            <div class="card-body">
-              <a href="/absen">
-                <span class="material-icons" style="font-size: 190px;">co_present</span>
-              </a>
-            </div>
-          </div>
-
-
 
       </div>
 
