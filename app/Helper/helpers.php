@@ -32,6 +32,10 @@
         return $jam2.":".$menit;
     }
 
+    function jumlah_lembur_libur($jam_masuk, $jam_pulang){
+        return menit_to_jam(to_menit($jam_pulang)-to_menit($jam_masuk));
+    }
+
     function jumlah_lembur($jam_pulang, $jam_standar, $lembur_pagi=0, $jam_masuk, $jam_masuk_kantor){
         //hitung Jumlah Lembur Pagi
         $pagi = 0;

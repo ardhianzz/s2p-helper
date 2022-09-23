@@ -13,43 +13,28 @@
 		<div class="content">
             <div class="card mb-2">
                 <div class="card-header">
-                    <div class="col-lg-12">
-                            <form method="get" action="data_absensi_pegawai">
-                                <div class="form-group">
-                                    <span class="input-group" >
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i>
-                                            <input type="text" name="daterange" value="{{ date("Y-m-d") }}-{{ date("Y-m-d") }}">
-                                        </span>
-                                    </span>
-                                </div>
+                    <form method="get" action="data_absensi_pegawai">
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <select name="pageView" class="form-control">
+                                    <option value="10" @if(request()->pageView == "10") selected @endif>10</option>
+                                    <option value="25" @if(request()->pageView == "25") selected @endif>25</option>
+                                    <option value="50" @if(request()->pageView == "50") selected @endif>50</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <input type="text" name="daterange" id="daterange" value="{!! date_format($awal, 'm/d/Y') !!} - {!! date_format($akhir, 'm/d/Y') !!}" class="form-control">
+                            </div>
+                            <div class="col-lg-1">
                                 <button class="btn btn-primary" type="submit">Search</button>
-                            </form>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
                     <div class="card">
-                        {{-- <div class="card-header">
-
-                            <div class="card" id="show">
-                                <div class="card-header">
-                                    
-                                        <form method="get" action="data_absensi_pegawai">
-                                            <div class="form-group">
-                                                <i class="ml-3">Tanggal Awal &nbsp;</i><input type="date" placeholder="tanggal " name="cari_akhir" aria-label="Search" value="{{ request('cari_akhir') }}">&nbsp;&nbsp;&nbsp;
-                                                <i class="ml-3">Tanggal Akhir &nbsp;</i><input type="date" placeholder="tanggal " name="cari_awal" aria-label="Search" value="{{ request('cari_awal') }}">
-                                                <button class="btn btn-primary" type="submit">Search</button>
-                                                <input type="text" name="daterange" value="{{ date("Y-m-d") }}-{{ date("Y-m-d") }}" class="form-control">
-                                            </div>
-                                        </form>
-                                    
-                                </div>
-                        </div> --}}
-
-                        {{-- <hr> --}}
-
-
                         <div class="box-body table-respon">
-                            {{-- {{ dd($periode) }} --}}
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -57,6 +42,7 @@
                                         <td>Tanggal</td>
                                         <td>Jam Masuk</td>
                                         <td>Jam Pulang</td>
+                                        <td>Status Pengajuan</td>
                                         <td>Aksi</td>
                                     </tr>
                                 </thead>
@@ -68,6 +54,13 @@
                                             <td>{{ tanggl_id($i->tanggal) }}</td>
                                             <td>{{ format_jam($i->jam_masuk) }}</td>
                                             <td>{{ format_jam($i->jam_pulang) }}</td>
+                                            <td>
+                                                @if($i->keterangan != null)
+                                                    <span class="bg-warning">Telah Diajukan</span>
+                                                @endif
+                                            </td>
+
+
                                             <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahData{{ $i->id }}">Tambah</button></td>
 
                                             <div class="modal fade" id="tambahData{{ $i->id }}" tabindex="-1" role="dialog"
@@ -85,6 +78,7 @@
                                                         <div class="modal-body">
                                                             <form action="/lembur/pengajuan_harian" method="post">
                                                                 @csrf
+                                                                <input type="hidden" name="lembur_absensi_id" value="{{ $i->id }}">
                                                                 <div class="form-group mb-4">
                                                                     <label for="tanggal" class="mb-2">Periode</label>
                                                                         <select name="lembur_pengajuan_id" class="form-control">

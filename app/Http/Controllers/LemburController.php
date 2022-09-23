@@ -262,7 +262,7 @@ class LemburController extends Controller
     }
 
     public function lembur_simpan_total(Request $request){
-        // dd($request);
+        //dd($request->all());
         $user_id['user_id']             = Auth::user()->id;
         $periode['periode']             = $request->lembur_pengajuan_periode;
         $data["total_biasa"]            = $request->total_biasa;
@@ -296,11 +296,15 @@ class LemburController extends Controller
                     $data2["jam_pulang_standar"]      = $request->jam_pulang_standar[$x];
                     $data2["jam_lembur"]              = $request->jam_lembur[$x];
 
+                    
+
                  if(DB::table('lembur_pengajuan_detail')->where("lembur_pengajuan_id", $data2["lembur_pengajuan_id"])->where("tanggal",$data2["tanggal"])->count() == 1){
                     DB::table("lembur_pengajuan_detail")->where("lembur_pengajuan_id", $data2["lembur_pengajuan_id"])->where("tanggal",$data2["tanggal"])->update($data2);
                 }else{
                     DB::table("lembur_pengajuan_detail")->insert($data2);
                 }
+                    //update lembur_catatan supaya bisa join dengan lembur_absensi
+                    DB::table("lembur_catatan")->where("id", $request->catatan_id[$x])->update(["lembur_absensi_id" => $request->lembur_absensi_id[$x], "updated_at" => date("Y-m-d H:i:s")]);
             }
         
         $this->generate_qrlink("Lembur-Diajukan", $riwayat['lembur_pengajuan_id'], "aktif");
@@ -451,6 +455,7 @@ class LemburController extends Controller
         $data['lembur_pagi'] = $request->lembur_pagi;
         $data['lembur_pengajuan_id'] = $request->lembur_pengajuan_id;
         $data['created_at'] = date("Y-m-d H:i:s");
+        $data['lembur_absensi_id'] = $request->lembur_absensi_id;
 
         //validate jika lembur sudah diajukan maka tidak bisa menambah data
         $valid = DB::table("lembur_pengajuan")->where("id", $data["lembur_pengajuan_id"])->get()[0]->status;
