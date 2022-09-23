@@ -25,7 +25,7 @@
                         <div class="nav justify-content-between box-header">
                             <h2>Riwayat Pengajuan</h2>
                             <form action="/lembur" method="get">
-                                <input  type="search" placeholder="Cari..." name="cari" value="{{ request()->cari }}">
+                                <input  type="search" placeholder="Cari..." name="cari" value="{{ request()->cari }}" autocomplete="off">
                                 <button class="btn btn-dark text-light" type="submit">Cari</button>
                             </form>
                         </div>

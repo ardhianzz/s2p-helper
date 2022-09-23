@@ -37,10 +37,10 @@
                                             <tr style="vertical-align: middle" class="bg-secondary text-light">
                                                 <td align="center" width="80px"><strong>No</strong> </td>
                                                 <td>
-                                                    <input type="text" name="nama" placeholder="Nama" class="form-control" value="{{ request()->nama }}" id="filterNama">
+                                                    <input type="text" name="nama" placeholder="Nama" class="form-control" value="{{ request()->nama }}" id="filterNama" autocomplete="off">
                                                 </td>
                                                 <td width="300px">
-                                                    <input type="text" name="periode" placeholder="Periode" class="form-control" value="{{ request()->periode }}" id="filterPeriode">
+                                                    <input type="text" name="periode" placeholder="Periode" class="form-control" value="{{ request()->periode }}" id="filterPeriode" autocomplete="off">
                                                 </td>
                                                 <td align="center" width="180px"><strong>  Hari Biasa </strong></td>
                                                 <td align="center" width="180px"><strong>  Hari Libur </strong></td>

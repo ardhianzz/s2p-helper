@@ -105,11 +105,11 @@
               <div class="form-group mb-3">
                   <label for="nik" class='mb-2'>Nama</label>
                   <input type="text" name="nama" required class="form-control" 
-                        id="nama" placeholder="contoh : 'Engginering' "
+                        id="nama" placeholder="contoh : 'Engginering' " autocomplete="off"
                         value={{ old('nama') }}>
               </div>
               <div class="form-group mb-3">
-                <label for="nama" class='mb-2'>Keterangan</label>
+                <label for="nama" class='mb-2' autocomplete="off">Keterangan</label>
                 <textarea name="keterangan" id=""rows="10" 
                 class="form-control" placeholder="contoh : 'Menangani pekerjaan berkaitan dengan Engginering' ">{{ old('keterangan') }}</textarea>
               </div>

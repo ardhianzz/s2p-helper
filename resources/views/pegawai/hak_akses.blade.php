@@ -18,7 +18,7 @@
 
                             
                                 <form method="get" action="hak_akses">
-                                  <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
+                                  <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}" autocomplete="off">
                                   <button class="btn btn-primary" type="submit">Search</button>
                                 </form>
                             

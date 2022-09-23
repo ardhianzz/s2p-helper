@@ -104,7 +104,7 @@
                         @csrf
                         <div class="form-group mb-3">
                             <label for="nama" class='mb-2'>Nama</label>
-                            <input type="text" class="form-control" id="nama" 
+                            <input type="text" class="form-control" id="nama" autocomplete="off"
                                     placeholder="contoh : 'Supervisor' "
                                     name="nama">
                         </div>

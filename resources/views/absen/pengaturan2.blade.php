@@ -15,7 +15,7 @@
                         <div class="navbar box-header">
                             <h5></h5>
                             <form method="get" action="/absen_pengaturan2">
-                                <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
+                                <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}" autocomplete="off">
                                 <button class="btn btn-primary" type="submit">Search</button>
                             </form>
                         </div>

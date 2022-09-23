@@ -29,7 +29,7 @@
                             <nav class="navbar navbar-light bg-light justify-content-between">
                                 <h5 class="mb-2"> Pengaturan Approver Lembur </h5> 
                                 <form class="form-inline">
-                                  <input class="" type="search" placeholder="Search" aria-label="Search" name="nama">
+                                  <input class="" type="search" placeholder="Search" aria-label="Search" name="nama" autocomplete="off">
                                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                                 </form>
                               </nav>
