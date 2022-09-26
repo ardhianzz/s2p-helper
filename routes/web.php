@@ -60,6 +60,8 @@ Route::group(['middleware' => ["auth"]], function(){
 
 
     Route::get('/pengumuman', [PengumumanController::class, "index"]);
+    Route::get('/pengumuman/manage_kebijakan', [PengumumanController::class, "manage_kebijakan"]);
+
     
     
     Route::get('/kendaraan', [KendaraanController::class, 'index']);

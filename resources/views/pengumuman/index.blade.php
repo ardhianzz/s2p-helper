@@ -11,16 +11,46 @@
 
 
 <div class="container-fluid px-4">
-    <div class="row">
+    {{-- <div class="row">
         <h1 class="mt-4">{{ $title }}</h1>
     </div>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
-    </ol>
+    </ol> --}}
+    <h1 class="mt-3 mb-3" style="font-size: 180px">&nbsp;</h1>
 
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-3">
+            <a href="pengumuman/kebijakan">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
+                        <h5><strong class="text-white">Pengumuman</strong></h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <span class="fa fa-bullhorn text-primary" style="font-size: 180px"></span>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-    <div class="row">
-        Pengumuman PT S2P
+        <div class="col-lg-1">
+            &nbsp;
+        </div>
+
+        <div class="col-lg-3">
+            <a href="pengumuman/slip_gaji">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
+                        <h5><strong class="text-white">Slip Gaji</strong></h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <span class="fa fa-credit-card text-primary" style="font-size: 180px"></span>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 

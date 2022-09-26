@@ -134,7 +134,8 @@
             </div>
             <div class="card-body">
               <a href="/pengumuman">
-                <span class="material-icons" style="font-size: 190px;">co_present</span>
+                <span class="material-icons" style="font-size: 190px;">archive</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">99+</span>
               </a>
             </div>
           </div>

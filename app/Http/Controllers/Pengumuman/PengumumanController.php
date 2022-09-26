@@ -13,16 +13,43 @@ use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
+
+    public function manage_kebijakan(){
+        $this->is_admin(auth()->user()->id);
+
+        return view("pengumuman.manage_kebijakan", [
+            "title" => "Managemen Pengumuman",
+            "hak_akses" => $this->cek_akses(auth()->user()->id),
+        ]);
+        
+        
+    }
+
     public function index(){
         $akses = $this->cek_akses(auth()->user()->id); 
-        if($akses == "Undefined"){
-            abort(403);
-        }
-
         return view("pengumuman.index",[
             "title" => "Pengumuman",
             "hak_akses" => $akses,
         ]);
+    }
+
+
+
+
+
+
+
+
+
+
+    //Manual Police
+
+    public function is_admin($id){
+        $akses = $this->cek_akses($id);
+        if($akses == "User" || $akses == "Approver"){
+            return abort(403);
+        }
+            return true;
     }
 
     public function cek_akses($user_id){
@@ -36,7 +63,7 @@ class PengumumanController extends Controller
             case '2': return "Administrator HRD"; break;
             case '3': return "Approver"; break;
             case '4': return "User"; break;
-            default: return "Undefined"; break;
+            default: return abort(403); break;
         }
     }
 

@@ -1,10 +1,11 @@
 @section('menu')
+{{-- @inject('pController', 'App\Http\Controllers\Pengumuman\PengumumanController') --}}
 
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
 
-            <a class="nav-link {{ Request::is('pengumuman/dashboard*') ? 'active' : ''}}" href="/pengumuman/dashboard">
+            <a class="nav-link {{ Request::is('pengumuman*') ? 'active' : ''}}" href="/pengumuman">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Dashboard
             </a>
