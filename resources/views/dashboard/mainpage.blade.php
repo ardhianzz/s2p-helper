@@ -55,33 +55,36 @@
       <div class="card-deck mb-12 text-center">
         
 
-        
-        @can("pegawaiHrd")
-          <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
+        @if(DB::table("modul")->where("id", 1)->get()[0]->keterangan == "Aktif")
+          @can("pegawaiHrd")
+            <div class="card mb-4 box-shadow">
+              <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
+              </div>
+              <div class="card-body">
+                <a href="/pegawai">
+                    <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
+                </a>
+              </div>
             </div>
-            <div class="card-body">
-              <a href="/pegawai">
-                  <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
-              </a>
-            </div>
-          </div>
-        @endcan
+          @endcan
 
-        @can("pegawaiAdmin")
-          <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
+          @can("pegawaiAdmin")
+            <div class="card mb-4 box-shadow">
+              <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
+              </div>
+              <div class="card-body">
+                <a href="/pegawai">
+                    <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
+                </a>
+              </div>
             </div>
-            <div class="card-body">
-              <a href="/pegawai">
-                  <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
-              </a>
-            </div>
-          </div>
-        @endcan
+          @endcan
+        @endif
 
+
+        @if(DB::table("modul")->where("id", 3)->get()[0]->keterangan == "Aktif")
         <div class="card mb-4 box-shadow">
           <div class="card-header">
             <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
@@ -92,30 +95,36 @@
             </a>
           </div>
         </div>
+        @endif
 
-        @can("pegawaiHrd")
-         <div class="card mb-4 box-shadow">
-             <div class="card-header">
-               <h4 class="my-0 font-weight-normal">Kendaraan</h4>
-             </div>
-             <div class="card-body">
-               <a href="/kendaraan">
-                 <span class="material-icons" style="font-size: 190px;">minor_crash</span>
-               </a>
-             </div>
-          </div>
-        @endcan
 
-        <div class="card mb-4 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+        @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
+          @can("pegawaiHrd")
+          <div class="card mb-4 box-shadow">
+              <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Kendaraan</h4>
+              </div>
+              <div class="card-body">
+                <a href="/kendaraan">
+                  <span class="material-icons" style="font-size: 190px;">minor_crash</span>
+                </a>
+              </div>
+            </div>
+          @endcan
+        @endif
+
+        @if(DB::table("modul")->where("id", 2)->get()[0]->keterangan == "Aktif")
+          <div class="card mb-4 box-shadow">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+            </div>
+            <div class="card-body">
+              <a href="/absen">
+                <span class="material-icons" style="font-size: 190px;">co_present</span>
+              </a>
+            </div>
           </div>
-          <div class="card-body">
-            <a href="/absen">
-              <span class="material-icons" style="font-size: 190px;">co_present</span>
-            </a>
-          </div>
-        </div>
+        @endif
 
 
 
