@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LemburController;
+use App\Http\Controllers\Lembur\LemburController;
 use App\Http\Controllers\SppdController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;

@@ -277,7 +277,41 @@
                         </div>
                     </div>
                 </div>
-            {{-- </div> --}}
+
+
+            <div class="row mt-3">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header text-white bg-primary">
+                            <h5>Pengaturan Tambahan Jam Masuk</h5>
+                        </div>
+
+                        <div class="card-body">
+                            <form action="/lembur_settings/add_setting_group" method="POST">
+                                @csrf
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td>Deskripsi Peraturan</td>
+                                            <td>Jabatan</td>
+                                            <td>Aksi</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($setting_tambahan as $i)    
+                                            <tr>
+                                                <td>{{ $i->nama_pengaturan }}</td>
+                                                <td>{{ $i->pegawai_jabatan_id }}</td>
+                                                <td>rubah</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             
         </div>

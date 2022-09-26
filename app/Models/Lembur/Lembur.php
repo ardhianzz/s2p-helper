@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Lembur;
 
-use GuzzleHttp\Psr7\Request;
+use App\Models\Pegawai;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Auth;
-use Matrix\Operators\Operator;
 
 class Lembur extends Model
 {
     use HasFactory;
     protected $table = 'lembur';
     protected $guarded = ['id'];
+
+
+    
 
 
     static function get_data_report($periode, $jenis, $filter){
@@ -189,13 +191,6 @@ class Lembur extends Model
         ->selectRaw("(SELECT status_pengajuan from lembur_riwayat_pengajuan WHERE lembur_riwayat_pengajuan.lembur_pengajuan_id = lembur_pengajuan.id ORDER by id DESC LIMIT 1) as status")
         ->selectRaw("(SELECT komentar from lembur_riwayat_pengajuan WHERE lembur_riwayat_pengajuan.lembur_pengajuan_id = lembur_pengajuan.id ORDER by id DESC LIMIT 1) as keterangan")
         ->where($id)->where("periode", "like", "%".$data."%")->paginate(10);
-
-
-        // return DB::table("lembur_pengajuan")
-        //             ->where($id)
-        //             ->where("periode", "like", "%".$data."%")
-        //             ->orderBy('id', 'desc')
-        //             ->paginate(10);
                     
     }
 

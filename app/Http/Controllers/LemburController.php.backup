@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lembur;
+use App\Models\Lembur\Lembur;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -404,6 +404,7 @@ class LemburController extends Controller
             "user" => $pegawai,
             "users" => Pegawai::get(),
             "jam_kerja" => $data[0],
+            "setting_tambahan" => DB::table("lembur_settings_group")->get(),
             "title" => "Pengaturan Lembur"
         ]);
     }
