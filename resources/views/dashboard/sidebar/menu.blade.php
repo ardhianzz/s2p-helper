@@ -4,10 +4,17 @@
     <div class="sb-sidenav-menu">
         <div class="nav">
 
-            <a class="nav-link {{ Request::is('pegawai*') ? 'active' : ''}}" href="/main/administrator">
+            <a class="nav-link {{ Request::is('main/administrator*') ? 'active' : ''}}" href="/main/administrator">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Go Live Modul
             </a>
+
+
+            <a class="nav-link {{ Request::is('main/mailler*') ? 'active' : ''}}" href="/main/mailler">
+                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                Pengaturan Email
+            </a>
+
         </div>
     </div>
     <div class="sb-sidenav-footer">

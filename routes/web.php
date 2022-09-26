@@ -61,6 +61,7 @@ Route::group(['middleware' => ["auth"]], function(){
 
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
+    Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
     
     
     

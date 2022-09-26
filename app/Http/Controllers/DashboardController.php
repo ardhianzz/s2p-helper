@@ -7,6 +7,22 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function menu_email(){
+        if(!in_array(auth()->user()->id , explode(",",env("ADMIN_SYSTEM")))){
+            return abort(403);
+        }
+
+        if(request()->id != null){
+            return "Ada Request";
+        }
+
+        return view("dashboard.mailer",[
+            'modul' => DB::table("modul")->get(),
+        ]);
+
+    }
+
+
     public function menu_administrator(){
         if(!in_array(auth()->user()->id , explode(",",env("ADMIN_SYSTEM")))){
             return abort(403);
