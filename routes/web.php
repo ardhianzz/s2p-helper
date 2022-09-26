@@ -7,6 +7,7 @@ use App\Http\Controllers\SppdController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Asset\KendaraanController;
+use App\Http\Controllers\Pengumuman\PengumumanController;
 use App\Models\Absensi;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -53,16 +54,12 @@ Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 Route::group(['middleware' => ["auth"]], function(){
 
 
-
-
-
-
-
-
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
-    
+
+
+    Route::get('/pengumuman', [PengumumanController::class, "index"]);
     
     
     Route::get('/kendaraan', [KendaraanController::class, 'index']);

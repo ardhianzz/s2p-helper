@@ -161,6 +161,7 @@ class LemburSeeder extends Seeder
          Modul::create(['nama' => "Sistem Pengolahan Absensi"]);
          Modul::create(['nama' => "Sistem Pengolahan Lembur"]);
          Modul::create(['nama' => "Sistem Pengolahan Kendaraan"]);
+         Modul::create(['nama' => "Sistem Informasi & Pengumuman"]);
          
          
          //modul Pegawai

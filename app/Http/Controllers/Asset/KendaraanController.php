@@ -5,21 +5,22 @@ namespace App\Http\Controllers\Asset;
 use App\Models\Pegawai;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ManagemenKendaraan\AKendaraanDokumen;
 use App\Models\ManagemenKendaraan\AAsuransi;
 use App\Models\ManagemenKendaraan\AKendaraan;
 use App\Models\ManagemenKendaraan\AJenisPremi;
+use App\Models\ManagemenKendaraan\AAsuransiPic;
 use App\Models\ManagemenKendaraan\AJenisService;
 use App\Models\ManagemenKendaraan\AJenisAsuransi;
 use App\Models\ManagemenKendaraan\AJenisKendaraan;
+use App\Models\ManagemenKendaraan\AAsuransiDokumen;
 use App\Models\ManagemenKendaraan\AStatusPerbaikan;
+use App\Models\ManagemenKendaraan\AKendaraanDokumen;
+use App\Models\ManagemenKendaraan\APerbaikanDokumen;
 use App\Models\ManagemenKendaraan\AServicePerbaikan;
 use App\Models\ManagemenKendaraan\AServicePerbaikanRiwayat;
-use App\Models\ManagemenKendaraan\APerbaikanDokumen;
-use App\Models\ManagemenKendaraan\AAsuransiPic;
-use App\Models\ManagemenKendaraan\AAsuransiDokumen;
 
 class KendaraanController extends Controller
 {
@@ -495,10 +496,29 @@ class KendaraanController extends Controller
     }
     
     public function index(){
+        if($this->cek_akses(auth()->user()->id) == "Undefined"){
+            abort(403);
+        }
+
         return view('asset.index', [
             'title' => "Managemen Mobil",
             'sub_title' => "Managemen Kendaraan - PT Sumber Segara Primadaya",
             'jenis' => AJenisKendaraan::get(),
         ]);
+    }
+
+    public function cek_akses($user_id){
+        $tmp = DB::table("pegawai_hak_akses")->where("modul_id", 4)->where("user_id", $user_id)->get();
+        $akses = 0;
+        if(count($tmp) > 0 ){
+            $akses = $tmp[0]->pegawai_level_user_id;
+        }
+        switch ($akses) {
+            case '1': return "Administrator"; break;
+            case '2': return "Administrator HRD"; break;
+            case '3': return "Approver"; break;
+            case '4': return "User"; break;
+            default: return "Undefined"; break;
+        }
     }
 }

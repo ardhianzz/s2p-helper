@@ -203,6 +203,8 @@ class UserController extends Controller
     }
 
     public function hak_akses(Request $request){
+        $this->cek_akses(auth()->user()->id);
+
         if($request->cari){
             $data_level = Pegawai::hak_akses_cari($request->cari);
         }
@@ -220,6 +222,7 @@ class UserController extends Controller
 
 
     public function jabatan(){
+        $this->cek_akses(auth()->user()->id);
         return view("pegawai.jabatan",[
             'title'   => "Manageman Jabatan",
             'jabatan' => Pegawai::get_jabatan(),
@@ -227,6 +230,7 @@ class UserController extends Controller
     }
 
     public function divisi(){
+        $this->cek_akses(auth()->user()->id);
         return view("pegawai.divisi",[
             'title'   => "Manageman Divisi",
             'divisi' => Pegawai::get_divisi(),
@@ -235,6 +239,8 @@ class UserController extends Controller
 
 
     public function index(Request $request){
+        $this->cek_akses(auth()->user()->id);
+        
 
         return view('pegawai/index', 
             [   'title' => "Pegawai",
@@ -242,5 +248,20 @@ class UserController extends Controller
                 'jabatan' => Pegawai::get_jabatan(),
                 'pegawai' =>  Pegawai::get_pegawai_cari($request->cari),
         ]);
+    }
+
+    public function cek_akses($user_id){
+        $tmp = DB::table("pegawai_hak_akses")->where("modul_id", 1)->where("user_id", $user_id)->get();
+        $akses = 0;
+        if(count($tmp) > 0 ){
+            $akses = $tmp[0]->pegawai_level_user_id;
+        }
+        switch ($akses) {
+            case '1': return "Administrator"; break;
+            case '2': return "Administrator HRD"; break;
+            case '3': return abort(403); break;
+            case '4': return abort(403); break;
+            default: return abort(403); break;
+        }
     }
 }

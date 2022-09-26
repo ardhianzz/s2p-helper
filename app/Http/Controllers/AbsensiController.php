@@ -106,6 +106,9 @@ class AbsensiController extends Controller
 
     public function index()
     {
+        if($this->cek_akses(auth()->user()->id) == "Undefined"){
+            abort(403);
+        }
         
         return view('absen.index', [
             "absensi" => Absensi::simplePaginate(10)->withQueryString(),
@@ -185,5 +188,20 @@ class AbsensiController extends Controller
     public function destroy(Absensi $absensi)
     {
         //
+    }
+
+    public function cek_akses($user_id){
+        $tmp = DB::table("pegawai_hak_akses")->where("modul_id", 2)->where("user_id", $user_id)->get();
+        $akses = 0;
+        if(count($tmp) > 0 ){
+            $akses = $tmp[0]->pegawai_level_user_id;
+        }
+        switch ($akses) {
+            case '1': return "Administrator"; break;
+            case '2': return "Administrator HRD"; break;
+            case '3': return "Approver"; break;
+            case '4': return "User"; break;
+            default: return "Undefined"; break;
+        }
     }
 }
