@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Lembur;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lembur\Lembur;
-use App\Models\Pegawai;
+use App\Models\Lembur\LemburSettingsGroup;
+//use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
+use App\Models\Pegawai\PegawaiJabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -317,18 +320,27 @@ class LemburController extends Controller
         $data["user_id"] = Auth::user()->id;
         $data["periode"] = ucfirst(str_replace("-", " ", $request->periode));
         $data["lembur_pengajuan_id"] = $request->lembur_pengajuan_id;
+
         $jam = DB::table("lembur_settings")->get();
+        $jabatan_id = Pegawai::where("user_id", $data["user_id"])->get()[0]->pegawai_jabatan_id;
+
+        $pengaturan_jam_masuk = "08:00:00";
+        if(LemburSettingsGroup::where("pegawai_jabatan_id", $jabatan_id)->where("nama_pengaturan", "like", "%Jam Masuk%")->count() > 0){
+            $pengaturan = LemburSettingsGroup::where("pegawai_jabatan_id", $jabatan_id)->where("nama_pengaturan", "like", "%Jam Masuk%")->get()[0]->nama_pengaturan;
+            $pengaturan_jam_masuk = explode(" ", $pengaturan)[2].":00";
+        }
 
         $perhitungan = Lembur::perhitungan_total_jam($data);
         
         if(count($perhitungan) == 0){ return view("lembur.error.e_absensi_belum_ada"); }
+        
         
 
         return view("lembur.lembur_kalkulasi", [
             "title" => $data["periode"],
             "pengaturan_jam" => $jam[0],
             "jam_lembur" => $perhitungan,
-            
+            "pengaturan_jam_masuk" => $pengaturan_jam_masuk,
         ]);
     }
 
@@ -390,6 +402,21 @@ class LemburController extends Controller
         }
     }
 
+
+    public function proses_tambah_lembur_setting_gropu(Request $request){
+        $data['nama_pengaturan'] = $request->nama_pengaturan;
+            $data['pegawai_jabatan_id'] = $request->pegawai_jabatan_id;
+            // dd($data);
+            LemburSettingsGroup::create($data);
+            return back()->with("success", "Penambahan Data Berhasil");
+    }
+
+    public function proses_hapus_lembur_setting_gropu(Request $request){
+        LemburSettingsGroup::where("id", $request->hapusPengaturanGroup)->delete();
+        return back()->with("success", "Hapus Data Berhasil");
+    }
+
+
     public function lembur_pengaturan(Request $request){
         
         if($request->nama){
@@ -405,7 +432,8 @@ class LemburController extends Controller
             "user" => $pegawai,
             "users" => Pegawai::get(),
             "jam_kerja" => $data[0],
-            "setting_tambahan" => DB::table("lembur_settings_group")->get(),
+            "setting_tambahan" => LemburSettingsGroup::get(),
+            "nama_jabatan" => PegawaiJabatan::get(),
             "title" => "Pengaturan Lembur"
         ]);
     }
@@ -482,13 +510,17 @@ class LemburController extends Controller
         
         $biasa = Lembur::get_catatan_biasa($periode, $user_id);
         $libur = Lembur::get_catatan_libur($periode, $user_id);
-       
+        
+        //Get Jabatan
+        $pegawai_jabatan_id = Pegawai::where("user_id", $user_id)->get()[0]->pegawai_jabatan_id;
+        $lembur_pagi = LemburSettingsGroup::where("nama_pengaturan", "Lembur Pagi")->where("pegawai_jabatan_id", $pegawai_jabatan_id)->count();
 
         return view("lembur.lembur_detail", [
             "title" => $periode,
             "lembur_pengajuan_id" => $request->lembur_pengajuan_id,
             "biasa" => $biasa,
             "libur" => $libur,
+            "lembur_pagi" => $lembur_pagi,
             "pengajuanLembur" => false,
         ]);
     }

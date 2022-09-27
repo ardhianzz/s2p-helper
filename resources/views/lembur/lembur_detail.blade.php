@@ -55,17 +55,19 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group mb-4">
-                                                <div for=""> <b>Pengajuan lembur ini termasuk Lembur Pagi (sebelum jam Masuk Kantor)? </b></div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="lembur_pagi" value="0" checked>
-                                                    <label class="form-check-label" >Bukan Lembur Pagi</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="lembur_pagi" value="1">
-                                                    <label class="form-check-label">Lembur Pagi</label>
-                                                </div>
-                                            </div>
+                                            @if($lembur_pagi > 0)
+                                                <div class="form-group mb-4">
+                                                    <div for=""> <b>Pengajuan lembur ini termasuk Lembur Pagi (sebelum jam Masuk Kantor)? </b></div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="lembur_pagi" value="0" checked>
+                                                        <label class="form-check-label" >Bukan Lembur Pagi</label>
+                                                    </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="lembur_pagi" value="1">
+                                                            <label class="form-check-label">Lembur Pagi</label>
+                                                        </div>
+                                                    </div>
+                                            @endif
 
 
                                             <div class="form-group mt-5">
@@ -190,6 +192,7 @@
                                                                     </div>
                                                                 </div>
                     
+                                                                @if($lembur_pagi > 0)
                                                                 <div class="form-group mb-4">
                                                                     <div for=""> <b>Pengajuan lembur ini termasuk Lembur Pagi (sebelum jam Masuk Kantor)? </b></div>
                                                                     <div class="form-check form-check-inline">
@@ -201,6 +204,7 @@
                                                                         <label class="form-check-label">Lembur Pagi</label>
                                                                     </div>
                                                                 </div>
+                                                                @endif
 
                                                                 <div class="form-group mt-5">
                                                                     <input type="hidden" name="lembur_catatan" value="{{ $i->id }}">

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AbsensiImport;
-use App\Models\Pegawai;
+// use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 

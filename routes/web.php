@@ -124,6 +124,9 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::post('/lembur_settings/add_user_periode', [LemburController::class, 'lembur_pengaturan_tambah_periode']);
     Route::post('/lembur/tarik_pengajuan_lembur', [LemburController::class, 'proses_tarik_pengajuan']);
     Route::post('/lembur/terima_pengajuan_lembur', [LemburController::class, 'proses_terima_pengajuan']);
+    Route::post('/lembur_settings/tambahpengaturangroup', [LemburController::class, 'proses_tambah_lembur_setting_gropu']);
+    Route::post('/lembur_settings/hapuspengaturangroup', [LemburController::class, 'proses_hapus_lembur_setting_gropu']);
+    //lembur_settings/hapuspengaturangroup
     
 
 

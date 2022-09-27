@@ -68,7 +68,7 @@
                                                 @if($pengaturan_jam->edit_jam_masuk == 1)
                                                     <td> <input type="time"   
                                                                 name="jam_masuk_kantor[]" 
-                                                                value="{{ $pengaturan_jam->jam_masuk }}"
+                                                                value="{{ $pengaturan_jam_masuk }}"
                                                                 id="jam_masuk_kantor_{{ $d->id }}"
                                                                 onchange="hitung_ulang({{ $d->id }})"
                                                                 class="form-control"> 
@@ -76,7 +76,7 @@
                                                 @else 
                                                          <input type="hidden" 
                                                                 name="jam_masuk_kantor[]" 
-                                                                value="{{ $pengaturan_jam->jam_masuk }}" 
+                                                                value="{{ $pengaturan_jam_masuk }}" 
                                                                 id="jam_masuk_kantor_{{ $d->id }}"> 
                                                 @endif
 
@@ -107,7 +107,8 @@
                                                 </td>
 
                                                 <td> <div id="jam_pulang_standar_{{ $d->id }}">
-                                                        {{ $jam_standar = jam_pulang_standar($d->jam_masuk, $pengaturan_jam->jam_masuk, $pengaturan_jam->jam_kerja) }}
+                                                        {{ $jam_standar = jam_pulang_standar($d->jam_masuk, $pengaturan_jam_masuk, $pengaturan_jam->jam_kerja) }}
+    
                                                     </div>
                                                         <input  type="hidden" 
                                                                 name="jam_pulang_standar[]" 
@@ -118,7 +119,7 @@
                                                     @if ($pengaturan_jam->edit_jam_pulang == 1)
                                                         <input  type="time" 
                                                                 name="jam_pulang[]" 
-                                                                value="{{ $d->jam_pulang }}"
+                                                                value="{{ format_jam($d->jam_pulang) }}"
                                                                 id="jam_pulang_{{ $d->id }}"
                                                                 onchange="hitung_ulang({{ $d->id }})"
                                                                 class="form-control">
@@ -131,7 +132,7 @@
                                                     @endif
                                                 </td>
                                                 <td>    <div id="jum_lembur_{{ $d->id }}"> 
-                                                            {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam->jam_masuk) }} 
+                                                            {{ $jum_jam_lembur = jumlah_lembur($d->jam_pulang, $jam_standar, $d->lembur_pagi, $d->jam_masuk, $pengaturan_jam_masuk) }} 
                                                         </div>
                                                         <input type="hidden" 
                                                                name="jam_lembur[]" 
@@ -232,7 +233,7 @@
                                                 <input type="hidden" name="hari_libur[]" value="{{ $d->hari_libur }}">
                                                 <input type="hidden" name="lembur_pagi[]" value="0">
                                                 <input type="hidden" name="tanggal[]" value="{{ $d->tanggal }}">
-                                                <input type="hidden" name="jam_masuk_kantor[]" value="{{ $pengaturan_jam->jam_masuk }}">
+                                                <input type="hidden" name="jam_masuk_kantor[]" value="{{ $pengaturan_jam_masuk }}">
                                                 <input type="hidden" name="jam_kerja_kantor[]" value="{{ $pengaturan_jam->jam_kerja }}">
                                                 <input type="hidden" name="jam_masuk[]" value="{{ $d->jam_masuk }}">
                                                 <input type="hidden" name="jam_pulang_standar[]" value="{{ "00:00:00" }}">

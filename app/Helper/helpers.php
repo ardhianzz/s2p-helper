@@ -67,29 +67,21 @@
 
         //lembur Normal
         $total  = to_menit($jam_pulang) - to_menit($jam_standar);
-        // $jam    = floor($total/60);
-        //         if($jam < 1){ $jam2 = "00"; }elseif($jam<10){ $jam2= "0".$jam; }else{ $jam2 = $jam; }
-        // $m      = $total-($jam*60);
-        //         if($m < 10){ $menit = "0".$m; }else{ $menit = $m; }
-        
         if($lembur_pagi == 1){ return menit_to_jam($pagi+$total); }
         return menit_to_jam($total);
-        //return $jam2.":".$menit;
     }
 
     function jam_pulang_standar($data, $jam_masuk, $jam_kerja){
-        //normal
-        // masih ada masalah > ini harusnya jam ambil dari pengaturan jam masuk
-        if(to_menit($data) <= 480){
-            $data = (to_menit($jam_masuk)+to_menit($jam_kerja))/60; 
-            return $data.":00";
-        }
-        //telat
-            $total = (to_menit($jam_masuk)+to_menit($jam_kerja))+(to_menit($data)-to_menit($jam_masuk));
-            $jam = floor($total/60);
-            $m = $total-($jam*60);
-                if($m < 10){ $menit = "0".$m; }else{ $menit = $m; }
-            return $jam.":".$menit;
+
+        $jam_masuk_standar = to_menit($jam_masuk);
+        //Normal
+        if(to_menit($data) <= $jam_masuk_standar){
+            $data = ($jam_masuk_standar+to_menit($jam_kerja)); 
+            return menit_to_jam($data);
+        }else
+            //Telat
+            $total = ($jam_masuk_standar+to_menit($jam_kerja))+(to_menit($data)-$jam_masuk_standar);
+            return menit_to_jam($total);
         }
     
   

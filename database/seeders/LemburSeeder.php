@@ -10,6 +10,7 @@ use App\Models\PegawaiLevelUser;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Divisi;
+use App\Models\Lembur\LemburSettingsGroup;
 use Illuminate\Support\Facades\DB;
 
 class LemburSeeder extends Seeder
@@ -144,6 +145,20 @@ class LemburSeeder extends Seeder
          Jabatan::create(['nama'=> "Staff"]);
          Jabatan::create(['nama'=> "Office Boy"]);
          Jabatan::create(['nama'=> "Driver"]);
+
+
+         //Lembur Setting Group :
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Lembur Pagi', 'pegawai_jabatan_id'=> '7']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Lembur Pagi', 'pegawai_jabatan_id'=> '8']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '1']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '2']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '3']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '4']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '5']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 08:00', 'pegawai_jabatan_id'=> '6']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 07:30', 'pegawai_jabatan_id'=> '7']);
+         LemburSettingsGroup::create(['nama_pengaturan'=> 'Jam Masuk 07:30', 'pegawai_jabatan_id'=> '8']);
+
          
          DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Jam Masuk 07.30", "pegawai_jabatan_id" => "7"]);
          DB::table("lembur_settings_group")->insert([ "nama_pengaturan" => "Jam Masuk 07.30", "pegawai_jabatan_id" => "8"]);

@@ -2,7 +2,7 @@
 
 namespace App\Models\Lembur;
 
-use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
