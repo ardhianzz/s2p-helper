@@ -43,4 +43,9 @@ class DashboardController extends Controller
     public function index(){
         return view('dashboard/mainpage');
     }
+
+    public function index2(){
+        //dd("aku");
+        return view('dashboard/mainapp');
+    }
 }

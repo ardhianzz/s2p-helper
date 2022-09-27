@@ -52,9 +52,10 @@ Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
 Route::group(['middleware' => ["auth"]], function(){
-
-
+    
+    
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
+    Route::get('/main2', [DashboardController::class, "index2"]);
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
 

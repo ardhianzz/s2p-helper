@@ -2,12 +2,12 @@
 namespace App\Http\Controllers\Asset;
 
 
-use App\Models\Pegawai;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\Pegawai\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\ManagemenKendaraan\AAsuransi;
 use App\Models\ManagemenKendaraan\AKendaraan;
 use App\Models\ManagemenKendaraan\AJenisPremi;
@@ -485,6 +485,7 @@ class KendaraanController extends Controller
     }
 
     public function daftar_kendaraan(){
+        
         return view("asset.kendaraan",[
             'title' => "Kendaraan",
             'sub_title' => "Kendaraan - PT Sumber Segara Primadaya",

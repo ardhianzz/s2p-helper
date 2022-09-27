@@ -2,7 +2,7 @@
 
 namespace App\Models\ManagemenKendaraan;
 
-use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
