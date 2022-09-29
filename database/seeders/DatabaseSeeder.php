@@ -7,10 +7,10 @@ use App\Models\User;
 use App\Models\HakAkses;
 use App\Models\Modul;
 use App\Models\PegawaiLevelUser;
-use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Divisi;
-use App\Models\Lembur;
+use App\Models\Lembur\Lembur;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
