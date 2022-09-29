@@ -18,6 +18,7 @@
                     <h5> Pengajuan Lembur Hari Biasa </h5>
                     <span>
                         <button class="btn btn-primary" id="rubah" type="button" onclick="togleRubah()">Edit</button>
+                        <button class="btn btn-success" id="simpan_perubahan" type="button" onclick="simpan_perubahan()" hidden>Simpan</button>
 
                         @if ( DB::table("lembur_pengajuan")->where("id", request()->id)->get()[0]->status == "Disetujui")
 
@@ -72,10 +73,11 @@
         <form action="/lembur/hitung_ulang/oleh_hrd" method="GET" id="form_lembur">                
                     <table class="table table-bordered table-striped">
                         <thead>
-                            <tr>
+                            <tr align="center">
                                 <td width="10px">No</td>
                                 <td width="90px">Tanggal</td>
                                 <td width="200px">Keterangan / Deskripsi</td>
+                                <td width="50px">Lembur Pagi</td>
                                 <td width="60px">Jam Masuk Kantor</td>
                                 <td width="60px">Jam Waktu Kerja</td>
                                 <td width="60px">Jam Masuk</td>
@@ -93,9 +95,14 @@
                                         <td>{{ $nomor_biasa }}</td>
                                         <td>{{ tanggl_id($d->tanggal) }}</td>
                                         <td>{{ $d->keterangan }}</td>
-
                                         <td>
-                                            <input hidden type="time" 
+                                            <select name="lembur_pagi[]" class="form-control" id="lembur_pagi" onchange="recalculate({{ $d->id_detail }})" hidden>
+                                                <option value="1" @if($d->lembur_pagi == 1) selected @endif>Ya</option>
+                                                <option value="0" @if($d->lembur_pagi == null || $d->lembur_pagi == 0) selected @endif>Tidak</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input hidden type="time" class="form-control"
                                                     value="{{ format_jam($pengaturan[0]->jam_masuk) }}" 
                                                     name="jam_masuk_kantor[]" 
                                                     id="jam_masuk_kantor{{ $d->id_detail }}" 
@@ -103,7 +110,7 @@
                                         </td>
 
                                         <td>
-                                            <input hidden type="time" 
+                                            <input hidden type="time" class="form-control"
                                                     value="{{ format_jam($pengaturan[0]->jam_kerja) }}" 
                                                     name="jam_kerja_kantor[]" 
                                                     id="jam_kerja_kantor{{ $d->id_detail }}" 
@@ -111,7 +118,7 @@
                                         </td>
 
                                         <td>
-                                            <input hidden type="time" 
+                                            <input hidden type="time" class="form-control"
                                                     value="{{ format_jam($d->jam_masuk) }}" 
                                                     name="jam_masuk[]" 
                                                     id="jam_masuk{{ $d->id_detail }}" 
@@ -119,14 +126,14 @@
                                             {{ format_jam($d->jam_masuk) }}</td>
                                         
                                         <td>
-                                            <input hidden type="time" 
+                                            <input hidden type="time" class="form-control"
                                                     value="{{ format_jam($d->jam_pulang_standar) }}" 
                                                     name="jam_pulang_standar[]" 
                                                     id="jam_pulang_standar{{ $d->id_detail }}" 
                                                     onchange="recalculate({{ $d->id_detail }})">
                                             {{ format_jam($d->jam_pulang_standar) }}</td>
                                         <td>
-                                            <input hidden type="time" 
+                                            <input hidden type="time" class="form-control"
                                                     value="{{ format_jam($d->jam_pulang) }}" 
                                                     name="jam_pulang[]" 
                                                     id="jam_pulang{{ $d->id_detail }}" 
@@ -149,7 +156,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="8">Total</td>
+                                    <td colspan="9">Total</td>
                                     <td>
                                         <span id="total_lembur_biasa">
                                             {{ format_jam($total_lembur_biasa) }}
@@ -212,6 +219,7 @@
                             </tr>
                                         <input type="hidden" name="id[]" value="{{ $d->id_detail }}">
                                         <input type="hidden" name="hari_libur[]" value="{{ $d->hari_libur }}">
+                                        <input type="hidden" name="lembur_pagi[]" value="0">
                                         <input type="hidden" name="jam_masuk_kantor[]" value="{{ $d->jam_masuk_kantor }}">
                                         <input type="hidden" name="jam_kerja_kantor[]" value="{{ $d->jam_kerja_kantor }}">
                                         <input type="hidden" name="jam_pulang_standar[]" value=" {{ $d->jam_pulang_standar }}">
@@ -240,17 +248,25 @@
 
 
 <script>
+function simpan_perubahan(){
+    document.getElementById('form_lembur').submit();
+}
+
 function togleRubah(){
     var status = document.getElementById("rubah").innerHTML;
     
     if(status == "Edit"){
         document.getElementById("rubah").innerHTML = "Batal";
+        document.getElementById("rubah").classList.replace("btn-primary", "btn-warning");
+        document.getElementById("simpan_perubahan").hidden = false;
 
         for(var i=0; i<document.forms.form_lembur.length; i++){
             document.forms.form_lembur[i].hidden = false;
         }
     }else{
+        document.getElementById("rubah").classList.replace("btn-warning", "btn-primary");
         document.getElementById("rubah").innerHTML = "Edit";
+        document.getElementById("simpan_perubahan").hidden = true;
         for(var i=0; i<document.forms.form_lembur.length; i++){
             document.forms.form_lembur[i].hidden = true;
         }
@@ -263,7 +279,7 @@ function recalculateLibur(id){
     var jam_pulang              = toMinutes(document.getElementById("jam_pulang"+id).value);
     var jam_lembur              = toMinutes(document.getElementById("jam_lembur"+id).textContent.trim());
     var total_lembur_libur      = toMinutes(document.getElementById("total_lembur_libur").textContent.trim());  
-
+    
 
     var n_jam_lembur = jam_lembur_libur(jam_pulang, jam_masuk);
     var n_total_lembur = total_baru(total_lembur_libur, n_jam_lembur, jam_lembur);
@@ -295,13 +311,18 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
  var jam_kerja_kantor        = toMinutes(document.getElementById("jam_kerja_kantor"+id).value);
  var jam_lembur              = toMinutes(document.getElementById("jam_lembur"+id).textContent.trim());
  var total_lembur_biasa      = toMinutes(document.getElementById("total_lembur_biasa").textContent.trim());
-
+ var lembur_pagi             = document.getElementById("lembur_pagi").value; // 0 | 1
 
 
  var n_jam_pulang_standar    = jam_pulang_standar_baru(jam_masuk, jam_masuk_kantor, jam_kerja_kantor);
  var n_jam_lembur            = jam_lembur_baru(n_jam_pulang_standar, jam_pulang);
- var n_total_biasa           = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur); 
-
+ var n_total_biasa           = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur);
+ if(lembur_pagi == 1){
+    n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) + (jam_masuk_kantor - jam_masuk);
+ }
+ if(lembur_pagi == 0){
+    n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) - (jam_masuk_kantor - jam_masuk);
+ }
 
 
  //Merubah Tampilan Pada Web Browser dan Values pada Hidden Input

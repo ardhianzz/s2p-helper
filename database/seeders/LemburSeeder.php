@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\HakAkses;
 use App\Models\Modul;
 use App\Models\PegawaiLevelUser;
-use App\Models\Pegawai;
+use App\Models\Pegawai\Pegawai;
 use App\Models\Jabatan;
 use App\Models\Divisi;
 use App\Models\Lembur\LemburSettingsGroup;
@@ -25,10 +25,10 @@ class LemburSeeder extends Seeder
         //  User::factory(1)->create();
          DB::table("lembur_settings")->insert(["jam_masuk"=>"08:00:00", "jam_kerja" => "09:00:00"]);
 
-         User::create([ 'username' => "administrator",      'email' => "admin@ssprimadaya.co.id",                    'password' => bcrypt("s2pjakarta"), ]);
-         User::create([ 'username' => "Administrator HRD",  'email' => "hrd@ssprimadaya.co.id",                    'password' => bcrypt("s2pjakarta"), ]);
-         User::create([ 'username' => "approver",           'email' => "approver@test.com",                 'password' => bcrypt("s2pjakarta"), ]);
-         User::create([ 'username' => "user",               'email' => "user@test.com",                     'password' => bcrypt("s2pjakarta"), ]);
+         User::create([ 'username' => "administrator",      'email' => "admin@ssprimadaya.co.id",           'password' => bcrypt("s2pjakarta"), ]);
+         User::create([ 'username' => "Administrator HRD",  'email' => "hrd@ssprimadaya.co.id",             'password' => bcrypt("s2pjakarta"), ]);
+         User::create([ 'username' => "approver",           'email' => "approver@ssprimadaya.com",          'password' => bcrypt("s2pjakarta"), ]);
+         User::create([ 'username' => "user",               'email' => "user@ssprimadaya.com",              'password' => bcrypt("s2pjakarta"), ]);
 
          User::create([ 'username' => "nur_ardhiansyah",    'email' => "nur_a@ssprimadaya.co.id",           'password' => bcrypt("s2pjakarta"), ]);
          User::create([ 'username' => "krisdina_yulianto",  'email' => "krisdina_y@ssprimadaya.co.id",      'password' => bcrypt("s2pjakarta"), ]);

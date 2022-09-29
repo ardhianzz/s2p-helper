@@ -97,7 +97,7 @@
         </div>
         @endif
 
-
+        
         @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
           @can("pegawaiHrd")
           <div class="card mb-4 box-shadow">
