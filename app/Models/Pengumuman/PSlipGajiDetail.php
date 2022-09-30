@@ -14,6 +14,4 @@ class PSlipGajiDetail extends Model
     public function p_slip_gaji(){
         return $this->belongsTo(PSlipGaji::class);
     }
-
-    
 }

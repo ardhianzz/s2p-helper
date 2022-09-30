@@ -17,11 +17,39 @@ use Illuminate\Support\Facades\Auth;
 class PengumumanController extends Controller
 {
 
+    public function pengumuman_slip_gaji_detail(Request $request){
+        $this->its_me($request->nik);
+
+        $data = DB::table("p_slip_gaji_detail")
+                        ->where("id", $request->id)
+                        ->where("p_slip_gaji_detail.nik", $request->nik)
+                        ->get();
+
+        $pegawai = Pegawai::where("nik", $request->nik)->get()[0];
+
+        if(count($data) == 0){ return abort(404); }
+
+        return view("pengumuman.print_or_preview", [
+            "subtitle" => "Pengumuman : Preview Slip Gaji",
+            "data" => $data,
+            "pegawai" => $pegawai,
+        ]);
+
+    }
+
     public function pengumuman_slip_gaji(Request $request){
         $this->its_me($request->nik);
 
-        $rincian_data = DB::table("p_slip_gaji_detail")->where("pegawai.nik", $request->nik)
-                        ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+        $rincian_data = DB::table("p_slip_gaji")->where("pegawai.nik", $request->nik)
+                        ->select(  "p_slip_gaji_detail.id", 
+                                    "pegawai.nama", 
+                                    "p_slip_gaji.periode", 
+                                    "p_slip_gaji_detail.t_pendapatan", 
+                                    "p_slip_gaji_detail.nik", 
+                                    "p_slip_gaji_detail.t_potongan", 
+                                    "p_slip_gaji_detail.has_opened", 
+                                    "p_slip_gaji_detail.t_takehome")
+                        ->join("p_slip_gaji_detail", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
                         ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
                         ->where("p_slip_gaji.status", "Diumumkan")
                         ->paginate(10);
@@ -32,8 +60,6 @@ class PengumumanController extends Controller
             "rincian_gaji" => $rincian_data,
             "hak_akses" => $this->cek_akses(auth()->user()->id),
         ]);
-
-
     }
 
     public function print_gaji_hrd(Request $request){
@@ -216,16 +242,40 @@ class PengumumanController extends Controller
     public function index(){
         $akses = $this->cek_akses(auth()->user()->id);
 
+        $nik = Pegawai::where("user_id", auth()->user()->id)->get()[0]->nik;
+
+        //Pengumuman Gaji yang belum dibuka
+        $infoGaji = $this->gaji_belum_dibuka($nik);
+        
+        
+
         return view("pengumuman.index",[
             "title" => "Pengumuman",
             "nik" => Pegawai::where("user_id", auth()->user()->id)->get(),
             "hak_akses" => $akses,
+            "infoGaji" => $infoGaji,
         ]);
     }
 
 
 
+    public function gaji_belum_dibuka($nik){
 
+        $total = DB::table("p_slip_gaji_detail")
+                        ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+                        ->where("nik", $nik)
+                        ->where("status", "Diumumkan")
+                        ->count();
+
+        $sudahDibuka = DB::table("p_slip_gaji_detail")
+                        ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+                        ->where("nik", $nik)
+                        ->where("status", "Diumumkan")
+                        ->where("has_opened", "!=", null)
+                        ->count();
+
+        return $total-$sudahDibuka;
+    }
 
 
 

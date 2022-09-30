@@ -53,7 +53,7 @@
                                             <td>{{ $i->t_potongan }}</td>
                                             <td>{{ $i->t_takehome }}</td>
                                             <td>
-                                                <a href="/pengumuman/manage_slip_gaji/detail_periode/print/{{ $i->nik }}?dan={{ $i->id }}">
+                                                <a href="/pengumuman/slip_gaji/{{ $i->nik }}/{{ $i->id }}">
                                                     <button class="btn btn-info">Preview</button>
                                                 </a>
                                             </td>

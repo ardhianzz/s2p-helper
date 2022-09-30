@@ -23,7 +23,7 @@ class Pegawai extends Model
     }
     
     public function pegawai_jabatan(){
-        return $this->belongsTo(Pegawai::class);
+        return $this->belongsTo(PegawaiJabatan::class);
     }
 
     public function user(){
