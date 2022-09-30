@@ -11,5 +11,9 @@ class PSlipGaji extends Model
     protected $guarded = ['id'];
     protected $table = 'p_slip_gaji';
 
+    public function p_slip_gaji_detail(){
+        return $this->hasMany(PSlipGajiDetail::class);
+    }
+
     
 }

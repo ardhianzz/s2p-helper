@@ -20,8 +20,8 @@ class CreatePegawai extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('pegawai_divisi_id')->nullable();
             $table->foreignId('pegawai_jabatan_id')->nullable();
-            $table->foreignId('pegawai_level_id')->nullable();
-            $table->foreignId('Pegawai_lokasi_id')->nullable();
+            $table->foreignId('pegawai_level_id')->nullable()->default(0);
+            $table->foreignId('pegawai_lokasi_id')->nullable()->default(0);
             $table->foreignId('lembur_absen_id')->default(0);
             $table->foreignId('lembur_approve_id')->nullable();
             $table->timestamps();

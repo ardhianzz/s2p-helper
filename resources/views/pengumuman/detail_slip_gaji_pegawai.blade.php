@@ -34,8 +34,8 @@
                                 <thead> 
                                     <tr>
                                         <td width="50px">No</td>
-                                        <td width="150px">NIK</td>
                                         <td>Nama</td>
+                                        <td>Periode</td>
                                         <td>Pendapatan</td>
                                         <td>Potongan</td>
                                         <td>Total</td>
@@ -45,13 +45,13 @@
 
                                 <tbody>
                                     @foreach ($rincian_gaji as $i)
-                                        <tr>
+                                        <tr @if($i->has_opened == null) style="background-color: beige" @endif>
                                             <td>{{ $loop->index + $rincian_gaji->firstItem() }}</td>
-                                            <td>{{ $i->nik }}</td>
                                             <td>{{ $i->nama }}</td>
-                                            <td>{{ $i->pendapatan }}</td>
-                                            <td>{{ $i->potongan }}</td>
-                                            <td>{{ $i->total }}</td>
+                                            <td>{{ $i->periode }}</td>
+                                            <td>{{ $i->t_pendapatan }}</td>
+                                            <td>{{ $i->t_potongan }}</td>
+                                            <td>{{ $i->t_takehome }}</td>
                                             <td>
                                                 <a href="/pengumuman/manage_slip_gaji/detail_periode/print/{{ $i->nik }}?dan={{ $i->id }}">
                                                     <button class="btn btn-info">Preview</button>

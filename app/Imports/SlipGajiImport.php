@@ -36,11 +36,14 @@ class SlipGajiImport implements ToModel, WithHeadingRow
             'i_lain_3' => $row['pendapatan_lain_3'],
             'o_bpjs_tenaga_kerja' => $row['bpjs_tenaga_kerja'],
             'o_bpjs_kesehatan' => $row['bpjs_kesehatan'],
-            'o_bpjs_dana_pensiun' => $row['bpjs_dana_pensiun'],
+            'o_dana_pensiun' => $row['dana_pensiun'],
             'o_komunikasi' => $row['komunikasi'],
             'o_lain_1' => $row['potongan_lain_1'],
             'o_lain_2' => $row['potongan_lain_2'],
             'o_lain_3' => $row['potongan_lain_3'],
+            't_pendapatan' => $row['total_pendapatan'],
+            't_potongan' => $row['total_potongan'],
+            't_takehome' => $row['total_takehome'],
         ]);
     }
 }

@@ -5,7 +5,7 @@
     <div class="sb-sidenav-menu">
         <div class="nav">
 
-            <a class="nav-link {{ Request::is('pengumuman*') ? 'active' : ''}}" href="/pengumuman">
+            <a class="nav-link {{ Request::is('pengumuman') ? 'active' : ''}}" href="/pengumuman">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Dashboard
             </a>
@@ -16,7 +16,7 @@
                 Kebijakan Perusahaan
             </a>
 
-            <a class="nav-link {{ Request::is('pengumuman/slip_gaji*') ? 'active' : ''}}" href="/pengumuman/slip_gaji">
+            <a class="nav-link {{ Request::is('pengumuman/slip_gaji*') ? 'active' : ''}}" href="/pengumuman/slip_gaji/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Slip Gaji
             </a>

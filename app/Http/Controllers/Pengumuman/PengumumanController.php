@@ -17,48 +17,90 @@ use Illuminate\Support\Facades\Auth;
 class PengumumanController extends Controller
 {
 
+    public function pengumuman_slip_gaji(Request $request){
+        $this->its_me($request->nik);
+
+        $rincian_data = DB::table("p_slip_gaji_detail")->where("pegawai.nik", $request->nik)
+                        ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+                        ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
+                        ->where("p_slip_gaji.status", "Diumumkan")
+                        ->paginate(10);
+
+        return view("pengumuman.detail_slip_gaji_pegawai", [
+            "title" => "Pengumuman Slip Gaji",
+            "sub_title" => "Slip Gaji - PT Sumber Segara Primadaya",
+            "rincian_gaji" => $rincian_data,
+            "hak_akses" => $this->cek_akses(auth()->user()->id),
+        ]);
+
+
+    }
+
     public function print_gaji_hrd(Request $request){
         $this->is_admin(auth()->user()->id);
         if(Pegawai::where("nik", $request->nik)->count() == 0){ return abort(404);}
-        //ID Slip Gaji
-        dd($request->dan);
-        
-        $user_id = Pegawai::where("nik", $request->nik)->get();
-        dd($user_id);
+
+        $data = DB::table("p_slip_gaji_detail")
+                        ->where("p_slip_gaji_id", $request->dan)
+                        ->where("p_slip_gaji_detail.nik", $request->nik)
+                        ->get();
+
+        $pegawai = Pegawai::where("nik", $request->nik)->first();
+
+        if(count($data) == 0){ return abort(404); }
+
+        return view("pengumuman.print_or_preview", [
+            "subtitle" => "Pengumuman : Preview Slip Gaji",
+            "data" => $data,
+            "pegawai" => $pegawai,
+        ]);
         
     }
 
     public function detail_gaji_pegawai(Request $request){
         $this->is_admin(auth()->user()->id);
         
+        // $rincian_data = DB::table("p_slip_gaji_detail")
+        //                     ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
+        //                     ->select("pegawai.nama", "pegawai.nik", "p_slip_gaji_detail.id")
+        //                     ->selectRaw('(   i_gaji_dasar
+        //                                     +i_tunjangan
+        //                                     +i_tunjangan_jabatan
+        //                                     +i_tunjangan_komunikasi
+        //                                     +i_tunjangan_pensiun
+        //                                     +i_tunjangan_cuti
+        //                                     +i_lembur
+        //                                     +i_hari_raya
+        //                                     +i_work_anniversary
+        //                                     +i_jasa_kerja
+        //                                     +i_rapel
+        //                                     +i_lain_1
+        //                                     +i_lain_2
+        //                                     +i_lain_3) as pendapatan')
+        //                     ->selectRaw("(   o_bpjs_tenaga_kerja
+        //                                     +o_bpjs_kesehatan
+        //                                     +o_bpjs_dana_pensiun
+        //                                     +o_komunikasi
+        //                                     +o_lain_1
+        //                                     +o_lain_2
+        //                                     +o_lain_3) as potongan")
+        //                     ->where("p_slip_gaji_id", $request->id)
+        //                     ->where("pegawai.nama", "like", "%".$request->cari."%")
+        //                     ->orWhere("pegawai.nik", "like", "%".$request->cari."%")
+        //                     ->paginate(10);
+
         $rincian_data = DB::table("p_slip_gaji_detail")
-                            ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
-                            ->select("pegawai.nama", "pegawai.nik", "p_slip_gaji_detail.id")
-                            ->selectRaw('(   i_gaji_dasar
-                                            +i_tunjangan
-                                            +i_tunjangan_jabatan
-                                            +i_tunjangan_komunikasi
-                                            +i_tunjangan_pensiun
-                                            +i_tunjangan_cuti
-                                            +i_lembur
-                                            +i_hari_raya
-                                            +i_work_anniversary
-                                            +i_jasa_kerja
-                                            +i_rapel
-                                            +i_lain_1
-                                            +i_lain_2
-                                            +i_lain_3) as pendapatan')
-                            ->selectRaw("(   o_bpjs_tenaga_kerja
-                                            +o_bpjs_kesehatan
-                                            +o_bpjs_dana_pensiun
-                                            +o_komunikasi
-                                            +o_lain_1
-                                            +o_lain_2
-                                            +o_lain_3) as potongan")
-                            ->where("p_slip_gaji_id", $request->id)
-                            ->where("pegawai.nama", "like", "%".$request->cari."%")
-                            ->orWhere("pegawai.nik", "like", "%".$request->cari."%")
-                            ->paginate(10);
+                        ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
+                        ->select(   "pegawai.nama", 
+                                    "pegawai.nik", 
+                                    "p_slip_gaji_id as id", 
+                                    "t_pendapatan as pendapatan",
+                                    "t_potongan as potongan",
+                                    "t_takehome as total")
+                        ->where("p_slip_gaji_id", $request->id)
+                        ->where("pegawai.nama", "like", "%".$request->cari."%")
+                        // ->orWhere("pegawai.nik", "like", "%".$request->cari."%")
+                        ->paginate(10);
 
         return view("pengumuman.detail_slip_gaji", [
             "title" => "Managemen Pengumuman",
@@ -172,9 +214,11 @@ class PengumumanController extends Controller
     }
 
     public function index(){
-        $akses = $this->cek_akses(auth()->user()->id); 
+        $akses = $this->cek_akses(auth()->user()->id);
+
         return view("pengumuman.index",[
             "title" => "Pengumuman",
+            "nik" => Pegawai::where("user_id", auth()->user()->id)->get(),
             "hak_akses" => $akses,
         ]);
     }
@@ -189,6 +233,19 @@ class PengumumanController extends Controller
 
 
     //Manual Police
+
+    public function its_me($nik){
+        $user_id = auth()->user()->id;
+        if(Pegawai::where("nik", $nik)->count() == 0){
+            return abort(404);
+        }
+        $id_req = Pegawai::where("nik", $nik)->get()[0]->user_id;
+
+        if($user_id == $id_req){
+            return true;
+        }
+        return abort(403);
+    }
 
     public function is_admin($id){
         $akses = $this->cek_akses($id);

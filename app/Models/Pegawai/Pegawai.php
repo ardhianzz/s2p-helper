@@ -13,6 +13,14 @@ class Pegawai extends Model
     use HasFactory;
     protected $table = 'pegawai';
     protected $guarded = ['id'];
+
+    public function pegawai_level(){
+        return $this->belongsTo(PegawaiLevel::class);
+    }
+
+    public function pegawai_lokasi(){
+        return $this->belongsTo(PegawaiLokasi::class);
+    }
     
     public function pegawai_jabatan(){
         return $this->belongsTo(Pegawai::class);

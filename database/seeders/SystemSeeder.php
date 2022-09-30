@@ -8,6 +8,8 @@ use App\Models\HakAkses;
 use App\Models\Modul;
 use App\Models\PegawaiLevelUser;
 use App\Models\Pegawai\Pegawai;
+use App\Models\Pegawai\PegawaiLevel;
+use App\Models\Pegawai\PegawaiLokasi;
 use App\Models\Jabatan;
 use App\Models\Divisi;
 use App\Models\Lembur\LemburSettingsGroup;
@@ -139,6 +141,9 @@ class SystemSeeder extends Seeder
          PegawaiLevelUser::create(['nama' => 'Administrator HRD']);
          PegawaiLevelUser::create(['nama' => 'Approver']);
          PegawaiLevelUser::create(['nama' => 'User']);
+
+         PegawaiLokasi::create(['nama' => 'Jakarta']);
+         PegawaiLokasi::create(['nama' => 'Cilacap']);
 
 
          Modul::create(['nama' => "Sistem Pengolahan Pegawai"]);

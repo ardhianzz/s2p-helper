@@ -34,11 +34,15 @@ class PSlipGajiDetail extends Migration
             $table->double("i_lain_3")->nullable();
             $table->double("o_bpjs_tenaga_kerja")->nullable();
             $table->double("o_bpjs_kesehatan")->nullable();
-            $table->double("o_bpjs_dana_pensiun")->nullable();
+            $table->double("o_dana_pensiun")->nullable();
             $table->double("o_komunikasi")->nullable();
             $table->double("o_lain_1")->nullable();
             $table->double("o_lain_2")->nullable();
             $table->double("o_lain_3")->nullable();
+            $table->double("t_pendapatan")->nullable();
+            $table->double("t_potongan")->nullable();
+            $table->double("t_takehome")->nullable();
+            $table->timestamp("has_opened")->nullable();
             $table->timestamps();
         });
     }

@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-lg-3">
-            <a href="pengumuman/slip_gaji">
+            <a href="pengumuman/slip_gaji/{{ $nik[0]->nik }}">
                 <div class="card">
                     <div class="card-header bg-primary">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
