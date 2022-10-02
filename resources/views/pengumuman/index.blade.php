@@ -24,7 +24,7 @@
             <a href="pengumuman/kebijakan">
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $infoPengumuman }}</span>
                         <h5><strong class="text-white">Pengumuman</strong></h5>
                     </div>
                     <div class="card-body d-flex justify-content-center">

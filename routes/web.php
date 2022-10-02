@@ -67,9 +67,12 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/pengumuman/manage_slip_gaji/detail_periode/print/{nik}', [PengumumanController::class, "print_gaji_hrd"]);
     Route::get('/pengumuman/manage_slip_gaji/detail_periode/{id}', [PengumumanController::class, "detail_gaji_pegawai"]);
     Route::get('/pengumuman/slip_gaji/{nik}', [PengumumanController::class, "pengumuman_slip_gaji"]);
+    Route::get('/pengumuman/kebijakan/{nik}', [PengumumanController::class, "pengumuman_kebijakan"]);
     Route::get('/pengumuman/slip_gaji/{nik}/{id}', [PengumumanController::class, "pengumuman_slip_gaji_detail"]);
     //pengumuman/slip_gaji
     
+    ///pengumuman/kebijakan/{nik}
+    Route::post('/pengumuman/manage_kebijakan/aksi_publish_pengumuman', [PengumumanController::class, "aksi_publish_pengumuman"]);
     Route::post('/pengumuman/manage_slip_gaji/hapus_slip_gaji', [PengumumanController::class, "hapus_slip_gaji"]);
     Route::post('/pengumuman/manage_slip_gaji/takedown_slip_gaji', [PengumumanController::class, "takedown_slip_gaji"]);
     Route::post('/pengumuman/manage_slip_gaji/publish_slip_gaji', [PengumumanController::class, "publish_slip_gaji"]);

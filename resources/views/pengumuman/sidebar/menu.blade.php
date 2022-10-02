@@ -11,7 +11,7 @@
             </a>
 
 
-            <a class="nav-link {{ Request::is('pengumuman/kebijakan*') ? 'active' : ''}}" href="/pengumuman/kebijakan">
+            <a class="nav-link {{ Request::is('pengumuman/kebijakan*') ? 'active' : ''}}" href="/pengumuman/kebijakan/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Kebijakan Perusahaan
             </a>

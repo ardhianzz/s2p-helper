@@ -71,7 +71,7 @@ class SystemSeeder extends Seeder
 
 
          Pegawai::create(['nik' => '20220001J',   'nama' => 'Administrator',              'user_id' => '1',    'lembur_absen_id' => '1',    'pegawai_divisi_id' => '1',   'pegawai_jabatan_id'=>'1']);
-         Pegawai::create(['nik' => '20220033J',   'nama' => 'Admin HRD',                  'user_id' => '2',    'lembur_absen_id' => '1',    'pegawai_divisi_id' => '1',   'pegawai_jabatan_id'=>'5']);
+         Pegawai::create(['nik' => '20221111J',   'nama' => 'Admin HRD',                  'user_id' => '2',    'lembur_absen_id' => '1',    'pegawai_divisi_id' => '1',   'pegawai_jabatan_id'=>'5']);
          Pegawai::create(['nik' => '20220002J',   'nama' => 'Approver',                   'user_id' => '3',    'lembur_absen_id' => '2',    'pegawai_divisi_id' => '1',   'pegawai_jabatan_id'=>'2']);
          Pegawai::create(['nik' => '20220003J',   'nama' => 'User',                       'user_id' => '4',    'lembur_absen_id' => '3',    'pegawai_divisi_id' => '1',   'pegawai_jabatan_id'=>'5']);
          

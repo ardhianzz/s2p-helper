@@ -9,8 +9,13 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\SlipGajiImport;
 use App\Models\Pengumuman\PSlipGajiDetail;
 use App\Models\Pengumuman\PSlipGaji;
+use App\Models\Pengumuman\PPengumuman;
+use App\Models\Pengumuman\PPengumumanDokumen;
 use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 //use App\Models\ManagemenKendaraan\AKendaraanDokumen;
 
 
@@ -52,6 +57,7 @@ class PengumumanController extends Controller
                         ->join("p_slip_gaji_detail", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
                         ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
                         ->where("p_slip_gaji.status", "Diumumkan")
+                        // ->where("p_slip_gaji_detail.nik", $request->nik)
                         ->paginate(10);
 
         return view("pengumuman.detail_slip_gaji_pegawai", [
@@ -211,8 +217,46 @@ class PengumumanController extends Controller
 
     public function simpan_penguman_baru(Request $request){
         $this->is_admin(auth()->user()->id);
-        dd($request->all());
+        $data['nama'] = $request->nama;
+        $data['keterangan'] = $request->keterangan;
+        $data['status'] = "Belum Diumumkan";
+        $data['created_at'] = date("Y-m-d H:i:s");
+        $data['updated_at'] = date("Y-m-d H:i:s");
+
+        $pengumuman_id = PPengumuman::create($data)->id;
+
+        if($request->file != null){
+            
+            if($this->simpan_dokumen($request->file, $pengumuman_id, "pengumuman")){
+                return back()->with("success", "Pengumuman Baru berhasil di upload");
+            }else{
+                return back()->with("error", "Proses Gagal");
+
+            }
+        }else{
+            return back()->with("success", "Draft Pengumuman Berhasil di Upload");
+        }
     }
+
+
+    public function simpan_dokumen($file, $id="", $sub_folder){      
+        //move file
+        $name1 = $file->getClientOriginalName();
+        $tgl = date("YmdHis");
+        $str = str_replace(" ", "_", $tgl."_".$name1);
+        $filename = $id."_".$str;
+
+        $file-> move(public_path("/dokumen/".$sub_folder."/".$id.'/'), $filename);
+
+        $data['p_pengumuman_id'] = $id;
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $data['nama'] = $name1;
+        $data['path'] = "/dokumen/".$sub_folder."/".$id."/".$filename;
+
+        return PPengumumanDokumen::create($data); 
+        
+    }
+
 
     public function membuat_pengumuman_baru(){
         $this->is_admin(auth()->user()->id);
@@ -225,15 +269,73 @@ class PengumumanController extends Controller
         ]);
     }
 
+    public function pengumuman_kebijakan(Request $request){
+        $this->its_me($request->nik);
+
+        $semua_pengumuan = PPengumuman::  where("status", "=","Diumumkan")
+                                        ->where("nama", "like", "%".$request->cari."%")
+                                        ->orderBy("id", "desc")->paginate(10);
+
+        $dokumen = false;
+        if($request->previewID != null){
+            $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
+        }
+
+        return view("pengumuman.pengumuman_kebijakan", [
+            "title" => "Pengumuman Kebijakan Perushaan",
+            "sub_title" => "Pengumuman - PT Sumber Segara Primadaya",
+            "pengumuman" => $semua_pengumuan,
+            "hak_akses" => $this->cek_akses(auth()->user()->id),
+            "dokumen" => $dokumen,
+        ]);
+
+    }
+
+
+    public function aksi_publish_pengumuman(Request $request){
+        $data["updated_at"] = date("Y-m-d H:i:s");
+        
+        if($request->type == "publish"){
+            $data['status'] = "Diumumkan";
+            if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
+                return back()->with('success', 'Publish Pengumuman Berhasil');
+            }else{
+                return back()->with('error', 'proses gagal');
+            }
+        }
+
+        if($request->type == "takedown"){
+            $data['status'] = "Belum Diumumkan";
+            if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
+                return back()->with('success', 'Publish Pengumuman Berhasil');
+            }else{
+                return back()->with('error', 'proses gagal');
+            }
+        }
+        return back()->with('error', 'proses gagal');
+    }
+
 
 
     public function manage_kebijakan(Request $request){
         $this->is_admin(auth()->user()->id);
 
+
+        $semua_pengumuan = PPengumuman::where("nama", "like", "%".$request->cari."%")
+                                        ->orWhere("keterangan", "like", "%".$request->cari."%")
+                                        ->orderBy("id", "desc")->paginate(10);
+
+        $dokumen = false;
+        if($request->previewID != null){
+            $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
+        }
+
         return view("pengumuman.manage_kebijakan", [
             "title" => "Managemen Pengumuman",
             "sub_title" => "Managemen Pengumuman - PT Sumber Segara Primadaya",
+            "pengumuman" => $semua_pengumuan,
             "hak_akses" => $this->cek_akses(auth()->user()->id),
+            "dokumen" => $dokumen,
         ]);
         
         
@@ -247,6 +349,8 @@ class PengumumanController extends Controller
         //Pengumuman Gaji yang belum dibuka
         $infoGaji = $this->gaji_belum_dibuka($nik);
         
+        //Pengumuman Kebijakan yang belum dibuka
+        $pengumuman = $this->pengumuman_belum_dibuka(auth()->user()->id);
         
 
         return view("pengumuman.index",[
@@ -254,10 +358,16 @@ class PengumumanController extends Controller
             "nik" => Pegawai::where("user_id", auth()->user()->id)->get(),
             "hak_akses" => $akses,
             "infoGaji" => $infoGaji,
+            "infoPengumuman" => $pengumuman,
         ]);
     }
 
+    public function pengumuman_belum_dibuka($user_id){
+        //Jumlah pengumuma yang publish
+        $total_pengumuman = PPengumuman::where("status", "Diumumkan")->count();
 
+        return $total_pengumuman;
+    }
 
     public function gaji_belum_dibuka($nik){
 
