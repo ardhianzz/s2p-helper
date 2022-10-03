@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Asset\KendaraanController;
 use App\Http\Controllers\Pengumuman\PengumumanController;
+use App\Http\Controllers\Reminder\ReminderController;
 use App\Models\Absensi;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,12 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/main2', [DashboardController::class, "index2"]);
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
+
+    Route::get('/reminder',[ReminderController::class,'index']);
+    Route::get('/reminder/manage_reminder', [ReminderController::class, 'manage_reminder']); 
+    Route::post('/reminder/tambah_catatan', [ReminderController::class, 'tambah_catatan']);
+    Route::get('/reminder/manage_reminder/detail', [ReminderController::class, 'reminder_detail']);
+
 
 
     Route::get('/pengumuman', [PengumumanController::class, "index"]);
