@@ -165,6 +165,7 @@ class SystemSeeder extends Seeder
          Modul::create(['nama' => "Sistem Pengolahan Lembur"]);
          Modul::create(['nama' => "Sistem Pengolahan Kendaraan"]);
          Modul::create(['nama' => "Sistem Informasi & Pengumuman"]);
+         Modul::create(['nama' => "Sistem Reminder"]);
 
          //modul Pegawai
          HakAkses::create([ 'user_id' =>'1' ,  'modul_id'=>'1' , 'pegawai_level_user_id' => '1']);
