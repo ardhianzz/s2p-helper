@@ -30,6 +30,7 @@ class LemburController extends Controller
             for($i=0; $i<count($request->id); $i++){
                 $id['id'] = $request->id[$i];
                 $data['jam_masuk_kantor'] = $request->jam_masuk_kantor[$i];
+                $data['lembur_pagi'] = $request->lembur_pagi[$i];
                 $data['jam_kerja_kantor'] = $request->jam_kerja_kantor[$i];
                 $data['jam_masuk'] = $request->jam_masuk[$i];
                 $data['jam_pulang_standar'] = $request->jam_pulang_standar[$i];
@@ -247,7 +248,6 @@ class LemburController extends Controller
     public function lembur_approved_detail_hrd(Request $request){
         $id = $request->id;
 
-        //return view("lembur.lembur_approve_detail",[
         return view("lembur.lembur_preview_detail_hrd",[
             "title" => "Detail Pengajuan Lembur",
             "pengaturan" => DB::table("lembur_settings")->get(),

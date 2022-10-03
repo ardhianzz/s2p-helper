@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Pegawai;
 
-use App\Models\Pegawai\Pegawai;
+use App\Models\Lembur\LemburSettingsGroup;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jabatan extends Model
+class PegawaiNomorRekening extends Model
 {
     use HasFactory;
-    protected $table = 'pegawai_jabatan';
     protected $guarded = ['id'];
+    protected $table = 'pegawai_nomor_rekening';
 
     public function pegawai(){
         return $this->hasMany(Pegawai::class);

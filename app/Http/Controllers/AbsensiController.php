@@ -22,7 +22,7 @@ class AbsensiController extends Controller
         //dd($request->daterange);
         $user_id = auth()->user()->id;
         $absen_id = Pegawai::where("user_id", $user_id)->get()[0]->lembur_absen_id;
-
+        if(Absensi::count() == 0 ){ return abort(404);}
         if($request->daterange == null){
             $awal = Absensi::where("absen_id", $absen_id)->orderBy("tanggal", "desc")->get()[0]->tanggal;
             $akhir = Absensi::where("absen_id", $absen_id)->orderBy("tanggal", "desc")->get()[29]->tanggal;
