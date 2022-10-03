@@ -41,7 +41,7 @@ class SendReminderEmail extends Command
     public function handle()
     {
         //ambil data reminder
-        $reminders = Reminder::get_data();
+        $reminders = Reminder::get_data(); 
             
         // //data user
         // $data = [];
