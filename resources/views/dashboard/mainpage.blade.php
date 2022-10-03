@@ -146,6 +146,7 @@
 
 
 
+
           
 
 
@@ -167,6 +168,18 @@
             </div>
           </div> --}}
 
+      </div>
+
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Reminder</h4>
+        </div>
+        <div class="card-body">
+          <a href="/reminder">
+            <span class="material-icons" style="font-size: 190px;">alarm</span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">99+</span>
+          </a>
+        </div>
       </div>
 
       <footer class="pt-4 my-md-5 pt-md-5 border-top">
