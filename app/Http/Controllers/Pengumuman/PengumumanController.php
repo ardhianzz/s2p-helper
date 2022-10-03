@@ -31,16 +31,16 @@ class PengumumanController extends Controller
                         ->where("p_slip_gaji_detail.nik", $request->nik)
                         ->get();
 
-        $pegawai = Pegawai::where("nik", $request->nik)->get()[0];
+        $pegawai = Pegawai::where("nik", $request->nik)->first();
 
         if(count($data) == 0){ return abort(404); }
 
         $dataupdate['has_opened'] = date("Y-m-d H:i:s");
         $dataupdate['updated_at'] = date("Y-m-d H:i:s");
-        
+
         PSlipGajiDetail::where("id", $request->id)->where("nik", $request->nik)->update($dataupdate);
 
-        return view("pengumuman.print_or_preview", [
+        return view("pengumuman.print_or_preview_2", [
             "subtitle" => "Pengumuman : Preview Slip Gaji",
             "data" => $data,
             "pegawai" => $pegawai,
@@ -65,12 +65,23 @@ class PengumumanController extends Controller
                         ->where("p_slip_gaji.status", "Diumumkan")
                         // ->where("p_slip_gaji_detail.nik", $request->nik)
                         ->paginate(10);
+        
+        $dataupdate['has_opened'] = date("Y-m-d H:i:s");
+        $dataupdate['updated_at'] = date("Y-m-d H:i:s");
+        PSlipGajiDetail::where("id", $request->previewID)->update($dataupdate);
+
+        $detailGaji = false;
+
+        if($request->previewID != null){
+            $detailGaji = PSlipGajiDetail::where("id", $request->previewID)->first();
+        }
 
         return view("pengumuman.detail_slip_gaji_pegawai", [
             "title" => "Pengumuman Slip Gaji",
             "sub_title" => "Slip Gaji - PT Sumber Segara Primadaya",
             "rincian_gaji" => $rincian_data,
             "hak_akses" => $this->cek_akses(auth()->user()->id),
+            'detailGaji' => $detailGaji,
         ]);
     }
 

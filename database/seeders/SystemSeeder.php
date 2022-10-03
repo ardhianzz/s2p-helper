@@ -142,6 +142,20 @@ class SystemSeeder extends Seeder
          PegawaiLevelUser::create(['nama' => 'Approver']);
          PegawaiLevelUser::create(['nama' => 'User']);
 
+         PegawaiLevel::create(["nama" => "Level 1"]);
+         PegawaiLevel::create(["nama" => "Level 2"]);
+         PegawaiLevel::create(["nama" => "Level 3"]);
+         PegawaiLevel::create(["nama" => "Level 4"]);
+         PegawaiLevel::create(["nama" => "Level 5"]);
+         PegawaiLevel::create(["nama" => "Level 6"]);
+         PegawaiLevel::create(["nama" => "Level 7"]);
+         PegawaiLevel::create(["nama" => "Level 8"]);
+         PegawaiLevel::create(["nama" => "Level 9"]);
+         PegawaiLevel::create(["nama" => "Level 10"]);
+         PegawaiLevel::create(["nama" => "Level 11"]);
+         PegawaiLevel::create(["nama" => "Level 12"]);
+         PegawaiLevel::create(["nama" => "Level 13"]);
+
          PegawaiLokasi::create(['nama' => 'Jakarta']);
          PegawaiLokasi::create(['nama' => 'Cilacap']);
 
