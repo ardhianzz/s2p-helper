@@ -45,7 +45,7 @@
 
                                 <tbody>
                                     @foreach ($rincian_gaji as $i)
-                                        <tr @if($i->has_opened == null) style="background-color: beige" @endif>
+                                        <tr @if($i->has_opened == null) style="background-color: beige; font-weight: bold;" @endif>
                                             <td>{{ $loop->index + $rincian_gaji->firstItem() }}</td>
                                             <td>{{ $i->nama }}</td>
                                             <td>{{ $i->periode }}</td>

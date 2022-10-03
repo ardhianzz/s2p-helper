@@ -129,13 +129,16 @@
 
         @if(DB::table("modul")->where("id", 5)->get()[0]->keterangan == "Aktif")
           <div class="card mb-4 box-shadow">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">
+                {{ total_pengumuman(auth()->user()->id) }}
+              </span>
               <h4 class="my-0 font-weight-normal">Informasi & Pengumuman</h4>
             </div>
             <div class="card-body">
               <a href="/pengumuman">
                 <span class="material-icons" style="font-size: 190px;">archive</span>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">99+</span>
+                
               </a>
             </div>
           </div>

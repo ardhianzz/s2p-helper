@@ -1,5 +1,45 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use App\Models\Pengumuman\PPengumuman;
+use App\Models\Pengumuman\PPengumumanRiwayat;
+
+
+
+function total_pengumuman($user_id){
+    return pengumuman_belum_dibuka($user_id)+gaji_belum_dibuka($user_id);
+}
+
+function pengumuman_belum_dibuka($user_id){
+    //Jumlah pengumuma yang publish
+    $total_pengumuman = PPengumuman::where("status", "Diumumkan")->count();
+
+    //jumlah pengumuman yang sudah dibuka
+    $total_dibuka = PPengumumanRiwayat::where("user_id", $user_id)->count();
+
+    return $total_pengumuman-$total_dibuka;
+}
+
+function gaji_belum_dibuka($user_id){
+    $nik = DB::table("pegawai")->where("user_id", $user_id)->get()[0]->nik;
+
+    $total = DB::table("p_slip_gaji_detail")
+                    ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+                    ->where("nik", $nik)
+                    ->where("status", "Diumumkan")
+                    ->count();
+
+    $sudahDibuka = DB::table("p_slip_gaji_detail")
+                    ->join("p_slip_gaji", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
+                    ->where("nik", $nik)
+                    ->where("status", "Diumumkan")
+                    ->where("has_opened", "!=", null)
+                    ->count();
+
+    return $total-$sudahDibuka;
+}
+
+
     function tanggl_id($tanggal){
         
         $tahun = substr($tanggal, "0", "4");

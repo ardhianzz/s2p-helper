@@ -30,21 +30,25 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <td>No</td>
+                                                <td width="50px">No</td>
                                                 <td>Nama</td>
                                                 @if(request()->previewID == null) 
                                                     <td>Deskripsi / Keterangan</td> 
                                                 @endif
-                                                <td>Aksi</td>
+                                                <td width="100px">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($pengumuman as $i)    
-                                                <tr>
+                                            @foreach ($pengumuman as $i)
+                                            <div hidden>
+                                                {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
+                                            </div>    
+                                                <tr @if($dibuka == 0) style="background-color: beige; font-weight: bold;" @endif>
                                                     <td>{{ $loop->index + $pengumuman->firstItem() }}</td>
                                                     <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
                                                     @if(request()->previewID == null) 
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
+                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a>
+                                                        </td> 
                                                     @endif
                                                     <td>
                                                         <a href="?previewID={{ $i->id }}">

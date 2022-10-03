@@ -11,6 +11,7 @@ use App\Models\Pengumuman\PSlipGajiDetail;
 use App\Models\Pengumuman\PSlipGaji;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanDokumen;
+use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -33,6 +34,11 @@ class PengumumanController extends Controller
         $pegawai = Pegawai::where("nik", $request->nik)->get()[0];
 
         if(count($data) == 0){ return abort(404); }
+
+        $dataupdate['has_opened'] = date("Y-m-d H:i:s");
+        $dataupdate['updated_at'] = date("Y-m-d H:i:s");
+        
+        PSlipGajiDetail::where("id", $request->id)->where("nik", $request->nik)->update($dataupdate);
 
         return view("pengumuman.print_or_preview", [
             "subtitle" => "Pengumuman : Preview Slip Gaji",
@@ -272,13 +278,25 @@ class PengumumanController extends Controller
     public function pengumuman_kebijakan(Request $request){
         $this->its_me($request->nik);
 
-        $semua_pengumuan = PPengumuman::  where("status", "=","Diumumkan")
-                                        ->where("nama", "like", "%".$request->cari."%")
-                                        ->orderBy("id", "desc")->paginate(10);
+        $semua_pengumuan = PPengumuman::where("status", "=","Diumumkan")
+                                        ->where("keterangan", "like", "%".$request->cari."%")
+                                        ->orderBy("p_pengumuman.id", "desc")->paginate(10);
 
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
+            
+            $data['p_pengumuman_id'] = $request->previewID;
+            $data['user_id'] = auth()->user()->id;
+            $data['created_at'] = date("Y-m-d H:i:s");
+            $data['updated_at'] = date("Y-m-d H:i:s");
+            if(PPengumumanRiwayat::where("user_id", $data['user_id'])->where("p_pengumuman_id", $data['p_pengumuman_id'])->count() == 0){
+                PPengumumanRiwayat::create($data);
+            }else{
+                PPengumumanRiwayat::where("user_id", $data['user_id'])
+                                    ->where("p_pengumuman_id", $data['p_pengumuman_id'])
+                                    ->update(["updated_at" => $data['updated_at']]);
+            }
         }
 
         return view("pengumuman.pengumuman_kebijakan", [
@@ -366,7 +384,10 @@ class PengumumanController extends Controller
         //Jumlah pengumuma yang publish
         $total_pengumuman = PPengumuman::where("status", "Diumumkan")->count();
 
-        return $total_pengumuman;
+        //jumlah pengumuman yang sudah dibuka
+        $total_dibuka = PPengumumanRiwayat::where("user_id", $user_id)->count();
+
+        return $total_pengumuman-$total_dibuka;
     }
 
     public function gaji_belum_dibuka($nik){

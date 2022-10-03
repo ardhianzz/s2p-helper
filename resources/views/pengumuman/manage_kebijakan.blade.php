@@ -35,13 +35,13 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <td>No</td>
+                                                <td width="50px">No</td>
                                                 <td>Nama</td>
                                                 @if(request()->previewID == null) 
                                                     <td>Deskripsi / Keterangan</td> 
                                                     <td>Status</td> 
                                                 @endif
-                                                <td>Aksi</td>
+                                                <td width="100px">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
