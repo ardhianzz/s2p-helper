@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 | Level User adalah :
 |  1. Administrator
 |  2. Administrator HRD
-|  3. Approver
+|  3. Approver 
 |  4. User
 | 
 | Modul yang tersedia adalah : 
