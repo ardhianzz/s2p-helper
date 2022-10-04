@@ -2,10 +2,13 @@
 
 namespace App\Mail;
 
+
+use App\Models\Reminder\Reminder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class ReminderEmail extends Mailable implements ShouldQueue
 {
@@ -29,7 +32,11 @@ class ReminderEmail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject('Reminder')
-                    ->markdown('emails.reminder');
+        // $id = Reminder::get_reminder_id();
+        // $id = DB::table("r_reminder_data")->get(["id"]);
+        $nama = Reminder::get(['nama']);
+        // dd($id);
+        return $this->subject("Reminder")
+                    ->markdown("emails.reminder");
     }
 }

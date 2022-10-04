@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Reminder;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pegawai\Pegawai;
+use App\Models\Pegawai\PegawaiDivisi;
 use App\Models\Reminder\Reminder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +26,7 @@ class ReminderController extends Controller
     }
 
     public function tambah_catatan(Request $request){   
+        $data['pegawai_divisi_id'] = Pegawai::where('user_id', auth()->user()->id)->get()[0]->pegawai_divisi_id;
         $data['user_id'] = Auth::user()->id;    
         $data['nama'] = $request->nama;
         $data['from'] = $request->from;
@@ -41,7 +44,7 @@ class ReminderController extends Controller
     public function manage_reminder()
     {
         return view("reminder.manage_reminder", [
-            "reminder_data" => Reminder::get_reminder_data(),
+            "reminder_data" => Reminder::where("user_id", auth()->user()->id)->get(),
             'title' => 'Manage Reminder'
         ]);
     }
@@ -49,8 +52,12 @@ class ReminderController extends Controller
 
     public function index()
     {
+        // $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get(['pegawai_divisi_id']);
+           $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
+        // dd($divisi_id);
         return view("reminder.index", [
-            "reminder_data" => Reminder::get_reminder_data(),
+            // "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id[0]->pegawai_divisi_id)->get(),
+               "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id)->get(),
             "title" => "Schedule"
         ]);
     }

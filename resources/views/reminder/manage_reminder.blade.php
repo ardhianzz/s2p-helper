@@ -112,7 +112,7 @@
                             <td width="150px">{{ $r->tanggal_pengingat }}</td>
                             <td width="100px">{{ $r->email }}</td>
                             <td width="50px">
-                                <a href="/reminder/manage_reminder/detail" class="btn btn-info btn-xs">
+                                <a href="/reminder/manage_reminder/detail/{{ $r->user_id }}" class="btn btn-info btn-xs">
                                     <i class="fa fa-info" aria-hidden="true" data-toogle="tooltip" data-placement="top" title="Detail"></i>
                                 </a>
                             </td>

@@ -63,7 +63,7 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/reminder',[ReminderController::class,'index']);
     Route::get('/reminder/manage_reminder', [ReminderController::class, 'manage_reminder']); 
     Route::post('/reminder/tambah_catatan', [ReminderController::class, 'tambah_catatan']);
-    Route::get('/reminder/manage_reminder/detail', [ReminderController::class, 'reminder_detail']);
+    Route::get('/reminder/manage_reminder/detail/{id}', [ReminderController::class, 'reminder_detail']);
 
 
 

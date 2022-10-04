@@ -26,17 +26,28 @@
             <div class="card-body table-respon">
                 <table class="table table-bordered table-striped">
                     <thead>
-                        <tr>
+                        <tr align="center">
                             <td width="10px">No</td>
-                            <td width="150px">Name</td>
-                            <td width="100px">Expired Date</td>
-                            <td width="100px">Date Reminder</td>
+                            <td width="200px">Nama Catatan</td>
+                            <td width="150px">Expired Date</td>
+                            <td width="150px">Date Reminder</td>
+                            <td width="100px">Divisi</td>
+                            <td width="50px">Aksi</td>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($reminder_data as $r)
-                            <tr>
+                            <tr align="center">
+                                <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $r->nama }}</td>
+                                <td>{{ $r->tanggal_expired }}</td>
+                                <td>{{ $r->tanggal_pengingat }}</td>
+                                <td>{{ $r->pegawai_divisi->nama }}</td>
+                                <td width="50px">
+                                    <a href="#" class="btn btn-info btn-xs">
+                                        <i class="fa fa-info" aria-hidden="true" data-toogle="tooltip" data-placement="top" title="Detail"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
