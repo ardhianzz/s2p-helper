@@ -4,6 +4,7 @@ namespace App\Models\Reminder;
 
 use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiDivisi;
+use App\Models\Pegawai\PegawaiNama;
 use App\Models\User;
 use DateTime;
 use DateTimeZone;
@@ -42,9 +43,10 @@ class Reminder extends Model
         return DB::table("r_reminder_data")->get();
     }
 
-    static function get_reminder_id(){
-        $id = DB::table("r_reminder_data")->get(['id']);
-        return DB::table("r_reminder_data")->where("id", $id)->get()[0];
+    static function get_reminder_id($id){
+        return DB::table("r_reminder_data")->where("id", $id)->get();
+        // $id = DB::table("r_reminder_data")->get(['id']);
+        // return DB::table("r_reminder_data")->where("id", $id)->get()[0];
     }
 
     static function get_reminder_data(){
