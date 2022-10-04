@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Mail\ReminderEmail;
 use App\Models\Reminder\Reminder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class SendReminderEmail extends Command
@@ -41,7 +42,8 @@ class SendReminderEmail extends Command
     public function handle()
     {
         //ambil data reminder
-        $reminders = Reminder::get_data(); 
+        $reminders = Reminder::get_data();
+        // dd($reminders);
             
         // //data user
         // $data = [];
@@ -53,7 +55,8 @@ class SendReminderEmail extends Command
     }
 
     private function sendEmail($reminders){
-        $email = Reminder::get_email();
-        Mail::to($email)->send(new ReminderEmail($reminders));
+        $tanggal = Reminder::get_tanggal();
+        // dd($tanggal);
+        Mail::to($tanggal)->send(new ReminderEmail($reminders));
     }
 }

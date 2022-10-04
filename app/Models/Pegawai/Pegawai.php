@@ -6,6 +6,7 @@ use App\Models\ManagemenKendaraan\AKendaraan;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
 class Pegawai extends Model
@@ -13,6 +14,10 @@ class Pegawai extends Model
     use HasFactory;
     protected $table = 'pegawai';
     protected $guarded = ['id'];
+
+    public function pegawai_divisi(){
+        return $this->belongsTo(PegawaiDivisi::class);
+    }
 
     public function pegawai_level(){
         return $this->belongsTo(PegawaiLevel::class);

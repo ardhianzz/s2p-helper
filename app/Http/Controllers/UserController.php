@@ -242,7 +242,7 @@ class UserController extends Controller
         $this->cek_akses(auth()->user()->id);
         
 
-        return view('pegawai/index', 
+        return view('pegawai.index', 
             [   'title' => "Pegawai",
                 'divisi' => Pegawai::get_divisi(),
                 'jabatan' => Pegawai::get_jabatan(),
