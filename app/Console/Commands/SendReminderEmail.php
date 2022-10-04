@@ -42,21 +42,18 @@ class SendReminderEmail extends Command
     public function handle()
     {
         //ambil data reminder
-        $reminders = Reminder::get_data();
-        // dd($reminders);
-            
-        // //data user
-        // $data = [];
-        // foreach ($reminders as $r) {
-        //     $data[$r->user_id]; 
-        // }
-        // dd($reminders);
-            $this->sendEmail($reminders);
+       
+
+        $jumlah = DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->count();
+
+        for($i=0; $i<$jumlah; $i++){
+            $id = DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->id;
+            $untuk = DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email;   
+            $this->sendEmail(Reminder::get_data($id), $untuk);
+        }
     }
 
-    private function sendEmail($reminders){
-        $tanggal = Reminder::get_tanggal();
-        // dd($tanggal);
-        Mail::to($tanggal)->send(new ReminderEmail($reminders));
+    private function sendEmail($reminders, $nggo){
+        Mail::to($nggo)->send(new ReminderEmail($reminders));
     }
 }

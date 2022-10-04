@@ -44,7 +44,7 @@
                                 <td>{{ $r->tanggal_expired }}</td>
                                 <td>{{ $r->tanggal_pengingat }}</td>
                                 <td>{{ $r->pegawai_divisi->nama }}</td>
-                                <td>{{ $r->user_id }}</td>
+                                <td>{{ $r->user->pegawai->nama }}</td>
                                 <td width="50px">
                                     <a href="/reminder/manage_reminder/detail/{{ $r->id }}" class="btn btn-info btn-xs">
                                         <i class="fa fa-info" aria-hidden="true" data-toogle="tooltip" data-placement="top" title="Detail"></i>
