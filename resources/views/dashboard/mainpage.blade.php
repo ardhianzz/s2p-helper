@@ -145,44 +145,21 @@
         @endif
 
 
-
-
-
-
-
-          
-
-
-
-
-
-
-
-
-
-          {{-- <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Perjalanan Dinas</h4>
+        @if(DB::table("modul")->where("id", 6)->get()[0]->keterangan == "Aktif")
+          <div class="card mb-4 box-shadow">
+            <div class="card-header d-flex justify-content-between">
+              <h4 class="my-0 font-weight-normal">Reminder</h4>
             </div>
             <div class="card-body">
-              <a href="/sppd">
-                <span class="material-icons" style="font-size: 190px;"> card_travel </span>
+              <a href="/reminder">
+                <span class="material-icons" style="font-size: 190px;">alarm</span>
+                
               </a>
             </div>
-          </div> --}}
+          </div>
+        @endif
 
-      </div>
 
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">Reminder</h4>
-        </div>
-        <div class="card-body">
-          <a href="/reminder">
-            <span class="material-icons" style="font-size: 190px;">alarm</span>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">99+</span>
-          </a>
-        </div>
       </div>
 
       <footer class="pt-4 my-md-5 pt-md-5 border-top">

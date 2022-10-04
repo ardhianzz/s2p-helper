@@ -1,5 +1,5 @@
 
-@extends('layout.main')
+@extends('layout.main') 
 @include('reminder.sidebar.menu')
 
 @section('container')
