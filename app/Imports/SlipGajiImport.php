@@ -42,6 +42,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow
             'o_lain_2' => $row['potongan_lain_2'],
             'o_lain_3' => $row['potongan_lain_3'],
             't_pendapatan' => $row['total_pendapatan'],
+            't_pendapatan_lain' => $row['total_pendapatan_lain'],
             't_potongan' => $row['total_potongan'],
             't_takehome' => $row['total_takehome'],
         ]);

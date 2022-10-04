@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PegawaiNomorRekening extends Migration
+class PegawaiPengunaanNomorRekening extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class PegawaiNomorRekening extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai_nomor_rekening', function (Blueprint $table) {
+        Schema::create('pegawai_penggunaan_nomor_rekening', function (Blueprint $table) {
             $table->id();
-            $table->text("nik")->nullable();
-            $table->text("nama_bank")->nullable();
-            $table->text("nama_akun")->nullable();
-            $table->text("nomor_rekening")->nullable();
+            $table->foreignId("pegawai_nomor_rekening_id")->nullable();
+            $table->foreignId("pegawai_jenis_pembayaran_id")->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class PegawaiNomorRekening extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawai_nomor_rekening');
+        Schema::dropIfExists('pegawai_penggunaan_nomor_rekening');
     }
 }

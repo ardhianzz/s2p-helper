@@ -22,22 +22,49 @@
                            method="POST" enctype="multipart/form-data">
                             @csrf
 
-                            <span class="input-group">
-                                <label for="">Nama Pengumuman / Peraturan</label>
-                                <input type="text" name="nama" class="form-control">
+                            <span class="input-group mt-3 mb-3">
+                                <div class="col-lg-3">
+                                    <label for="">Nama Pengumuman / Peraturan</label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input type="text" name="nama" class="form-control">
+                                </div>
                             </span>
 
-                            <span class="input-group">
-                                <label for="">Keterangan</label>
-                                <textarea name="keterangan" cols="30" class="form-control"></textarea>
+                            <span class="input-group mt-3 mb-3">
+                                <div class="col-lg-3">
+                                    <label for="">Keterangan</label>
+                                </div>
+                                <div class="col-lg-9">
+
+                                    <textarea name="keterangan" rows="5" class="form-control"></textarea>
+                                </div>
                             </span>
 
-                            <span class="input-group">
-                                <label for="">Lampiran File</label>
-                                <input type="file" name="file" class="form-control">
+                            <span class="input-group mt-3 mb-3">
+                                <div class="col-lg-3">
+
+                                    <label for="">Lampiran File</label>
+                                </div>
+                                <div class="col-lg-9">
+
+                                    <input type="file" name="file" class="form-control">
+                                </div>
                             </span>
 
-                            <button type="submit" class="btn btn-primary">simpan</button>
+
+                            <span class="input-group mt-3 mb-3">
+                                <div class="col-lg-3">
+
+                                    
+                                </div>
+                                <div class="col-lg-9">
+
+                                    <button type="submit" class="btn btn-primary">simpan</button>
+                                </div>
+                            </span>
+
+                            
                             </form>
                         </div>
                     </div>

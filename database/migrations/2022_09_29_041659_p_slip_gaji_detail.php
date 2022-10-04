@@ -40,6 +40,7 @@ class PSlipGajiDetail extends Migration
             $table->double("o_lain_2")->nullable();
             $table->double("o_lain_3")->nullable();
             $table->double("t_pendapatan")->nullable();
+            $table->double("t_pendapatan_lain")->nullable();
             $table->double("t_potongan")->nullable();
             $table->double("t_takehome")->nullable();
             $table->timestamp("has_opened")->nullable();

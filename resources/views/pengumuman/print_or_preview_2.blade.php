@@ -9,10 +9,11 @@
 <style>
     *{
         font-family: 'Segoe UI', Tahoma, sans-serif;
+        font-size: 13px;
     }
     .row{
         display: flex;
-        padding: 5px;
+        padding: 15px;
         width: 100%;}
     .border{
         border-style: solid;
@@ -89,32 +90,32 @@
                 <table width="100%">
                     <tr>
                         <td>Gaji Dasar</td>
-                        <td>: {{ $data[0]->i_gaji_dasar }}</td>
+                        <td>: {{ rupiah($data[0]->i_gaji_dasar) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjangan</td>
-                        <td>: {{ $data[0]->i_tunjangan }}</td>
+                        <td>: {{ rupiah($data[0]->i_tunjangan) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjagnan Jabatan</td>
-                        <td>: {{ $data[0]->i_tunjangan_jabatan }}</td>
+                        <td>: {{ rupiah($data[0]->i_tunjangan_jabatan) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjangan Komunikasi</td>
-                        <td>: {{ $data[0]->i_tunjangan_komunikasi }}</td>
+                        <td>: {{ rupiah($data[0]->i_tunjangan_komunikasi) }}</td>
                     </tr>
                     
                     <tr>
                         <td>Tunjangan Pensiun</td>
-                        <td>: {{ $data[0]->i_tunjangan_pensiun }}</td>
+                        <td>: {{ rupiah($data[0]->i_tunjangan_pensiun) }}</td>
                     </tr>
 
                     <tr>
                         <td>Lembur</td>
-                        <td>: {{ $data[0]->i_lembur }}</td>
+                        <td>: {{ rupiah($data[0]->i_lembur) }}</td>
                     </tr>
                 </table>
             
@@ -125,26 +126,26 @@
                 <table width="100%">
                     <tr>
                         <td>BPJS Tenaga Kerja</td>
-                        <td>: {{ $data[0]->o_bpjs_tenaga_kerja }}</td>
+                        <td>: {{ rupiah($data[0]->o_bpjs_tenaga_kerja) }}</td>
                     </tr>
 
                     <tr>
                         <td>BPJS Kesehatan</td>
-                        <td>: {{ $data[0]->o_bpjs_kesehatan }}</td>
+                        <td>: {{ rupiah($data[0]->o_bpjs_kesehatan) }}</td>
                     </tr>
                     <tr>
                         <td>Dana Pensiun</td>
-                        <td>: {{ $data[0]->o_dana_pensiun }}</td>
+                        <td>: {{ rupiah($data[0]->o_dana_pensiun) }}</td>
                     </tr>
 
                     <tr>
                         <td>Potongan Komunikasi</td>
-                        <td>: {{ $data[0]->o_komunikasi }}</td>
+                        <td>: {{ rupiah($data[0]->o_komunikasi) }}</td>
                     </tr>
 
                     <tr>
                         <td>Potongan Lain-Lain</td>
-                        <td>: {{ $data[0]->o_lain_1 }}</td>
+                        <td>: {{ rupiah($data[0]->o_lain_1) }}</td>
                     </tr>
 
                 </table>
@@ -158,14 +159,17 @@
                 <table width="100%">
                     <tr>
                         <td><strong style="color: darkblue"><i>TOTAL PENDAPATAN</i></strong></td>
-                        <td>: {{  
-                            $t_pendapatan = 
-                            $data[0]->i_gaji_dasar
-                            +$data[0]->i_tunjangan
-                            +$data[0]->i_tunjangan_jabatan
-                            +$data[0]->i_tunjangan_komunikasi
-                            +$data[0]->i_tunjangan_pensiun
-                            +$data[0]->i_lembur }}</td>
+                        <td style="border-top : solid 0.5px">: 
+                            <i style="color: darkblue">
+                                <strong>
+                                    {{-- <span hidden>
+                                        {{ $t_pendapatan = $data[0]->i_gaji_dasar+$data[0]->i_tunjangan+$data[0]->i_tunjangan_jabatan+$data[0]->i_tunjangan_komunikasi+$data[0]->i_tunjangan_pensiun+$data[0]->i_lembur }}
+                                    </span> --}}
+                                    {{-- {{ dd($data) }} --}}
+                                    {{ rupiah($data[0]->t_pendapatan) }}
+                                </strong>
+                            </i>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -174,14 +178,12 @@
                     <tr>
                         
                         <td><strong><span style="color: brown"><i>TOTAL POTONGAN</i></span></strong></td>
-                        <td>: {{ 
-                            $t_potongan = 
-                            $data[0]->o_bpjs_tenaga_kerja
-                            +$data[0]->o_bpjs_kesehatan
-                            +$data[0]->o_dana_pensiun
-                            +$data[0]->o_komunikasi
-                            +$data[0]->o_lain_1
-                    }}</td>
+                        <td style="border-top : solid 0.5px">: <i style="color: brown"> <strong>
+                            {{-- <span hidden>
+                                {{ $t_potongan = $data[0]->o_bpjs_tenaga_kerja+$data[0]->o_bpjs_kesehatan+$data[0]->o_dana_pensiun+$data[0]->o_komunikasi+$data[0]->o_lain_1 }}
+                            </span> --}}
+                            {{ rupiah($data[0]->t_potongan) }}
+                        </strong></i></td>
                     </tr>
                 </table>
             </td>
@@ -192,12 +194,15 @@
             <td>&nbsp;</td>
             <td>
                 <br>
-                <table width="100%" style="background-color: rgb(243, 207, 130)">
+                <table width="100%">
                     <tr>
                         <td>
                             <strong>TAKE HOME PAY</strong>
                         </td>
-                        <td><strong>: {{ $t_pendapatan-$t_potongan }}</strong></td>
+                        <td style="border-bottom: double; border-top: double; background-color: rgb(243, 207, 130)">
+                            <strong>: {{ rupiah($data[0]->t_takehome) }}
+                            </strong>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -215,67 +220,75 @@
 
                     <tr>
                         <td>Tunjangan Hari Raya</td>
-                        <td>: {{ $data[0]->i_hari_raya }}</td>
+                        <td>: {{ rupiah($data[0]->i_hari_raya) }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Tunjangan Cuti</td>
+                        <td>: {{ rupiah($data[0]->i_tunjangan_cuti) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunj. Work Anniversary</td>
-                        <td>: {{ $data[0]->i_work_anniversary }}</td>
+                        <td>: {{ rupiah($data[0]->i_work_anniversary) }}</td>
                     </tr>
 
                     <tr>
                         <td>Jasa Kerja {{ date("Y")-1 }}</td>
-                        <td>: {{ $data[0]->i_jasa_kerja }}</td>
+                        <td>: {{ rupiah($data[0]->i_jasa_kerja) }}</td>
                     </tr>
 
                     <tr>
                         <td>Rapel {{ date("Y") }}</td>
-                        <td>: {{ $data[0]->i_rapel }}</td>
+                        <td>: {{ rupiah($data[0]->i_rapel) }}</td>
                     </tr>
 
                     <tr>
-                        <td><strong>PENDAPATAN LAIN</strong></td>
-                        <td>: {{ 
-                            $t_pendapatan_lain = 
-                            $data[0]->i_work_anniversary
-                            +$data[0]->i_hari_raya
-                            +$data[0]->i_jasa_kerja
-                            +$data[0]->i_rapel
-                        }}</td>
+                        <td><strong><i>PENDAPATAN LAIN</i></strong></td>
+                        <td style="border-top : solid 0.5px">: <strong> <i>
+                            {{-- <span hidden>
+                                {{ $t_pendapatan_lain = $data[0]->i_work_anniversary+$data[0]->i_hari_raya+$data[0]->i_jasa_kerja+$data[0]->i_rapel+$data[0]->i_tunjangan_cuti}}
+                            </span> --}}
+                            {{ rupiah($data[0]->t_pendapatan_lain) }}
+                        </i></strong></td>
                     </tr>
                 </table>
             </td>
 
-            <td>
+            <td style="vertical-align: middle">
+                
                 <table width="100%">
                     <tr>
                         <td><strong><i>MODE TRANSFER</i></strong></td>
                         <td>&nbsp;</td>
                     </tr>
+                    
+                    @if($no_rekening != null)
+                    <tr>
+                        <td>TANGGAL TRANSFER</td>
+                        <td>: {{ $data[0]->tanggal }}</td>
+                    </tr>
 
                     <tr>
                         <td>BANK</td>
-                        <td>: </td>
+                        <td>: {{ $no_rekening[0]->nama_bank }}</td>
                     </tr>
 
                     <tr>
                         <td>NO. REK</td>
-                        <td>: </td>
+                        <td>: {{ $no_rekening[0]->nomor_rekening }}</td>
                     </tr>
 
                     <tr>
                         <td>A/N</td>
-                        <td>: </td>
+                        <td>: {{ $no_rekening[0]->nama_akun }}</td>
                     </tr>
 
+                    @endif
                     <tr>
                         <td>JUMLAH</td>
-                        <td>: {{ $t_pendapatan+$t_pendapatan_lain-$t_potongan }}</td>
-                    </tr>
-
-                    <tr>
-                        <td>TANGGAL</td>
-                        <td>: {{ $data[0]->tanggal }}</td>
+                        <td>: <b>{{ rupiah(($data[0]->t_pendapatan + $data[0]->t_pendapatan_lain) - $data[0]->t_potongan) }}</b>
+                        </td>
                     </tr>
 
                 </table>

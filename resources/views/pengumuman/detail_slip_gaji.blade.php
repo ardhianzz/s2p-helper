@@ -34,9 +34,10 @@
                                 <thead> 
                                     <tr>
                                         <td width="50px">No</td>
-                                        <td width="150px">NIK</td>
+                                        {{-- <td width="150px">NIK</td> --}}
                                         <td>Nama</td>
                                         <td>Pendapatan</td>
+                                        <td>Pendapatan Lain</td>
                                         <td>Potongan</td>
                                         <td>Total</td>
                                         <td width="150px">Aksi</td>
@@ -47,11 +48,12 @@
                                     @foreach ($rincian_gaji as $i)
                                         <tr>
                                             <td>{{ $loop->index + $rincian_gaji->firstItem() }}</td>
-                                            <td>{{ $i->nik }}</td>
+                                            {{-- <td>{{ $i->nik }}</td> --}}
                                             <td>{{ $i->nama }}</td>
-                                            <td>{{ $i->pendapatan }}</td>
-                                            <td>{{ $i->potongan }}</td>
-                                            <td>{{ $i->total }}</td>
+                                            <td>{{ rupiah($i->pendapatan) }}</td>
+                                            <td>{{ rupiah($i->pendapatan_lain) }}</td>
+                                            <td>{{ rupiah($i->potongan) }}</td>
+                                            <td>{{ rupiah($i->total) }}</td>
                                             <td>
                                                 <a href="/pengumuman/manage_slip_gaji/detail_periode/print/{{ $i->nik }}?dan={{ $i->id }}">
                                                     <button class="btn btn-info">Preview</button>

@@ -7,21 +7,82 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\SlipGajiImport;
+use App\Imports\NomorRekeningImport;
 use App\Models\Pengumuman\PSlipGajiDetail;
 use App\Models\Pengumuman\PSlipGaji;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanDokumen;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\Pegawai\Pegawai;
+use App\Models\Pegawai\PegawaiJenisPembayaran;
+use App\Models\Pegawai\PegawaiNomorRekening;
+use App\Models\Pegawai\PegawaiPenggunaanNomorRekening;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use PegawaiPengunaanNomorRekening;
 
 //use App\Models\ManagemenKendaraan\AKendaraanDokumen;
 
 
 class PengumumanController extends Controller
 {
+
+    public function upload_data_rekening(Request $request){
+        $this->is_admin(auth()->user()->id);
+
+        if(Excel::import(new NomorRekeningImport, $request->file("no_rekening"))){
+            return back()->with("success", "Upload Data Berhasil");
+        }
+        return back()->with("error", "Upload Data Gagal");
+        
+        
+    }
+
+    public function manage_nomor_rekening(Request $request){
+        $this->is_admin(auth()->user()->id);
+
+
+        if($request->pegawai_jenis_pembayaran_id){
+            $jenis_pembayaran = $request->pegawai_jenis_pembayaran_id;
+            $nomor_rekening = $request->pegawai_nomor_rekening_id;
+
+            $validate = PegawaiPenggunaanNomorRekening::where("pegawai_jenis_pembayaran_id", $jenis_pembayaran)->where("pegawai_nomor_rekening_id", $nomor_rekening)->count();
+            // $validate = PegawaiPenggunaanNomorRekening::where("pegawai_nomor_rekening_id", $nomor_rekening)->count();
+
+            if($validate == 0){
+                PegawaiPenggunaanNomorRekening::create(['pegawai_jenis_pembayaran_id'=>$jenis_pembayaran, 'pegawai_nomor_rekening_id'=> $nomor_rekening]);
+                return back();
+            }else{
+                PegawaiPenggunaanNomorRekening::where('pegawai_nomor_rekening_id', $nomor_rekening)->update(['pegawai_jenis_pembayaran_id'=>$jenis_pembayaran]);
+                return back();
+            }
+        }
+
+        if($request->hapus_rekening_id){
+            $id = $request->hapus_rekening_id;
+            if(PegawaiNomorRekening::where("id", $id)->delete()){
+                if(PegawaiPenggunaanNomorRekening::where("pegawai_nomor_rekening_id", $id)->count() != 0){
+                    PegawaiPenggunaanNomorRekening::where("pegawai_nomor_rekening_id", $id)->delete();
+                }
+                return back()->with("success", "Proses Berhasil");
+            }
+            return back()->with("errror", "Proses Gagal");
+             
+
+            
+        }
+
+        return view("pengumuman.manage_nomor_rekening", [
+            "title" => "Nomor Rekening Pegawai",
+            "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
+            "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
+            "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
+            "penggunaan" => PegawaiPenggunaanNomorRekening::get(),
+            "pembayaran" => PegawaiJenisPembayaran::get(),
+            "hak_akses" => $this->cek_akses(auth()->user()->id),
+        ]);
+    }
 
     public function pengumuman_slip_gaji_detail(Request $request){
         $this->its_me($request->nik);
@@ -87,6 +148,7 @@ class PengumumanController extends Controller
 
     public function print_gaji_hrd(Request $request){
         $this->is_admin(auth()->user()->id);
+
         if(Pegawai::where("nik", $request->nik)->count() == 0){ return abort(404);}
 
         $data = DB::table("p_slip_gaji_detail")
@@ -98,57 +160,41 @@ class PengumumanController extends Controller
 
         if(count($data) == 0){ return abort(404); }
 
-        return view("pengumuman.print_or_preview", [
+
+        
+        $no_rekening = PegawaiNomorRekening::join("pegawai_penggunaan_nomor_rekening", "pegawai_nomor_rekening.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id")
+                            ->where("nik", $request->nik)
+                            ->where("pegawai_jenis_pembayaran_id", 1)
+                            ->get();
+        
+        if(count($no_rekening) == 0){
+            $no_rekening = null;
+        }
+        
+        
+
+        return view("pengumuman.print_or_preview_2", [
             "subtitle" => "Pengumuman : Preview Slip Gaji",
             "data" => $data,
             "pegawai" => $pegawai,
+            "no_rekening" => $no_rekening,
         ]);
         
     }
 
     public function detail_gaji_pegawai(Request $request){
         $this->is_admin(auth()->user()->id);
-        
-        // $rincian_data = DB::table("p_slip_gaji_detail")
-        //                     ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
-        //                     ->select("pegawai.nama", "pegawai.nik", "p_slip_gaji_detail.id")
-        //                     ->selectRaw('(   i_gaji_dasar
-        //                                     +i_tunjangan
-        //                                     +i_tunjangan_jabatan
-        //                                     +i_tunjangan_komunikasi
-        //                                     +i_tunjangan_pensiun
-        //                                     +i_tunjangan_cuti
-        //                                     +i_lembur
-        //                                     +i_hari_raya
-        //                                     +i_work_anniversary
-        //                                     +i_jasa_kerja
-        //                                     +i_rapel
-        //                                     +i_lain_1
-        //                                     +i_lain_2
-        //                                     +i_lain_3) as pendapatan')
-        //                     ->selectRaw("(   o_bpjs_tenaga_kerja
-        //                                     +o_bpjs_kesehatan
-        //                                     +o_bpjs_dana_pensiun
-        //                                     +o_komunikasi
-        //                                     +o_lain_1
-        //                                     +o_lain_2
-        //                                     +o_lain_3) as potongan")
-        //                     ->where("p_slip_gaji_id", $request->id)
-        //                     ->where("pegawai.nama", "like", "%".$request->cari."%")
-        //                     ->orWhere("pegawai.nik", "like", "%".$request->cari."%")
-        //                     ->paginate(10);
-
         $rincian_data = DB::table("p_slip_gaji_detail")
                         ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
                         ->select(   "pegawai.nama", 
                                     "pegawai.nik", 
                                     "p_slip_gaji_id as id", 
                                     "t_pendapatan as pendapatan",
+                                    "t_pendapatan_lain as pendapatan_lain",
                                     "t_potongan as potongan",
                                     "t_takehome as total")
                         ->where("p_slip_gaji_id", $request->id)
                         ->where("pegawai.nama", "like", "%".$request->cari."%")
-                        // ->orWhere("pegawai.nik", "like", "%".$request->cari."%")
                         ->paginate(10);
 
         return view("pengumuman.detail_slip_gaji", [

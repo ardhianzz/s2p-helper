@@ -5,6 +5,10 @@ use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 
 
+function rupiah($angka){
+    return  "Rp ".number_format($angka, 2, ',', '.');
+}
+
 
 function total_pengumuman($user_id){
     return pengumuman_belum_dibuka($user_id)+gaji_belum_dibuka($user_id);

@@ -10,6 +10,7 @@ use App\Models\PegawaiLevelUser;
 use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiLevel;
 use App\Models\Pegawai\PegawaiLokasi;
+use App\Models\Pegawai\PegawaiJenisPembayaran;
 use App\Models\Jabatan;
 use App\Models\Divisi;
 use App\Models\Lembur\LemburSettingsGroup;
@@ -22,8 +23,8 @@ class SystemSeeder extends Seeder
 
         User::create([ 'username' => "administrator",      'email' => "admin@ssprimadaya.co.id",           'password' => bcrypt("s2pjakarta"), ]);
         User::create([ 'username' => "Administrator HRD",  'email' => "hrd@ssprimadaya.co.id",             'password' => bcrypt("s2pjakarta"), ]);
-        User::create([ 'username' => "approver",           'email' => "approver@ssprimadaya.com",          'password' => bcrypt("s2pjakarta"), ]);
-        User::create([ 'username' => "user",               'email' => "user@ssprimadaya.com",              'password' => bcrypt("s2pjakarta"), ]);
+        User::create([ 'username' => "approver",           'email' => "approver@ssprimadaya.co.id",        'password' => bcrypt("s2pjakarta"), ]);
+        User::create([ 'username' => "user",               'email' => "user@ssprimadaya.co.id",            'password' => bcrypt("s2pjakarta"), ]);
 
         User::create([ 'username' => "nur_ardhiansyah",    'email' => "nur_a@ssprimadaya.co.id",           'password' => bcrypt("s2pjakarta"), ]);
         User::create([ 'username' => "krisdina_yulianto",  'email' => "krisdina_y@ssprimadaya.co.id",      'password' => bcrypt("s2pjakarta"), ]);
@@ -158,6 +159,11 @@ class SystemSeeder extends Seeder
 
          PegawaiLokasi::create(['nama' => 'Jakarta']);
          PegawaiLokasi::create(['nama' => 'Cilacap']);
+
+         PegawaiJenisPembayaran::create(["nama" => "Pembayaran Gaji"]);
+         PegawaiJenisPembayaran::create(["nama" => "Pembayaran SPPD"]);
+         PegawaiJenisPembayaran::create(["nama" => "Pembayaran Pengobatan"]);
+         PegawaiJenisPembayaran::create(["nama" => "Pembayaran Bonus"]);
 
 
          Modul::create(['nama' => "Sistem Pengolahan Pegawai"]);
@@ -351,6 +357,54 @@ class SystemSeeder extends Seeder
          HakAkses::create([ 'user_id' =>'41' , 'modul_id'=>'4' , 'pegawai_level_user_id' => '4']);
          HakAkses::create([ 'user_id' =>'42' , 'modul_id'=>'4' , 'pegawai_level_user_id' => '4']);
          HakAkses::create([ 'user_id' =>'43' , 'modul_id'=>'4' , 'pegawai_level_user_id' => '4']);
+
+
+         //modul Informasi & Pengumuman
+         //Modul Asset
+         HakAkses::create([ 'user_id' =>'1' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '1']);
+         HakAkses::create([ 'user_id' =>'2' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '1']);
+         HakAkses::create([ 'user_id' =>'3' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '3']);
+         HakAkses::create([ 'user_id' =>'4' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'5' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'6' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'7' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'8' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'9' ,  'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'10' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'11' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'12' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'13' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'14' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'15' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'16' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'17' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'18' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'19' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'20' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'21' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'22' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'23' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'24' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'25' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'26' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'27' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'28' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'29' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'30' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '3']);
+         HakAkses::create([ 'user_id' =>'31' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '3']);
+         HakAkses::create([ 'user_id' =>'32' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'33' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'34' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'35' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'36' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'37' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'38' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'39' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'40' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'41' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'42' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+         HakAkses::create([ 'user_id' =>'43' , 'modul_id'=>'5' , 'pegawai_level_user_id' => '4']);
+
 
     }
 }

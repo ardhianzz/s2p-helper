@@ -18,7 +18,12 @@
                 <div class="col-lg-12">
                     <div class="nav card">
                         <div class="card-header d-flex justify-content-between">
-                            <button class="btn btn-dark text-light" data-toggle="modal" data-target="#buatPengumumanSlip" >Buat Pengumuman</button>
+                            <span>
+                                <button class="btn btn-dark text-light" data-toggle="modal" data-target="#buatPengumumanSlip" >Upload Data</button>
+                                {{-- <a href="#">
+                                    <button class="btn btn-info text-black"> <strong>Layout Slip</strong></button>
+                                </a> --}}
+                            </span>
                             <form>
                                 <input type="search" name="cari" value="{{ request()->cari }}" autocomplete="off">
                                 <button type="submit" class="bnt btn-sm btn-dark">Cari</button>                                     

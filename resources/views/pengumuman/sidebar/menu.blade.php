@@ -34,7 +34,12 @@
                 </a>
                 <a class="nav-link {{ Request::is('pengumuman/manage_slip_gaji*') ? 'active' : ''}}" href="/pengumuman/manage_slip_gaji">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Upload Slip Gaji
+                    Manage Slip Gaji
+                </a>
+
+                <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekenig*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    Manage Rekening Gaji
                 </a>
             @endif
 
