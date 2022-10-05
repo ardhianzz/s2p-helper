@@ -67,7 +67,7 @@
                                                 <h5 for="expired" class="mb-2">Tanggal Expired *</h5>
                                                 <input type="date" name="tanggal_expired" class="form-control" required value="{{ date("Y-m-d") }}">
                                             </div>
-                                            <div class="form-group mb-4">
+                                            <div class="form-group mb-4"> 
                                                 <h5 for="pengingat" class="mb-2">Tanggal Pengingat *</h5>
                                                 <input type="date" name="tanggal_pengingat" class="form-control" required value="{{ date("Y-m-d") }}">
                                             </div>
