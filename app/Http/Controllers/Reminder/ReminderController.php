@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Reminder;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\ReminderImport;
 use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiDivisi;
 use App\Models\Reminder\Reminder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReminderController extends Controller
 {
+    public function import_reminder(Request $request){
+        Excel::import(new ReminderImport, $request->file("import"));
+        return redirect("/reminder/manage_reminder")->with("success", "Import Data berhasil");
+    }
 
     public function reminder_detail(Request $request){
         $id = $request->id;
@@ -31,6 +37,7 @@ class ReminderController extends Controller
         $data['tanggal_pengingat'] = $request->tanggal_pengingat;
         $data['email'] = $request->email;
         $data['keterangan'] = $request->keterangan;
+        $data['updated_at'] = now();
 
         if(DB::table("r_reminder_data")->where($id)->update($data)){
             return back()->with("success", "Perubahan Data Berhasil");
@@ -74,7 +81,7 @@ class ReminderController extends Controller
     }
 
 
-    public function index(Request $request)
+    public function index()
     {
         // $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get(['pegawai_divisi_id']);
            $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;

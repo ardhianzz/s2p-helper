@@ -31,6 +31,7 @@
                             <td width="200px">Nama Catatan</td>
                             <td width="150px">Tanggal Expired</td>
                             <td width="150px">Tanggal Pengingat</td>
+                            <td width="100px">Email</td>
                             <td width="100px">Divisi</td>
                             <td width="100px">Pembuat</td>
                             <td width="50px">Aksi</td>
@@ -39,11 +40,12 @@
                     <tbody>
                         @foreach ($reminder_data as $r)
                             <tr>
-                                <td>{{ $loop->index+1 }}</td>
+                                <td align="center">{{ $loop->index+1 }}</td>
                                 <td>{{ $r->nama }}</td>
-                                <td>{{ $r->tanggal_expired }}</td>
-                                <td>{{ $r->tanggal_pengingat }}</td>
-                                <td>{{ $r->pegawai_divisi->nama }}</td>
+                                <td>{{ tanggl_id(($r->tanggal_expired)) }}</td>
+                                <td>{{ tanggl_id(($r->tanggal_pengingat)) }}</td>
+                                <td>{{ $r->email }}</td>
+                                <td align="center">{{ $r->pegawai_divisi->nama }}</td>
                                 <td>{{ $r->user->pegawai->nama }}</td>
                                 <td width="50px">
                                     <a href="/reminder/manage_reminder/detail/{{ $r->id }}" class="btn btn-info btn-xs">

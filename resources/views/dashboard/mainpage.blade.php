@@ -151,7 +151,7 @@
               <h4 class="my-0 font-weight-normal">Reminder</h4>
             </div>
             <div class="card-body">
-              <a href="/reminder">
+              <a href="/reminder/dashboard">
                 <span class="material-icons" style="font-size: 190px;">alarm</span>
                 
               </a>
