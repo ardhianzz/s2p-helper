@@ -6,6 +6,7 @@
         <style>
             a{
                 text-decoration: none;
+                color: aliceblue;
             }
         </style>
         <div class="container-fluid px-4">
@@ -14,7 +15,7 @@
                 <li class="breadcrumb-item active">{{ $sub_title }}</li>
             </ol>
             
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="nav card">
                         <div class="card-header d-flex justify-content-between">
@@ -30,7 +31,6 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                {{-- <form> @csrf --}}
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -50,7 +50,6 @@
                                             <tr>
                                                 <td>{{ $loop->index + $rekening->firstItem() }}</td>
                                                 <td>
-                                                    {{-- {{ dd($pegawai[0]['nik']) }} --}}
                                                     @for ($p=0 ; $p<count($pegawai) ; $p++)
                                                         @if($pegawai[$p]['nik'] == $i->nik)
                                                             {{ $pegawai[$p]['nama'] }}
@@ -115,7 +114,6 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                            {{-- </form> --}}
 
 
                             </div>
@@ -123,10 +121,10 @@
                     </div>
                 </div>
                 
-            </div>
+            </div> --}}
 
 
-            {{-- <div class="row mt-4">
+            <div class="row mt-4">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
@@ -151,11 +149,10 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <td>No</td>
-                                        <td>Nama</td>
-                                        <td>Rekening</td>
+                                        <td width="20px">No</td>
+                                        <td width="100px">Nama</td>
+                                        <td width="300px">Rekening</td>
                                         <td>Penggunaan</td>
-                                        <td>Aksi</td>
                                     </tr>
                                 </thead>
 
@@ -166,12 +163,63 @@
                                             <td>{{ $peg->nama }}</td>
                                             <td> <strong>{{ $peg->nama_bank }}</strong> : <i>({{ $peg->nomor_rekening }})</i></td>
                                             <td>
+                                                <span hidden>{{ $data = peruntukan_rekening($peg->user_id) }}</span>
                                                 
-                                            </td>
-                                            <td>
-                                                <button class='btn btn-info'>1</button>
+                                                @for ($z = 0; $z<count(peruntukan_rekening($peg->user_id)); $z++)
+                                                    <span>
+                                                        <button class="btn btn-sm btn-info"> 
+                                                            {{ $data[$z]->nama }}
+                                                                <button class="btn btn-sm btn-warning" id="hapusPenggunaan{{ $data[$z]->id }}" onclick="toggleButton({{ $data[$z]->id }})"><strong>X</strong></button>
+                                                                
+                                                                <button hidden 
+                                                                        class="btn btn-sm btn-danger" 
+                                                                        id="hapusPenggunaanAksi{{ $data[$z]->id }}" 
+                                                                        onclick="toggleButtonAksi({{ $data[$z]->id }})">
+                                                                        <a href="?hapusPenggunaanNomorIni={{ $data[$z]->id }}">
+                                                                            <strong>X</strong>
+                                                                        </a>
+                                                                </button>
+                                                            
+                                                        </button>    
+                                                    </span>
+                                                @endfor
+                                                <span><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add{{ $peg->id }}"><b>+</b></button></span>
                                             </td>
                                         </tr>
+                                        {{-- Modal Pengajuan Service --}}
+                                        <div class="modal fade" id="add{{ $peg->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                
+                                                
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="add{{ $peg->id }}">Tambah Penggunaan Rekening</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <form action="/pengumuman/manage_nomor_rekening/tambah_penggunaan_rekening" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="user_id" value="{{ $peg->user_id }}">
+                                                                <input type="hidden" name="pegawai_nomor_rekening_id" value="{{ $peg->id }}">
+                                                                <h5>Nomor Rekening</h5>
+                                                                
+                                                                <select name="pegawai_jenis_pembayaran_id" class="form-control">
+                                                                    @foreach ($pembayaran as $y)
+                                                                    <option value="{{ $y->id }}-{{ $y->nama }}">{{ $y->nama }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <button class="btn btn-info" type="submit">Simpan</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                
+                                            </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                    
                                 </tbody>
@@ -179,7 +227,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
 
 {{-- Modal Pengajuan Service --}}
@@ -215,6 +263,16 @@
 
 
 <script>
+    function toggleButton(id){
+        document.getElementById("hapusPenggunaan"+id).hidden = true;
+        document.getElementById("hapusPenggunaanAksi"+id).hidden = false;
+    }
+
+    function toggleButtonAksi(id){
+        document.getElementById("hapusPenggunaan"+id).hidden = false;
+        document.getElementById("hapusPenggunaanAksi"+id).hidden = true;
+    }
+
     function tombolHapusBatal(id){
         
         document.getElementById("tombolHapusBatal"+id).hidden = false;

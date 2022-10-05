@@ -48,17 +48,24 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
-// Route::get('/test_enkipsi_dekripsi', function(){
+Route::get('/test_fungsi', function(){
+    echo "<pre>";
+    echo $data = peruntukan_rekening(1)."<br>";
+    $data = peruntukan_rekening(1);
+    $param = "Pembayaran Gaji";
+    $hasil = 0;
 
-//     $text = "10000000.64";
-//     $en = enkipsi_decript($text, "en");
-//     $de = enkipsi_decript($en, "de");
+    for($i=0; $i<count($data); $i++){
+        if($data[$i]->nama == $param){
+            $hasil += 1;
+        }else{
+            $hasil += 0;
+        }
+    }
+    echo $data[0]->nama;
+    echo "</pre>";
 
-//     echo "Text : ".$text;
-//     echo "<br>EN   : ".$en;
-//     echo "<br>DE   : ".$de;
-
-// });
+});
 
 
 
@@ -94,7 +101,9 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/pengumuman/slip_gaji/{nik}/{id}', [PengumumanController::class, "pengumuman_slip_gaji_detail"]);
     //pengumuman/slip_gaji
     
-    ///pengumuman/kebijakan/{nik}
+    //manage_nomor_rekening/tambah_penggunaan_rekening
+    
+    Route::post('/pengumuman/manage_nomor_rekening/tambah_penggunaan_rekening', [PengumumanController::class, "tambah_penggunaan_rekening"]);
     Route::post('/pengumuman/manage_nomor_rekening/upload_data_rekening', [PengumumanController::class, "upload_data_rekening"]);
     Route::post('/pengumuman/manage_kebijakan/aksi_publish_pengumuman', [PengumumanController::class, "aksi_publish_pengumuman"]);
     Route::post('/pengumuman/manage_slip_gaji/hapus_slip_gaji', [PengumumanController::class, "hapus_slip_gaji"]);

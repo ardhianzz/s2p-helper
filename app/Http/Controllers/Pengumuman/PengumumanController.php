@@ -28,6 +28,49 @@ use PegawaiPengunaanNomorRekening;
 class PengumumanController extends Controller
 {
 
+    public function tambah_penggunaan_rekening(Request $request){
+        $data["user_id"] = $request->user_id; // "1"
+        $data["pegawai_nomor_rekening_id"] = $request->pegawai_nomor_rekening_id; // "1"
+        $data["pegawai_jenis_pembayaran_id"] = $request->pegawai_jenis_pembayaran_id; // "3-Pembayaran Pengobatan"
+
+        //Parameter yang akan dibandingan dan di input
+        $param = explode("-", $data["pegawai_jenis_pembayaran_id"]);
+
+        // dd(count(peruntukan_rekening($data["user_id"])));
+        //ambil dulu datanya kalo ga ada langsung proses
+        $penggunaan = peruntukan_rekening($data["user_id"]);
+        $jum = count($penggunaan);
+
+        $create['pegawai_nomor_rekening_id']   = $request->pegawai_nomor_rekening_id;;
+        $create['pegawai_jenis_pembayaran_id'] = $param[0];
+
+        if($jum == 0){
+            if(PegawaiPenggunaanNomorRekening::create($create)){
+                return back()->with("success", "Penambahan data Berhasil");
+            }
+            return back()->with("error", "Data sudah tersedia");
+        }else{
+            $hasil = 0;
+            for($i=0; $i<$jum; $i++){
+                if($penggunaan[$i]->nama == $param[1]){
+                    $hasil += 1;
+                }else{
+                    $hasil += 0;
+                }
+            }
+
+            if($hasil == 0){
+                if(PegawaiPenggunaanNomorRekening::create($create)){
+                    return back()->with("success", "Penambahan data Berhasil");
+                }
+                return back()->with("error", "Data sudah tersedia");
+            }else{
+                return back()->with("error", "Data sudah tersedia");
+            }
+        }
+
+    }
+
     public function upload_data_rekening(Request $request){
         $this->is_admin(auth()->user()->id);
 
@@ -68,17 +111,29 @@ class PengumumanController extends Controller
                 return back()->with("success", "Proses Berhasil");
             }
             return back()->with("errror", "Proses Gagal");
-             
-
-            
         }
 
-        $pegawai2 = Pegawai::join("pegawai_nomor_rekening", "pegawai.nik", "=", "pegawai_nomor_rekening.nik")->paginate(10);
+        if($request->hapusPenggunaanNomorIni){
+            PegawaiPenggunaanNomorRekening::where("id", $request->hapusPenggunaanNomorIni)->delete();
+            return back()->with("success", "Data Berhasil Di Hapus");
+        }
+
+
+
+
+        $pegawai2 = Pegawai::join("pegawai_nomor_rekening", "pegawai.nik", "=", "pegawai_nomor_rekening.nik")
+                                ->select("pegawai.user_id",
+                                        "pegawai.nama",
+                                        "pegawai_nomor_rekening.id",
+                                        "pegawai_nomor_rekening.nama_bank",
+                                        "pegawai_nomor_rekening.nomor_rekening",
+                                        )
+                                ->paginate(10);
 
         return view("pengumuman.manage_nomor_rekening", [
             "title" => "Nomor Rekening Pegawai",
             "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
-            "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
+            // "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
             "pegawai2" => $pegawai2,
             "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
             "penggunaan" => PegawaiPenggunaanNomorRekening::get(),

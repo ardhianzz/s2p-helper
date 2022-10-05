@@ -7,10 +7,14 @@ use App\Models\Pengumuman\PPengumumanRiwayat;
 
 
 function peruntukan_rekening($id){
-    $nik = DB::table("pagawai")->where("user_id", $id)->get()[0]->nik;
+    $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
     
-    $data = DB::table("pegawai_nomor_rekening")->where("nik", $nik)->toArray();
-    return $nik;
+    $data = DB::table("pegawai_nomor_rekening")
+            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama",)
+            ->join("pegawai_penggunaan_nomor_rekening", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id", "=", "pegawai_nomor_rekening.id")
+            ->join("pegawai_jenis_pembayaran", "pegawai_jenis_pembayaran.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id")
+            ->where("nik", $nik)->get();
+    return $data;
     // return "<button class='btn btn-info'>".$id."</button>";
 }
 
