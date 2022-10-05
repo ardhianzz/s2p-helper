@@ -32,11 +32,10 @@ class ReminderEmail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // $id = Reminder::get_reminder_id();
-        // $id = DB::table("r_reminder_data")->get(["id"]);
-        $nama = Reminder::get(['nama']);
-        // dd($id);
-        return $this->subject("Reminder")
+        $subject = DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->get()[0]->nama;   
+        // dd($untuk);
+        return $this->subject($subject)
+                    // ->view("emails.preview_email");
                     ->markdown("emails.reminder");
     }
 }

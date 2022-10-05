@@ -12,7 +12,7 @@
                 <div class="content">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
-                            <h5> Detail Catatan</h5>
+                            <h3> Detail Catatan</h3>
                             <button class="btn btn-primary" href="#" data-toggle="modal" data-target="#editdatareminder">Edit</button>
                         </div>
                         
@@ -20,51 +20,66 @@
                             
                             <table class="table">
                                 <tr>
-                                    <td style="width:300px">Nama Catatan</td>
-                                    <td>:</td>
+                                    <td> <b> Nama Catatan </b> </td> 
+                                    <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         
                                     <td> {{ $d->nama }}</td>
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td>Berlaku</td>
+                                    <td> <b>Berlaku</b> </td>
                                     <td>:</td>
                                     @foreach ($detail as $d)
-                                        
-                                    <td> <b>Dari</b> {{ $d->from }} <b>S/d</b> {{ $d->to }}</td>
+                                    <td>{{ tanggl_id(($d->from)) }} - {{ tanggl_id(($d->to)) }} </td>
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td>Tanggal Expired</td>
-                                    <td>:</td>
+                                    <td> <b>Tanggal Expired</b> </td>
+                                    <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         
-                                    <td> {{ $d->tanggal_expired }} </td>
+                                    <td> {{ tanggl_id(($d->tanggal_expired)) }} </td>
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td>Tanggal Pengingat</td>
-                                    <td>:</td>
+                                    <td> <b>Tanggal Pengingat</b> </td>
+                                    <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         
-                                    <td> {{ $d->tanggal_pengingat }} </td>
+                                    <td> {{ tanggl_id(($d->tanggal_pengingat)) }} </td>
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
-                                    <td>:</td>
+                                    <td> <b>Email</b> </td>
+                                    <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         
                                     <td> {{ $d->email }} </td>
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td>Keterangan / Deskripsi</td>
-                                    <td>:</td>
+                                    <td> <b>Keterangan / Deskripsi</b> </td>
+                                    <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         
                                     <td>{{ $d->keterangan }}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td> <b>Dibuat</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        
+                                    <td>{{ $d->created_at }}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td> <b>Terakhir Di Ubah</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        
+                                    <td>{{ $d->updated_at }}</td>
                                     @endforeach
                                 </tr>
                                     
@@ -125,6 +140,7 @@
 
                         <div class="form-group mt-5">
                             <input type="hidden" name="r_reminder_data" value="{{ $d->id }}">
+                            {{-- <input type="hidden" name="r_reminder_data" value="{{ $d->updated_at }}"> --}}
                             <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Simpan </button>
                         </div>
                     </form>

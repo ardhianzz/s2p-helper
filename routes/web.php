@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 | Level User adalah :
 |  1. Administrator
 |  2. Administrator HRD
-|  3. Approver
+|  3. Approver 
 |  4. User
 | 
 | Modul yang tersedia adalah : 
@@ -71,8 +71,9 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
 
-    Route::get('/reminder',[ReminderController::class,'index']);
+    Route::get('/reminder/dashboard',[ReminderController::class,'index']);
     Route::get('/reminder/manage_reminder', [ReminderController::class, 'manage_reminder']); 
+    route::post('/reminder/import', [ReminderController::class, 'import_reminder']);
     Route::post('/reminder/tambah_catatan', [ReminderController::class, 'tambah_catatan']);
     Route::get('/reminder/manage_reminder/detail/{id}', [ReminderController::class, 'reminder_detail']);
     Route::put('/reminder/edit_data_reminder', [ReminderController::class, 'edit_data_reminder']);
@@ -117,7 +118,7 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/kendaraan/asuransi/detail/{asuransi_id}',[KendaraanController::class, 'asuransi_detail_data']);
     Route::get('/kendaraan/service/{id}/{aksi}', [KendaraanController::class, 'detail_service']);
     Route::get('/kendaraan/{no_polisi}/{aksi}', [KendaraanController::class, 'detail_kendaraan']);
-    ////asuransi/tambah_data
+    ////asuransi/tambah_data 
 
     Route::post('/kendaraan/asuransi/tambah_data', [KendaraanController::class, 'asuransi_simpan_data']);
     Route::post('/kendaraan/service/aksi', [KendaraanController::class, 'service_edit_pengajuan']);
