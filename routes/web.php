@@ -48,24 +48,24 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
-Route::get('/test_fungsi', function(){
-    echo "<pre>";
-    echo $data = peruntukan_rekening(1)."<br>";
-    $data = peruntukan_rekening(1);
-    $param = "Pembayaran Gaji";
-    $hasil = 0;
+// Route::get('/test_fungsi', function(){
+//     echo "<pre>";
+//     echo $data = peruntukan_rekening(1)."<br>";
+//     $data = peruntukan_rekening(1);
+//     $param = "Pembayaran Gaji";
+//     $hasil = 0;
 
-    for($i=0; $i<count($data); $i++){
-        if($data[$i]->nama == $param){
-            $hasil += 1;
-        }else{
-            $hasil += 0;
-        }
-    }
-    echo $data[0]->nama;
-    echo "</pre>";
+//     for($i=0; $i<count($data); $i++){
+//         if($data[$i]->nama == $param){
+//             $hasil += 1;
+//         }else{
+//             $hasil += 0;
+//         }
+//     }
+//     echo $data[0]->nama;
+//     echo "</pre>";
 
-});
+// });
 
 
 
