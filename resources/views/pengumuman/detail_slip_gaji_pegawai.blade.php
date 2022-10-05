@@ -38,8 +38,10 @@
                                                 <td width="50px">No</td>
                                                 <td>Nama</td>
                                                 <td>Periode</td>
+                                                @if(request()->previewID == null)
                                                 <td>Pendapatan</td>
                                                 <td>Potongan</td>
+                                                @endif
                                                 <td>Total</td>
                                                 @if(request()->previewID == null)
                                                 <td width="150px">Aksi</td>
@@ -53,9 +55,11 @@
                                                     <td>{{ $loop->index + $rincian_gaji->firstItem() }}</td>
                                                     <td> <a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
                                                     <td> <a href="?previewID={{ $i->id }}"> {{ $i->periode }} </a></td>
-                                                    <td> <a href="?previewID={{ $i->id }}"> {{ $i->t_pendapatan }} </a></td>
-                                                    <td> <a href="?previewID={{ $i->id }}"> {{ $i->t_potongan }} </a></td>
-                                                    <td> <a href="?previewID={{ $i->id }}"> {{ $i->t_takehome }} </a></td>
+                                                    @if(request()->previewID == null)
+                                                    <td> <a href="?previewID={{ $i->id }}"> {{  rupiah(enkipsi_decript($i->t_pendapatan, "de"))  }} </a></td>
+                                                    <td> <a href="?previewID={{ $i->id }}"> {{  rupiah(enkipsi_decript($i->t_potongan, "de"))  }} </a></td>
+                                                    @endif
+                                                    <td> <a href="?previewID={{ $i->id }}"> {{  rupiah(enkipsi_decript($i->t_takehome, "de"))  }} </a></td>
                                                     @if(request()->previewID == null)
                                                     <td>
                                                         <a href="?previewID={{ $i->id }}">
@@ -99,32 +103,32 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Gaji Dasar</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_gaji_dasar }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_gaji_dasar, "de")) }} </div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunjangan</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_tunjangan }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_tunjangan, "de")) }} </div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunjangan Jabatan</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_tunjangan_jabatan }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_tunjangan_jabatan, "de")) }} </div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunjangan Komunikasi</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_tunjangan_komunikasi }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_tunjangan_komunikasi, "de")) }} </div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunjangan Pensiun</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_tunjangan_pensiun }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_tunjangan_pensiun, "de")) }} </div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Lembur</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_lembur }} </div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_lembur, "de")) }} </div>
                                                             </div>
                                                         </td>
 
@@ -133,27 +137,27 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-5">BPJS Tenaga Kerja</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->o_bpjs_tenaga_kerja }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->o_bpjs_tenaga_kerja,"de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">BPJS Kesehatan</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->o_bpjs_kesehatan }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->o_bpjs_kesehatan,"de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Dana Pensiun</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->o_dana_pensiun }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->o_dana_pensiun,"de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Potongan Komunikasi</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->o_komunikasi }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->o_komunikasi,"de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Potongan Lain-Lain</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->o_lain_1 }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->o_lain_1,"de")) }}</div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -162,28 +166,14 @@
                                                         <td width="50%">
                                                             <div class="row">
                                                                 <div class="col-md-5"><strong>TOTAL PENDAPATAN</strong></div>
-                                                                <div class="col-md-7">: {{  
-                                                                    $t_pendapatan = 
-                                                                    $detailGaji->i_gaji_dasar
-                                                                    +$detailGaji->i_tunjangan
-                                                                    +$detailGaji->i_tunjangan_jabatan
-                                                                    +$detailGaji->i_tunjangan_komunikasi
-                                                                    +$detailGaji->i_tunjangan_pensiun
-                                                                    +$detailGaji->i_lembur }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->t_pendapatan, "de"))  }}</div>
                                                             </div>
                                                         </td>
 
                                                         <td width="50%">
                                                             <div class="row">
                                                                 <div class="col-md-5"><strong>TOTAL POTONGAN</strong></div>
-                                                                <div class="col-md-7">: {{ 
-                                                                        $t_potongan = 
-                                                                        $detailGaji->o_bpjs_tenaga_kerja
-                                                                        +$detailGaji->o_bpjs_kesehatan
-                                                                        +$detailGaji->o_dana_pensiun
-                                                                        +$detailGaji->o_komunikasi
-                                                                        +$detailGaji->o_lain_1
-                                                                }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->t_potongan ,"de")) }}</div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -198,8 +188,8 @@
 
                                                         <td width="50%">
                                                             <div class="row">
-                                                                <div class="col-md-5"><strong><i>TAKE PAY HOME</i></strong></div>
-                                                                <div class="col-md-7">: {{ $t_pendapatan-$t_potongan }}</div>
+                                                                <div class="col-md-5"><strong><i>PAY TAKE HOME</i></strong></div>
+                                                                <div class="col-md-7">: {{ rupiah( enkipsi_decript($detailGaji->t_pendapatan, "de")- enkipsi_decript($detailGaji->t_potongan, "de")) }}</div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -211,33 +201,27 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunjangan Hari Raya</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_hari_raya }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_hari_raya, "de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Tunj. Work Anniversary</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_work_anniversary }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_work_anniversary, "de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Jasa Kerja {{ date("Y")-1 }}</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_jasa_kerja }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_jasa_kerja, "de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Rapel {{ date("Y") }}</div>
-                                                                <div class="col-md-7">: {{ $detailGaji->i_rapel }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(enkipsi_decript($detailGaji->i_rapel, "de")) }}</div>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-md-5">PENDAPATAN LAIN</div>
-                                                                <div class="col-md-7">: {{ 
-                                                                    $t_pendapatan_lain = 
-                                                                    $detailGaji->i_work_anniversary
-                                                                    +$detailGaji->i_hari_raya
-                                                                    +$detailGaji->i_jasa_kerja
-                                                                    +$detailGaji->i_rapel
-                                                                }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(( enkipsi_decript($detailGaji->t_pendapatan_lain, "de"))) }}</div>
                                                             </div>
 
 
@@ -273,7 +257,7 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-5">Jumlah</div>
-                                                                <div class="col-md-7">: {{ $t_pendapatan+$t_pendapatan_lain-$t_potongan }}</div>
+                                                                <div class="col-md-7">: {{ rupiah(( enkipsi_decript($detailGaji->t_pendapatan, "de") +  enkipsi_decript($detailGaji->t_pendapatan_lain, "de")) - enkipsi_decript($detailGaji->t_potongan, "de")) }}</div>
                                                             </div>
 
                                                             <div class="row">

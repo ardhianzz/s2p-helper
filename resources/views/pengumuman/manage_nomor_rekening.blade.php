@@ -68,22 +68,22 @@
                                                         <span class="d-flex">
 
                                                         
-                                                        <select name="pegawai_jenis_pembayaran_id" class="form-control" onchange="tampilSimpan({{ $i->id }})">
-                                                            <option value="0" @if($i->pegawai_penggunaan_nomor_rekening->count() == 0) selected @endif>-- Belum Ditentukan --</option>
-                                                            @foreach ($pembayaran as $pay)
-                                                                <option value="{{ $pay->id }}"
-                                                                    @if(count($i->pegawai_penggunaan_nomor_rekening) >= 1)
-                                                                        @if($i->pegawai_penggunaan_nomor_rekening[0]->pegawai_jenis_pembayaran->nama == $pay->nama)
-                                                                        selected
+                                                            <select name="pegawai_jenis_pembayaran_id" class="form-control" onchange="tampilSimpan({{ $i->id }})">
+                                                                <option value="0" @if($i->pegawai_penggunaan_nomor_rekening->count() == 0) selected @endif>-- Belum Ditentukan --</option>
+                                                                @foreach ($pembayaran as $pay)
+                                                                    <option value="{{ $pay->id }}"
+                                                                        @if(count($i->pegawai_penggunaan_nomor_rekening) >= 1)
+                                                                            @if($i->pegawai_penggunaan_nomor_rekening[0]->pegawai_jenis_pembayaran->nama == $pay->nama)
+                                                                            selected
+                                                                            @endif
                                                                         @endif
-                                                                    @endif
-                                                                    >{{ $pay->nama }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <input type="hidden" name="pegawai_nomor_rekening_id" value="{{ $i->id }}">
-                                                        <button class="btn btn-primary" type="submit" hidden id="tombolSimpan{{ $i->id }}">Simpan</button>
-                                                    </span> 
+                                                                        >{{ $pay->nama }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <input type="hidden" name="pegawai_nomor_rekening_id" value="{{ $i->id }}">
+                                                            <button class="btn btn-primary" type="submit" hidden id="tombolSimpan{{ $i->id }}">Simpan</button>
+                                                        </span> 
                                                     </form>
                                                 </td>
                                                 <td>
@@ -124,6 +124,62 @@
                 </div>
                 
             </div>
+
+
+            {{-- <div class="row mt-4">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>
+                                <button class="btn btn-dark text-light" data-toggle="modal" data-target="#uploadDataRekening" >Upload Data</button>
+                            </span>
+
+                            <span>
+                                <form>
+                                    <div>
+                                        <span class="d-flex">
+                                            <input type="search" name="cari" value="{{ request()->cari }}" class="form-control" autocomplete="off">
+                                            <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </span>
+                        </div>
+
+
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>No</td>
+                                        <td>Nama</td>
+                                        <td>Rekening</td>
+                                        <td>Penggunaan</td>
+                                        <td>Aksi</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach ($pegawai2 as $peg)
+                                        <tr>
+                                            <td>{{ $loop->index + $pegawai2->firstItem() }}</td>
+                                            <td>{{ $peg->nama }}</td>
+                                            <td> <strong>{{ $peg->nama_bank }}</strong> : <i>({{ $peg->nomor_rekening }})</i></td>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                                <button class='btn btn-info'>1</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
         </div>
 
 {{-- Modal Pengajuan Service --}}

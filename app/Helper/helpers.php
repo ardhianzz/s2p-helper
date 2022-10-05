@@ -6,6 +6,26 @@ use App\Models\Pengumuman\PPengumumanRiwayat;
 
 
 
+function peruntukan_rekening($id){
+    $nik = DB::table("pagawai")->where("user_id", $id)->get()[0]->nik;
+    
+    $data = DB::table("pegawai_nomor_rekening")->where("nik", $nik)->toArray();
+    return $nik;
+    // return "<button class='btn btn-info'>".$id."</button>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function enkipsi_decript($text, $opt){
 
     $method="AES-128-CTR";
@@ -71,7 +91,7 @@ function gaji_belum_dibuka($user_id){
 }
 
 
-    function tanggl_id($tanggal){
+    function tanggl_id($tanggal="2022-01-01"){
         
         $tahun = substr($tanggal, "0", "4");
         $b = substr($tanggal, "5", "2");

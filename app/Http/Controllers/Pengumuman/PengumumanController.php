@@ -73,10 +73,13 @@ class PengumumanController extends Controller
             
         }
 
+        $pegawai2 = Pegawai::join("pegawai_nomor_rekening", "pegawai.nik", "=", "pegawai_nomor_rekening.nik")->paginate(10);
+
         return view("pengumuman.manage_nomor_rekening", [
             "title" => "Nomor Rekening Pegawai",
             "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
             "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
+            "pegawai2" => $pegawai2,
             "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
             "penggunaan" => PegawaiPenggunaanNomorRekening::get(),
             "pembayaran" => PegawaiJenisPembayaran::get(),
@@ -101,10 +104,21 @@ class PengumumanController extends Controller
 
         PSlipGajiDetail::where("id", $request->id)->where("nik", $request->nik)->update($dataupdate);
 
+        $no_rekening = PegawaiNomorRekening::join("pegawai_penggunaan_nomor_rekening", "pegawai_nomor_rekening.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id")
+                            ->where("nik", $request->nik)
+                            ->where("pegawai_jenis_pembayaran_id", 1)
+                            ->get();
+        
+        if(count($no_rekening) == 0){
+            $no_rekening = null;
+        }
+
+
         return view("pengumuman.print_or_preview_2", [
             "subtitle" => "Pengumuman : Preview Slip Gaji",
             "data" => $data,
             "pegawai" => $pegawai,
+            "no_rekening" => $no_rekening,
         ]);
 
     }
