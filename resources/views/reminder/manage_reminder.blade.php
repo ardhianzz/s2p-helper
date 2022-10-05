@@ -33,9 +33,11 @@
             <div class="card mb-4 col-md-4">
                 <div class="btn-group">
                     <button class="btn btn-success mr-2" data-toggle="modal" data-target="#buatreminder">Buat Pengingat </button>
-                </div>
+                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#uploaddata">Upload Data</button>
+                </div> 
 
-                <div class="modal fade" id="buatreminder" tabindex="-1" role="dialog"
+                        {{-- Button modal untuk Add Catatan --}}
+                        <div class="modal fade" id="buatreminder" tabindex="-1" role="dialog"
                             aria-labelledby="buatreminder"
                             aria-hidden="true">
 
@@ -90,6 +92,40 @@
                             </div>
                         </div>
 
+
+                        {{-- Button modal untuk Add Catatan --}}
+                        <div class="modal fade" id="uploaddata" tabindex="-1" role="dialog"
+                            aria-labelledby="uploaddata"
+                            aria-hidden="true">
+
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="uploaddata">Upload Data</h5>
+                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                             </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/reminder/import" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group mb-4">
+                                                <h5 for="Upload" class="mb-2">Upload File *</h5>
+                                                <input type="file" name="import" class="form-control" required>
+                                            </div>
+                                            
+                                            <div class="form-group mt-5">
+                                                <a href="/reminder/format.xlsx" class="btn col-lg-4 btn-primary btn-xs"> Download Format</a>
+                                                <button class="btn col-lg-2 btn-primary btn-xs" type="submit"> Upload </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
             </div>
             <div class="card-body table-respon mt-4">
                 <table class="table table-bordered table-striped">
@@ -108,8 +144,8 @@
                         <tr>
                             <td width="10px">{{ $loop->index+1 }}</td>
                             <td width="150px">{{ $r->nama }}</td>
-                            <td width="150px">{{ $r->tanggal_expired }}</td>
-                            <td width="150px">{{ $r->tanggal_pengingat }}</td>
+                            <td width="150px">{{ tanggl_id(($r->tanggal_expired)) }}</td>
+                            <td width="150px">{{ tanggl_id(($r->tanggal_pengingat)) }}</td>
                             <td width="100px">{{ $r->email }}</td>
                             <td width="100px">
                                 <a href="/reminder/manage_reminder/detail/{{ $r->id }}" class="btn btn-info btn-xs">
@@ -118,7 +154,7 @@
                                 <button class="btn btn-danger btn-xs" 
                                         data-toggle="modal" 
                                         data-target="#hapusdata{{ $r->id }}">
-                                        <i class="fa fa-trash" data-toogle="tooltip" data-placement="top" title="Batalkan Pengajuan"></i>
+                                        <i class="fa fa-trash" data-toogle="tooltip" data-placement="top" title="Hapus Data"></i>
                                 </button>
 
                                 <div class="modal fade" id="hapusdata{{ $r->id }}" tabindex="-1" role="dialog"

@@ -5,7 +5,7 @@
     <div class="sb-sidenav-menu">
         <div class="nav">
 
-            <a class="nav-link {{ Request::is('reminder*') ? 'active' : ''}}" href="/reminder">
+            <a class="nav-link {{ Request::is('reminder*') ? 'active' : ''}}" href="/reminder/dashboard">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Dashboard
             </a>
