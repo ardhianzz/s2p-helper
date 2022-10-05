@@ -90,32 +90,32 @@
                 <table width="100%">
                     <tr>
                         <td>Gaji Dasar</td>
-                        <td>: {{ rupiah($data[0]->i_gaji_dasar) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_gaji_dasar, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjangan</td>
-                        <td>: {{ rupiah($data[0]->i_tunjangan) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_tunjangan, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjagnan Jabatan</td>
-                        <td>: {{ rupiah($data[0]->i_tunjangan_jabatan) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_tunjangan_jabatan, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjangan Komunikasi</td>
-                        <td>: {{ rupiah($data[0]->i_tunjangan_komunikasi) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_tunjangan_komunikasi, "de")) }}</td>
                     </tr>
                     
                     <tr>
                         <td>Tunjangan Pensiun</td>
-                        <td>: {{ rupiah($data[0]->i_tunjangan_pensiun) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_tunjangan_pensiun, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Lembur</td>
-                        <td>: {{ rupiah($data[0]->i_lembur) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_lembur, "de")) }}</td>
                     </tr>
                 </table>
             
@@ -126,26 +126,26 @@
                 <table width="100%">
                     <tr>
                         <td>BPJS Tenaga Kerja</td>
-                        <td>: {{ rupiah($data[0]->o_bpjs_tenaga_kerja) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->o_bpjs_tenaga_kerja, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>BPJS Kesehatan</td>
-                        <td>: {{ rupiah($data[0]->o_bpjs_kesehatan) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->o_bpjs_kesehatan, "de")) }}</td>
                     </tr>
                     <tr>
                         <td>Dana Pensiun</td>
-                        <td>: {{ rupiah($data[0]->o_dana_pensiun) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->o_dana_pensiun, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Potongan Komunikasi</td>
-                        <td>: {{ rupiah($data[0]->o_komunikasi) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->o_komunikasi, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Potongan Lain-Lain</td>
-                        <td>: {{ rupiah($data[0]->o_lain_1) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->o_lain_1, "de")) }}</td>
                     </tr>
 
                 </table>
@@ -166,7 +166,7 @@
                                         {{ $t_pendapatan = $data[0]->i_gaji_dasar+$data[0]->i_tunjangan+$data[0]->i_tunjangan_jabatan+$data[0]->i_tunjangan_komunikasi+$data[0]->i_tunjangan_pensiun+$data[0]->i_lembur }}
                                     </span> --}}
                                     {{-- {{ dd($data) }} --}}
-                                    {{ rupiah($data[0]->t_pendapatan) }}
+                                    {{ rupiah(enkipsi_decript($data[0]->t_pendapatan, "de")) }}
                                 </strong>
                             </i>
                         </td>
@@ -182,7 +182,7 @@
                             {{-- <span hidden>
                                 {{ $t_potongan = $data[0]->o_bpjs_tenaga_kerja+$data[0]->o_bpjs_kesehatan+$data[0]->o_dana_pensiun+$data[0]->o_komunikasi+$data[0]->o_lain_1 }}
                             </span> --}}
-                            {{ rupiah($data[0]->t_potongan) }}
+                            {{ rupiah(enkipsi_decript($data[0]->t_potongan, "de")) }}
                         </strong></i></td>
                     </tr>
                 </table>
@@ -200,7 +200,7 @@
                             <strong>TAKE HOME PAY</strong>
                         </td>
                         <td style="border-bottom: double; border-top: double; background-color: rgb(243, 207, 130)">
-                            <strong>: {{ rupiah($data[0]->t_takehome) }}
+                            <strong>: {{ rupiah( enkipsi_decript($data[0]->t_takehome, "de")) }}
                             </strong>
                         </td>
                     </tr>
@@ -220,27 +220,27 @@
 
                     <tr>
                         <td>Tunjangan Hari Raya</td>
-                        <td>: {{ rupiah($data[0]->i_hari_raya) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_hari_raya, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunjangan Cuti</td>
-                        <td>: {{ rupiah($data[0]->i_tunjangan_cuti) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_tunjangan_cuti, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Tunj. Work Anniversary</td>
-                        <td>: {{ rupiah($data[0]->i_work_anniversary) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_work_anniversary, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Jasa Kerja {{ date("Y")-1 }}</td>
-                        <td>: {{ rupiah($data[0]->i_jasa_kerja) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_jasa_kerja, "de")) }}</td>
                     </tr>
 
                     <tr>
                         <td>Rapel {{ date("Y") }}</td>
-                        <td>: {{ rupiah($data[0]->i_rapel) }}</td>
+                        <td>: {{ rupiah(enkipsi_decript($data[0]->i_rapel, "de")) }}</td>
                     </tr>
 
                     <tr>
@@ -249,7 +249,7 @@
                             {{-- <span hidden>
                                 {{ $t_pendapatan_lain = $data[0]->i_work_anniversary+$data[0]->i_hari_raya+$data[0]->i_jasa_kerja+$data[0]->i_rapel+$data[0]->i_tunjangan_cuti}}
                             </span> --}}
-                            {{ rupiah($data[0]->t_pendapatan_lain) }}
+                            {{ rupiah(enkipsi_decript($data[0]->t_pendapatan_lain, "de")) }}
                         </i></strong></td>
                     </tr>
                 </table>
@@ -287,7 +287,7 @@
                     @endif
                     <tr>
                         <td>JUMLAH</td>
-                        <td>: <b>{{ rupiah(($data[0]->t_pendapatan + $data[0]->t_pendapatan_lain) - $data[0]->t_potongan) }}</b>
+                        <td>: <b>{{ rupiah(( enkipsi_decript($data[0]->t_pendapatan, "de") +  enkipsi_decript($data[0]->t_pendapatan_lain, "de")) - enkipsi_decript($data[0]->t_potongan, "de")) }}</b>
                         </td>
                     </tr>
 

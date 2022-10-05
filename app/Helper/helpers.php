@@ -5,6 +5,33 @@ use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 
 
+
+function enkipsi_decript($text, $opt){
+
+    $method="AES-128-CTR";
+    $key = env("PWD_TOO_COOL");
+
+    if(env("PWD_TOO_COOL") == null ){
+        $key ="TukulJ@l4njaL4n";
+    }
+
+    $option=0;
+    $iv="1251632135716362";
+
+    if($opt == "en"){
+        return openssl_encrypt($text, $method, $key, $option, $iv);
+        // return "enkripsi";
+    }
+
+    if($opt == "de"){
+        // return "dekipsi";
+        // //
+        return openssl_decrypt($text, $method, $key, $option, $iv);
+    }
+
+}
+
+
 function rupiah($angka){
     return  "Rp ".number_format($angka, 2, ',', '.');
 }

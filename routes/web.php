@@ -48,6 +48,17 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
+// Route::get('/test_enkipsi_dekripsi', function(){
+
+//     $text = "10000000.64";
+//     $en = enkipsi_decript($text, "en");
+//     $de = enkipsi_decript($en, "de");
+
+//     echo "Text : ".$text;
+//     echo "<br>EN   : ".$en;
+//     echo "<br>DE   : ".$de;
+
+// });
 
 
 
@@ -107,7 +118,7 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/kendaraan/asuransi/detail/{asuransi_id}',[KendaraanController::class, 'asuransi_detail_data']);
     Route::get('/kendaraan/service/{id}/{aksi}', [KendaraanController::class, 'detail_service']);
     Route::get('/kendaraan/{no_polisi}/{aksi}', [KendaraanController::class, 'detail_kendaraan']);
-    ////asuransi/tambah_data
+    ////asuransi/tambah_data 
 
     Route::post('/kendaraan/asuransi/tambah_data', [KendaraanController::class, 'asuransi_simpan_data']);
     Route::post('/kendaraan/service/aksi', [KendaraanController::class, 'service_edit_pengajuan']);
