@@ -48,6 +48,17 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
+// Route::get('/test_enkipsi_dekripsi', function(){
+
+//     $text = "10000000.64";
+//     $en = enkipsi_decript($text, "en");
+//     $de = enkipsi_decript($en, "de");
+
+//     echo "Text : ".$text;
+//     echo "<br>EN   : ".$en;
+//     echo "<br>DE   : ".$de;
+
+// });
 
 
 

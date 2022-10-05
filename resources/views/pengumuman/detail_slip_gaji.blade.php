@@ -50,10 +50,10 @@
                                             <td>{{ $loop->index + $rincian_gaji->firstItem() }}</td>
                                             {{-- <td>{{ $i->nik }}</td> --}}
                                             <td>{{ $i->nama }}</td>
-                                            <td>{{ rupiah($i->pendapatan) }}</td>
-                                            <td>{{ rupiah($i->pendapatan_lain) }}</td>
-                                            <td>{{ rupiah($i->potongan) }}</td>
-                                            <td>{{ rupiah($i->total) }}</td>
+                                            <td>{{ rupiah(enkipsi_decript($i->pendapatan, "de")) }}</td>
+                                            <td>{{ rupiah(enkipsi_decript($i->pendapatan_lain, "de")) }}</td>
+                                            <td>{{ rupiah(enkipsi_decript($i->potongan, "de")) }}</td>
+                                            <td>{{ rupiah(enkipsi_decript($i->total, "de")) }}</td>
                                             <td>
                                                 <a href="/pengumuman/manage_slip_gaji/detail_periode/print/{{ $i->nik }}?dan={{ $i->id }}">
                                                     <button class="btn btn-info">Preview</button>
