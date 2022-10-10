@@ -38,7 +38,7 @@ class PengumumanController extends Controller
 
         // dd(count(peruntukan_rekening($data["user_id"])));
         //ambil dulu datanya kalo ga ada langsung proses
-        $penggunaan = peruntukan_rekening($data["user_id"]);
+        $penggunaan = peruntukan_rekening_cek($data["user_id"]);
         $jum = count($penggunaan);
 
         $create['pegawai_nomor_rekening_id']   = $request->pegawai_nomor_rekening_id;;

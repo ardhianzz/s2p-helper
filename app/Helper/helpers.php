@@ -6,13 +6,26 @@ use App\Models\Pengumuman\PPengumumanRiwayat;
 
 
 
-function peruntukan_rekening($id){
+function peruntukan_rekening($id, $rek_id=0){
     $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
     
     $data = DB::table("pegawai_nomor_rekening")
-            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama",)
+            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama", "pegawai_nomor_rekening.id as rek_id")
             ->join("pegawai_penggunaan_nomor_rekening", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id", "=", "pegawai_nomor_rekening.id")
-            ->join("pegawai_jenis_pembayaran", "pegawai_jenis_pembayaran.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id")
+            ->join("pegawai_jenis_pembayaran", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id", "=", "pegawai_jenis_pembayaran.id")
+            ->where("pegawai_nomor_rekening.id", "=", $rek_id)
+            ->where("nik", $nik)->get();
+    return $data;
+    // return "<button class='btn btn-info'>".$id."</button>";
+}
+
+function peruntukan_rekening_cek($id){
+    $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
+    
+    $data = DB::table("pegawai_nomor_rekening")
+            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama", "pegawai_nomor_rekening.id as rek_id")
+            ->join("pegawai_penggunaan_nomor_rekening", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id", "=", "pegawai_nomor_rekening.id")
+            ->join("pegawai_jenis_pembayaran", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id", "=", "pegawai_jenis_pembayaran.id")
             ->where("nik", $nik)->get();
     return $data;
     // return "<button class='btn btn-info'>".$id."</button>";

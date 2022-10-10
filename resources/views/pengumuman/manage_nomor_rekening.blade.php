@@ -153,6 +153,7 @@
                                         <td width="100px">Nama</td>
                                         <td width="300px">Rekening</td>
                                         <td>Penggunaan</td>
+                                        <td width="180px">Aksi</td>
                                     </tr>
                                 </thead>
 
@@ -163,9 +164,9 @@
                                             <td>{{ $peg->nama }}</td>
                                             <td> <strong>{{ $peg->nama_bank }}</strong> : <i>({{ $peg->nomor_rekening }})</i></td>
                                             <td>
-                                                <span hidden>{{ $data = peruntukan_rekening($peg->user_id) }}</span>
+                                                <span hidden>{{ $data = peruntukan_rekening($peg->user_id, $peg->id) }}</span>
                                                 
-                                                @for ($z = 0; $z<count(peruntukan_rekening($peg->user_id)); $z++)
+                                                @for ($z = 0; $z<count($data); $z++)
                                                     <span>
                                                         <button class="btn btn-sm btn-info"> 
                                                             {{ $data[$z]->nama }}
@@ -185,8 +186,19 @@
                                                 @endfor
                                                 <span><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add{{ $peg->id }}"><b>+</b></button></span>
                                             </td>
+
+                                            <td>
+                                                <span>
+                                                    <button class="btn btn-warning" id="tombolHapus{{ $peg->id }}" onclick="tombolHapus({{ $peg->id }})">Hapus</button>
+                                                    <form>
+                                                        <input type="hidden" name="hapus_rekening_id" value="{{ $peg->id }}">
+                                                        <button hidden class="btn btn-danger" type="submit" id="tombolHapusKonfirm{{ $peg->id }}">Hapus</button>
+                                                        <button hidden class="btn btn-success" id="tombolHapusBatal{{ $peg->id }}" onclick="tombolHapusBatal({{ $peg->id }})">Batal</button>
+                                                    </form>
+                                                </span>
+                                            </td>
                                         </tr>
-                                        {{-- Modal Pengajuan Service --}}
+                                        {{-- Modal Penggunaan Rekening --}}
                                         <div class="modal fade" id="add{{ $peg->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
