@@ -96,7 +96,7 @@
                                         <td>{{ tanggl_id($d->tanggal) }}</td>
                                         <td>{{ $d->keterangan }}</td>
                                         <td>
-                                            <select name="lembur_pagi[]" class="form-control" id="lembur_pagi" onchange="recalculate({{ $d->id_detail }})" hidden>
+                                            <select name="lembur_pagi[]" class="form-control" id="lembur_pagi{{ $d->id_detail }}" onchange="recalculate({{ $d->id_detail }})" hidden>
                                                 <option value="1" @if($d->lembur_pagi == 1) selected @endif>Ya</option>
                                                 <option value="0" @if($d->lembur_pagi == null || $d->lembur_pagi == 0) selected @endif>Tidak</option>
                                             </select>
@@ -307,6 +307,8 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
 
 
  function recalculate(id){
+
+
  var jam_masuk               = toMinutes(document.getElementById("jam_masuk"+id).value);
  var jam_pulang_standar      = toMinutes(document.getElementById("jam_pulang_standar"+id).value);
  var jam_pulang              = toMinutes(document.getElementById("jam_pulang"+id).value);
@@ -314,52 +316,47 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
  var jam_kerja_kantor        = toMinutes(document.getElementById("jam_kerja_kantor"+id).value);
  var jam_lembur              = toMinutes(document.getElementById("jam_lembur"+id).textContent.trim());
  var total_lembur_biasa      = toMinutes(document.getElementById("total_lembur_biasa").textContent.trim());
- var lembur_pagi             = document.getElementById("lembur_pagi").value;
+ var lembur_pagi             = document.getElementById("lembur_pagi"+id).value;
+
 
 
  var n_jam_pulang_standar    = jam_pulang_standar_baru(jam_masuk, jam_masuk_kantor, jam_kerja_kantor);
- var n_jam_lembur            = jam_lembur_baru(n_jam_pulang_standar, jam_pulang);
- var n_total_biasa           = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur);
 
- if(lembur_pagi == "1"){
-    var n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) + (jam_masuk_kantor - jam_masuk);
+ if(lembur_pagi == 1){
+     var n_jam_lembur         = jam_lembur_baru(n_jam_pulang_standar, jam_pulang)+(jam_masuk_kantor - jam_masuk);
+     var n_total_biasa        = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur);
  }
 
- if(lembur_pagi == "0"){
-    var n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) - (jam_masuk_kantor - jam_masuk);
-    
+ if(lembur_pagi == 0){
+     var n_jam_lembur         = jam_lembur_baru(n_jam_pulang_standar, jam_pulang);
+     var n_total_biasa        = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur);
  }
 
+    // alert(total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur)+" "+total_lembur_biasa+" "+n_jam_lembur+" "+jam_lembur);
 
- //Merubah Tampilan Pada Web Browser dan Values pada Hidden Input
+    document.getElementById("total_lembur_biasa").innerHTML  = toHourse(n_total_biasa).substr(0,5);
+    document.getElementById("i_total_biasa").value           = toHourse(n_total_biasa).substr(0,5);
+    document.getElementById("jam_lembur"+id).innerHTML       = toHourse(n_jam_lembur).substr(0,5);
+    document.getElementById("i_jam_lembur"+id).value         = toHourse(n_jam_lembur).substr(0,5);
+    document.getElementById("jam_pulang_standar"+id).value   = toHourse(n_jam_pulang_standar);
+
     if(n_jam_lembur == undefined){
         document.getElementById("jam_lembur"+id).innerHTML           = "00:00";
         document.getElementById("i_jam_lembur"+id).value             = "00:00";
         document.getElementById("total_lembur_biasa").innerHTML      = "00:00";
-    }else{
-
-        document.getElementById("jam_lembur"+id).innerHTML           = toHourse(n_jam_lembur).substr(0,5);
-        document.getElementById("i_jam_lembur"+id).value             = toHourse(n_jam_lembur).substr(0,5);
     }
     
     if(n_total_biasa == undefined || n_total_biasa == "NaN:N"){ 
-        document.getElementById("i_total_biasa").value           = "00:00";
-    }else{
-        document.getElementById("total_lembur_biasa").innerHTML  = toHourse(n_total_biasa).substr(0,5);
-        document.getElementById("i_total_biasa").value           = toHourse(n_total_biasa).substr(0,5);
+        document.getElementById("i_total_biasa").value               = "00:00";
+        document.getElementById("total_lembur_biasa").innerHTML      = "00:00";
     }
-
-    document.getElementById("jam_pulang_standar"+id).value       = toHourse(n_jam_pulang_standar);
-
  }
-
-
 
  function total_baru(a,b,c){
         //jika berubah
         if(b != c) { return b+(a-c); }
         //jika sama
-        if(b = c) { return a; }
+        if(b == c) { return a; }
     }
 
 function jam_lembur_baru(a,b){
