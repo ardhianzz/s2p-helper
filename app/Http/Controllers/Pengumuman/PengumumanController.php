@@ -27,6 +27,33 @@ use PegawaiPengunaanNomorRekening;
 
 class PengumumanController extends Controller
 {
+    public function tambah_manual_penggunaan_rekening(Request $request){
+        $data['nik'] = $request->nik;
+        $data['nama_bank'] = $request->nama_bank;
+        $data['nama_akun'] = $request->nama_akun;
+        $data['nomor_rekening'] = $request->nomor_rekening;
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $data['created_at'] = date('Y-m-d H:i:s');
+
+        if(PegawaiNomorRekening::create($data)){
+            return back()->with('success', "proses berhasil");
+        }
+        return back()->with('error', "proses gagal");
+    }
+
+    public function edit_penggunaan_rekening(Request $request){
+        
+        $data['nama_bank'] = $request->nama_bank;
+        $data['nama_akun'] = $request->nama_akun;
+        $data['nomor_rekening'] = $request->nomor_rekening;
+        $data['updated_at'] = date('Y-m-d H:i:s');
+
+        if(PegawaiNomorRekening::where("id", $request->id)->update($data)){
+            return back()->with('success', "proses berhasil");
+        }
+        return back()->with('error', "proses gagal");
+        
+    }
 
     public function tambah_penggunaan_rekening(Request $request){
         $data["user_id"] = $request->user_id; // "1"
@@ -124,8 +151,10 @@ class PengumumanController extends Controller
         $pegawai2 = Pegawai::join("pegawai_nomor_rekening", "pegawai.nik", "=", "pegawai_nomor_rekening.nik")
                                 ->select("pegawai.user_id",
                                         "pegawai.nama",
+                                        "pegawai.nik",
                                         "pegawai_nomor_rekening.id",
                                         "pegawai_nomor_rekening.nama_bank",
+                                        "pegawai_nomor_rekening.nama_akun",
                                         "pegawai_nomor_rekening.nomor_rekening",
                                         )
                                 ->paginate(10);
@@ -133,7 +162,7 @@ class PengumumanController extends Controller
         return view("pengumuman.manage_nomor_rekening", [
             "title" => "Nomor Rekening Pegawai",
             "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
-            // "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
+            "pegawai" => Pegawai::get(["nik", "nama"]),
             "pegawai2" => $pegawai2,
             "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
             "penggunaan" => PegawaiPenggunaanNomorRekening::get(),

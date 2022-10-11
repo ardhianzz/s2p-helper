@@ -101,8 +101,10 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/pengumuman/slip_gaji/{nik}/{id}', [PengumumanController::class, "pengumuman_slip_gaji_detail"]);
     //pengumuman/slip_gaji
     
-    //manage_nomor_rekening/tambah_penggunaan_rekening
+    ///pengumuman/manage_nomor_rekening/tambah_nomor_rekenig
     
+    Route::post('/pengumuman/manage_nomor_rekening/tambah_nomor_rekenig', [PengumumanController::class, "tambah_manual_penggunaan_rekening"]);
+    Route::post('/pengumuman/manage_nomor_rekening/edit_nomor_rekenig', [PengumumanController::class, "edit_penggunaan_rekening"]);
     Route::post('/pengumuman/manage_nomor_rekening/tambah_penggunaan_rekening', [PengumumanController::class, "tambah_penggunaan_rekening"]);
     Route::post('/pengumuman/manage_nomor_rekening/upload_data_rekening', [PengumumanController::class, "upload_data_rekening"]);
     Route::post('/pengumuman/manage_kebijakan/aksi_publish_pengumuman', [PengumumanController::class, "aksi_publish_pengumuman"]);
