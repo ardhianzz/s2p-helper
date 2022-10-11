@@ -8,7 +8,7 @@
 @foreach ($reminders as $d)
     
 Yth, {{ $d->user->pegawai->nama }} 
-<br>
+<br> 
 <br>
 <p> Selamat Ulang Tahun kepada Bpk/Ibu {{ $d->user->pegawai->nama }}. <br>
 Semoga panjang umur, diberikan rezeki yang melimpah, sehat dan sukses serta bahagia selalu bersama keluarga. <br>

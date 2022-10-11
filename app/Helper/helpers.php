@@ -5,6 +5,43 @@ use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\User;
 
+function peruntukan_rekening($id, $rek_id=0){
+    $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
+    
+    $data = DB::table("pegawai_nomor_rekening")
+            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama", "pegawai_nomor_rekening.id as rek_id")
+            ->join("pegawai_penggunaan_nomor_rekening", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id", "=", "pegawai_nomor_rekening.id")
+            ->join("pegawai_jenis_pembayaran", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id", "=", "pegawai_jenis_pembayaran.id")
+            ->where("pegawai_nomor_rekening.id", "=", $rek_id)
+            ->where("nik", $nik)->get();
+    return $data;
+    // return "<button class='btn btn-info'>".$id."</button>";
+}
+
+function peruntukan_rekening_cek($id){
+    $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
+    
+    $data = DB::table("pegawai_nomor_rekening")
+            ->select("pegawai_penggunaan_nomor_rekening.id", "pegawai_jenis_pembayaran.nama", "pegawai_nomor_rekening.id as rek_id")
+            ->join("pegawai_penggunaan_nomor_rekening", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id", "=", "pegawai_nomor_rekening.id")
+            ->join("pegawai_jenis_pembayaran", "pegawai_penggunaan_nomor_rekening.pegawai_jenis_pembayaran_id", "=", "pegawai_jenis_pembayaran.id")
+            ->where("nik", $nik)->get();
+    return $data;
+    // return "<button class='btn btn-info'>".$id."</button>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function enkipsi_decript($text, $opt){
 
     $method="AES-128-CTR";
@@ -70,7 +107,7 @@ function gaji_belum_dibuka($user_id){
 }
 
 
-    function tanggl_id($tanggal){
+    function tanggl_id($tanggal="2022-01-01"){
         
         $tahun = substr($tanggal, "0", "4");
         $b = substr($tanggal, "5", "2");

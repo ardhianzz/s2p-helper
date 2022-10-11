@@ -27,6 +27,76 @@ use PegawaiPengunaanNomorRekening;
 
 class PengumumanController extends Controller
 {
+    public function tambah_manual_penggunaan_rekening(Request $request){
+        $data['nik'] = $request->nik;
+        $data['nama_bank'] = $request->nama_bank;
+        $data['nama_akun'] = $request->nama_akun;
+        $data['nomor_rekening'] = $request->nomor_rekening;
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $data['created_at'] = date('Y-m-d H:i:s');
+
+        if(PegawaiNomorRekening::create($data)){
+            return back()->with('success', "proses berhasil");
+        }
+        return back()->with('error', "proses gagal");
+    }
+
+    public function edit_penggunaan_rekening(Request $request){
+        
+        $data['nama_bank'] = $request->nama_bank;
+        $data['nama_akun'] = $request->nama_akun;
+        $data['nomor_rekening'] = $request->nomor_rekening;
+        $data['updated_at'] = date('Y-m-d H:i:s');
+
+        if(PegawaiNomorRekening::where("id", $request->id)->update($data)){
+            return back()->with('success', "proses berhasil");
+        }
+        return back()->with('error', "proses gagal");
+        
+    }
+
+    public function tambah_penggunaan_rekening(Request $request){
+        $data["user_id"] = $request->user_id; // "1"
+        $data["pegawai_nomor_rekening_id"] = $request->pegawai_nomor_rekening_id; // "1"
+        $data["pegawai_jenis_pembayaran_id"] = $request->pegawai_jenis_pembayaran_id; // "3-Pembayaran Pengobatan"
+
+        //Parameter yang akan dibandingan dan di input
+        $param = explode("-", $data["pegawai_jenis_pembayaran_id"]);
+
+        // dd(count(peruntukan_rekening($data["user_id"])));
+        //ambil dulu datanya kalo ga ada langsung proses
+        $penggunaan = peruntukan_rekening_cek($data["user_id"]);
+        $jum = count($penggunaan);
+
+        $create['pegawai_nomor_rekening_id']   = $request->pegawai_nomor_rekening_id;;
+        $create['pegawai_jenis_pembayaran_id'] = $param[0];
+
+        if($jum == 0){
+            if(PegawaiPenggunaanNomorRekening::create($create)){
+                return back()->with("success", "Penambahan data Berhasil");
+            }
+            return back()->with("error", "Data sudah tersedia");
+        }else{
+            $hasil = 0;
+            for($i=0; $i<$jum; $i++){
+                if($penggunaan[$i]->nama == $param[1]){
+                    $hasil += 1;
+                }else{
+                    $hasil += 0;
+                }
+            }
+
+            if($hasil == 0){
+                if(PegawaiPenggunaanNomorRekening::create($create)){
+                    return back()->with("success", "Penambahan data Berhasil");
+                }
+                return back()->with("error", "Data sudah tersedia");
+            }else{
+                return back()->with("error", "Data sudah tersedia");
+            }
+        }
+
+    }
 
     public function upload_data_rekening(Request $request){
         $this->is_admin(auth()->user()->id);
@@ -68,15 +138,32 @@ class PengumumanController extends Controller
                 return back()->with("success", "Proses Berhasil");
             }
             return back()->with("errror", "Proses Gagal");
-             
-
-            
         }
+
+        if($request->hapusPenggunaanNomorIni){
+            PegawaiPenggunaanNomorRekening::where("id", $request->hapusPenggunaanNomorIni)->delete();
+            return back()->with("success", "Data Berhasil Di Hapus");
+        }
+
+
+
+
+        $pegawai2 = Pegawai::join("pegawai_nomor_rekening", "pegawai.nik", "=", "pegawai_nomor_rekening.nik")
+                                ->select("pegawai.user_id",
+                                        "pegawai.nama",
+                                        "pegawai.nik",
+                                        "pegawai_nomor_rekening.id",
+                                        "pegawai_nomor_rekening.nama_bank",
+                                        "pegawai_nomor_rekening.nama_akun",
+                                        "pegawai_nomor_rekening.nomor_rekening",
+                                        )
+                                ->paginate(10);
 
         return view("pengumuman.manage_nomor_rekening", [
             "title" => "Nomor Rekening Pegawai",
             "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
-            "pegawai" => Pegawai::get(["nik", "nama"])->toArray(),
+            "pegawai" => Pegawai::get(["nik", "nama"]),
+            "pegawai2" => $pegawai2,
             "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
             "penggunaan" => PegawaiPenggunaanNomorRekening::get(),
             "pembayaran" => PegawaiJenisPembayaran::get(),
@@ -101,10 +188,21 @@ class PengumumanController extends Controller
 
         PSlipGajiDetail::where("id", $request->id)->where("nik", $request->nik)->update($dataupdate);
 
+        $no_rekening = PegawaiNomorRekening::join("pegawai_penggunaan_nomor_rekening", "pegawai_nomor_rekening.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id")
+                            ->where("nik", $request->nik)
+                            ->where("pegawai_jenis_pembayaran_id", 1)
+                            ->get();
+        
+        if(count($no_rekening) == 0){
+            $no_rekening = null;
+        }
+
+
         return view("pengumuman.print_or_preview_2", [
             "subtitle" => "Pengumuman : Preview Slip Gaji",
             "data" => $data,
             "pegawai" => $pegawai,
+            "no_rekening" => $no_rekening,
         ]);
 
     }
