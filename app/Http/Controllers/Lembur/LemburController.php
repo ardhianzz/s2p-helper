@@ -208,7 +208,7 @@ class LemburController extends Controller
 
         DB::table("lembur_pengajuan")->where($id)->update($data);
         DB::table("lembur_riwayat_pengajuan")->insertOrIgnore($riwayat);
-        return back()->with("success", "Proses Pengajuan Lembur Berhasil");
+        return redirect('lembur_approve')->with("success", "Proses Pengajuan Lembur Berhasil");
     }
 
     public function lembur_approve_detail(Request $request){
@@ -247,10 +247,19 @@ class LemburController extends Controller
 
     public function lembur_approved_detail_hrd(Request $request){
         $id = $request->id;
+        $user_id = DB::table("lembur_pengajuan")->where("id", $id)->get()[0]->user_id;
+        $jabatan_id = Pegawai::where("user_id", $user_id)->get()[0]->pegawai_jabatan_id;
+
+        $pengaturan_jam_masuk = "08:00:00";
+        if(LemburSettingsGroup::where("pegawai_jabatan_id", $jabatan_id)->where("nama_pengaturan", "like", "%Jam Masuk%")->count() > 0){
+            $pengaturan = LemburSettingsGroup::where("pegawai_jabatan_id", $jabatan_id)->where("nama_pengaturan", "like", "%Jam Masuk%")->get()[0]->nama_pengaturan;
+            $pengaturan_jam_masuk = explode(" ", $pengaturan)[2].":00";
+        }
 
         return view("lembur.lembur_preview_detail_hrd",[
             "title" => "Detail Pengajuan Lembur",
             "pengaturan" => DB::table("lembur_settings")->get(),
+            "pengaturan_jam_masuk" => $pengaturan_jam_masuk,
             "detail" => Lembur::get_lembur_id($id),
         ]);
     }

@@ -103,7 +103,8 @@
                                         </td>
                                         <td>
                                             <input hidden type="time" class="form-control"
-                                                    value="{{ format_jam($pengaturan[0]->jam_masuk) }}" 
+                                                    {{-- value="{{ format_jam($pengaturan[0]->jam_masuk) }}"  --}}
+                                                    value="{{ format_jam($pengaturan_jam_masuk) }}" 
                                                     name="jam_masuk_kantor[]" 
                                                     id="jam_masuk_kantor{{ $d->id_detail }}" 
                                                     onchange="recalculate({{ $d->id_detail }})">
@@ -270,6 +271,8 @@ function togleRubah(){
         for(var i=0; i<document.forms.form_lembur.length; i++){
             document.forms.form_lembur[i].hidden = true;
         }
+        //reload page
+        location.reload();
     } 
 }
 
@@ -311,23 +314,25 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
  var jam_kerja_kantor        = toMinutes(document.getElementById("jam_kerja_kantor"+id).value);
  var jam_lembur              = toMinutes(document.getElementById("jam_lembur"+id).textContent.trim());
  var total_lembur_biasa      = toMinutes(document.getElementById("total_lembur_biasa").textContent.trim());
- var lembur_pagi             = document.getElementById("lembur_pagi").value; // 0 | 1
+ var lembur_pagi             = document.getElementById("lembur_pagi").value;
 
 
  var n_jam_pulang_standar    = jam_pulang_standar_baru(jam_masuk, jam_masuk_kantor, jam_kerja_kantor);
  var n_jam_lembur            = jam_lembur_baru(n_jam_pulang_standar, jam_pulang);
  var n_total_biasa           = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur);
- if(lembur_pagi == 1){
-    n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) + (jam_masuk_kantor - jam_masuk);
+
+ if(lembur_pagi == "1"){
+    var n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) + (jam_masuk_kantor - jam_masuk);
  }
- if(lembur_pagi == 0){
-    n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) - (jam_masuk_kantor - jam_masuk);
+
+ if(lembur_pagi == "0"){
+    var n_total_biasa = total_baru(total_lembur_biasa, n_jam_lembur, jam_lembur) - (jam_masuk_kantor - jam_masuk);
+    
  }
 
 
  //Merubah Tampilan Pada Web Browser dan Values pada Hidden Input
     if(n_jam_lembur == undefined){
-
         document.getElementById("jam_lembur"+id).innerHTML           = "00:00";
         document.getElementById("i_jam_lembur"+id).value             = "00:00";
         document.getElementById("total_lembur_biasa").innerHTML      = "00:00";
@@ -337,7 +342,7 @@ function jam_lembur_libur(jam_pulang, jam_masuk){
         document.getElementById("i_jam_lembur"+id).value             = toHourse(n_jam_lembur).substr(0,5);
     }
     
-    if(n_total_biasa == undefined){ 
+    if(n_total_biasa == undefined || n_total_biasa == "NaN:N"){ 
         document.getElementById("i_total_biasa").value           = "00:00";
     }else{
         document.getElementById("total_lembur_biasa").innerHTML  = toHourse(n_total_biasa).substr(0,5);
