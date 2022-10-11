@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
-
-
+use App\Models\User;
 
 function peruntukan_rekening($id, $rek_id=0){
     $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;
