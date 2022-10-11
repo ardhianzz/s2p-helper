@@ -2,8 +2,10 @@
 
 namespace App\Mail;
 
-
+use App\Http\Middleware\Pegawai;
+use App\Models\Pegawai\PegawaiDivisi;
 use App\Models\Reminder\Reminder;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,8 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class ReminderEmail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
-
     public $reminders;
     /**
      * Create a new message instance.
@@ -31,11 +31,17 @@ class ReminderEmail extends Mailable implements ShouldQueue
      * @return $this
      */
     public function build()
-    {
-        $subject = DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->get()[0]->nama;   
-        // dd($untuk);
-        return $this->subject($subject)
-                    // ->view("emails.preview_email");
-                    ->markdown("emails.reminder");
+    { 
+        $reminders = $this->reminders;
+        foreach ($reminders as $r)
+        if ($r->jenis == "Birthday"){
+            return $this->subject($r->nama)
+            ->view("emails.preview_email_birthday");
+            // ->markdown("emails.reminder");
+        } else {
+            return $this->subject($r->nama)
+            // ->view("emails.preview_email");
+            ->view("emails.preview_email");
+        }
     }
 }

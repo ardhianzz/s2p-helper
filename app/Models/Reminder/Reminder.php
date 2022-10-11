@@ -46,7 +46,6 @@ class Reminder extends Model
     // }
 
     static function get_data($tai){
-        
         return DB::table("r_reminder_data")->where("tanggal_pengingat", date("Y-m-d"))->where("id", $tai)->get();
     }
 

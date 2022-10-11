@@ -18,6 +18,7 @@ class ReminderImport implements ToModel, WithHeadingRow
         return new Reminder([
             'user_id' => Auth::user()->id,
             'pegawai_divisi_id' => Pegawai::where('user_id', auth()->user()->id)->get()[0]->pegawai_divisi_id,
+            'jenis' => $row["type"],
             'nama' => $row["subject"],
             'from' => date("Y-m-d", (($row["dari"]-25569)*86400)),
             'to' => date("Y-m-d", (($row["sampai"]-25569)*86400)),

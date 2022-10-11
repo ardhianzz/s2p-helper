@@ -27,10 +27,19 @@ class ReminderController extends Controller
             "detail" => Reminder::get_reminder_id($id),
         ]);
     }
+    public function reminder_detail_divisi(Request $request){
+        $id = $request->id;
+
+        return view("reminder.reminder_detail_divisi",[
+            "title" => "Data Reminder",
+            "detail" => Reminder::get_reminder_id($id),
+        ]);
+    }
 
     public function edit_data_reminder(Request $request){
         $id['id'] = $request->r_reminder_data;
         $data['nama'] = $request->nama;
+        $data['jenis'] = $request->jenis;
         $data['from'] = $request->from;
         $data['to'] = $request->to;
         $data['tanggal_expired'] = $request->tanggal_expired;
@@ -56,8 +65,9 @@ class ReminderController extends Controller
 
     public function tambah_catatan(Request $request){   
         $data['pegawai_divisi_id'] = Pegawai::where('user_id', auth()->user()->id)->get()[0]->pegawai_divisi_id;
-        $data['user_id'] = Auth::user()->id;    
+        $data['user_id'] = Auth::user()->id;  
         $data['nama'] = $request->nama;
+        $data['jenis'] = $request->jenis;
         $data['from'] = $request->from;
         $data['to'] = $request->to;
         $data['tanggal_expired'] = $request->tanggal_expired;

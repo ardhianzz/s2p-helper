@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
-
-
+use App\Models\User;
 
 function enkipsi_decript($text, $opt){
 
