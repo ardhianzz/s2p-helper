@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {   
         $schedule
         ->command('reminder:emails')
-        ->dailyAt('09:00');
+        ->daily();
         // $schedule->command('reminder:emails')->hourly();
     }
 
