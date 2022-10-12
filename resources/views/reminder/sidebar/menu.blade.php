@@ -6,13 +6,12 @@
         <div class="nav">
 
             <a class="nav-link {{ Request::is('reminder*') ? 'active' : ''}}" href="/reminder/dashboard">
-                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer"></i></div>
                 Dashboard
             </a>
 
-
             <a class="nav-link {{ Request::is('reminder/manage_reminder*') ? 'active' : ''}}" href="/reminder/manage_reminder">
-                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                 Manage Reminder
             </a>
 

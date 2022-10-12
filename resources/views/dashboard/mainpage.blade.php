@@ -46,7 +46,7 @@
       
     </div>
 
-   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+   <div class="pricing-header px-2 py-2 pt-md-2 pb-md-2 mx-auto text-center">
     
     </div> 
 
@@ -98,20 +98,7 @@
         @endif
 
         
-        @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
-          @can("pegawaiHrd")
-          <div class="card mb-4 box-shadow">
-              <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Kendaraan</h4>
-              </div>
-              <div class="card-body">
-                <a href="/kendaraan">
-                  <span class="material-icons" style="font-size: 190px;">minor_crash</span>
-                </a>
-              </div>
-            </div>
-          @endcan
-        @endif
+        
 
         @if(DB::table("modul")->where("id", 2)->get()[0]->keterangan == "Aktif")
           <div class="card mb-4 box-shadow">
@@ -125,40 +112,55 @@
             </div>
           </div>
         @endif
+        
+      </div>
 
+      <div class="card-deck mb-12 text-center">
+          @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
+              @can("pegawaiHrd")
+              <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Kendaraan</h4>
+                  </div>
+                  <div class="card-body">
+                    <a href="/kendaraan">
+                      <span class="material-icons" style="font-size: 190px;">minor_crash</span>
+                    </a>
+                  </div>
+                </div>
+              @endcan
+            @endif
 
-        @if(DB::table("modul")->where("id", 5)->get()[0]->keterangan == "Aktif")
-          <div class="card mb-4 box-shadow">
-            <div class="card-header d-flex justify-content-between">
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">
-                {{ total_pengumuman(auth()->user()->id) }}
-              </span>
-              <h4 class="my-0 font-weight-normal">Informasi & Pengumuman</h4>
+          @if(DB::table("modul")->where("id", 6)->get()[0]->keterangan == "Aktif")
+            <div class="card mb-4 box-shadow">
+              <div class="card-header d-flex justify-content-between">
+                <h4 class="my-0 font-weight-normal">Reminder</h4>
+              </div>
+              <div class="card-body">
+                <a href="/reminder/dashboard">
+                  <span class="material-icons" style="font-size: 190px;">alarm</span>
+                  
+                </a>
+              </div>
             </div>
-            <div class="card-body">
-              <a href="/pengumuman">
-                <span class="material-icons" style="font-size: 190px;">archive</span>
-                
-              </a>
-            </div>
-          </div>
-        @endif
+          @endif
 
-
-        @if(DB::table("modul")->where("id", 6)->get()[0]->keterangan == "Aktif")
-          <div class="card mb-4 box-shadow">
-            <div class="card-header d-flex justify-content-between">
-              <h4 class="my-0 font-weight-normal">Reminder</h4>
+          @if(DB::table("modul")->where("id", 5)->get()[0]->keterangan == "Aktif")
+            <div class="card mb-4 box-shadow">
+              <div class="card-header d-flex justify-content-between">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-light">
+                  {{ total_pengumuman(auth()->user()->id) }}
+                </span>
+                <h4 class="my-0 font-weight-normal">Informasi & Pengumuman</h4>
+              </div>
+              <div class="card-body">
+                <a href="/pengumuman">
+                  <span class="material-icons" style="font-size: 190px;">archive</span>
+                  
+                </a>
+              </div>
             </div>
-            <div class="card-body">
-              <a href="/reminder/dashboard">
-                <span class="material-icons" style="font-size: 190px;">alarm</span>
-                
-              </a>
-            </div>
-          </div>
-        @endif
-
+          @endif
 
       </div>
 

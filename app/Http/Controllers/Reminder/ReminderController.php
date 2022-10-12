@@ -100,7 +100,7 @@ class ReminderController extends Controller
         return view("reminder.index", [
             // "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id[0]->pegawai_divisi_id)->get(),
                "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id)->get(),
-            "title" => "Schedule"
+            "title" => "Division Schedule"
         ]);
     }
 }
