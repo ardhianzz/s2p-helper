@@ -113,24 +113,28 @@
           </div>
         @endif
         
+        
       </div>
+    </div>
 
+    <div class="row d-flex justify-content-center">
       <div class="card-deck mb-12 text-center">
-          @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
-              @can("pegawaiHrd")
-              <div class="card mb-4 box-shadow">
-                  <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Kendaraan</h4>
-                  </div>
-                  <div class="card-body">
-                    <a href="/kendaraan">
-                      <span class="material-icons" style="font-size: 190px;">minor_crash</span>
-                    </a>
-                  </div>
-                </div>
-              @endcan
-            @endif
 
+          @if(DB::table("modul")->where("id", 4)->get()[0]->keterangan == "Aktif")
+            @can("pegawaiHrd")
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Kendaraan</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/kendaraan">
+                    <span class="material-icons" style="font-size: 190px;">minor_crash</span>
+                  </a>
+                </div>
+              </div>
+            @endcan
+          @endif
+          
           @if(DB::table("modul")->where("id", 6)->get()[0]->keterangan == "Aktif")
             <div class="card mb-4 box-shadow">
               <div class="card-header d-flex justify-content-between">
