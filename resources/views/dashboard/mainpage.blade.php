@@ -133,6 +133,19 @@
                 </div>
               </div>
             @endcan
+
+            @can("pegawaiAdmin")
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Kendaraan</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/kendaraan">
+                    <span class="material-icons" style="font-size: 190px;">minor_crash</span>
+                  </a>
+                </div>
+              </div>
+            @endcan
           @endif
           
           @if(DB::table("modul")->where("id", 6)->get()[0]->keterangan == "Aktif")
