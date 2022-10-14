@@ -13,7 +13,7 @@
 
             <a class="nav-link {{ Request::is('pengumuman/kebijakan*') ? 'active' : ''}}" href="/pengumuman/kebijakan/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                @if(pengumuman_belum_dibuka(auth()->user()->id) != 0)
+                @if(pengumuman_belum_dibuka(auth()->user()->id) > 0)
                     <span class="position-flex top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ pengumuman_belum_dibuka(auth()->user()->id) }}</span>
                 @endif
                 Pengumuman
