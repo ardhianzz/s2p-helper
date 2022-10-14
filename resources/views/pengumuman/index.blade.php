@@ -24,7 +24,9 @@
             <a href="/pengumuman/kebijakan/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
                 <div class="card">
                     <div class="card-header bg-primary">
+                        @if($infoPengumuman > 0)
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $infoPengumuman }}</span>
+                        @endif
                         <h5><strong class="text-white">Pengumuman</strong></h5>
                     </div>
                     <div class="card-body d-flex justify-content-center">
@@ -42,7 +44,9 @@
             <a href="pengumuman/slip_gaji/{{ $nik[0]->nik }}">
                 <div class="card">
                     <div class="card-header bg-primary">
+                        @if($infoGaji > 0)
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $infoGaji }}</span>
+                        @endif
                         <h5><strong class="text-white">Slip Gaji</strong></h5>
                     </div>
                     <div class="card-body d-flex justify-content-center">

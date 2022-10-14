@@ -12,8 +12,8 @@
 
 
             <a class="nav-link {{ Request::is('pengumuman/kebijakan*') ? 'active' : ''}}" href="/pengumuman/kebijakan/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-volume-up "></i></div>
-                @if(pengumuman_belum_dibuka(auth()->user()->id) != 0)
+                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                @if(pengumuman_belum_dibuka(auth()->user()->id) > 0)
                     <span class="position-flex top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ pengumuman_belum_dibuka(auth()->user()->id) }}</span>
                 @endif
                 Pengumuman
@@ -21,7 +21,7 @@
 
             <a class="nav-link {{ Request::is('pengumuman/slip_gaji*') ? 'active' : ''}}" href="/pengumuman/slip_gaji/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
                 <div class="sb-nav-link-icon"><i class="fa fa-university"></i></div>
-                @if(gaji_belum_dibuka(auth()->user()->id) != 0)
+                @if(gaji_belum_dibuka(auth()->user()->id) > 0)
                     <span class="position-flex top-5 start-100 translate-middle badge rounded-pill bg-danger">{{ gaji_belum_dibuka(auth()->user()->id) }}</span>
                 @endif
                 Slip Gaji
