@@ -181,7 +181,7 @@
                                                                 </div>
 
                                                                 <div class="form-group mb-4">
-                                                                    <div for=""> <b> Pengajuan lembur ini pada Hari ? </b></div>
+                                                                    <div for=""> <b> Tipe Hari </b></div>
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="hari_libur" value="0" @if($i->hari_libur == 0) checked @endif>
                                                                         <label class="form-check-label" >Hari Biasa</label>
@@ -194,7 +194,7 @@
                     
                                                                 @if($lembur_pagi > 0)
                                                                 <div class="form-group mb-4">
-                                                                    <div for=""> <b>Pengajuan lembur ini termasuk Lembur Pagi (sebelum jam Masuk Kantor)? </b></div>
+                                                                    <div for=""> <b>Tipe Lembur </b></div>
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="lembur_pagi" value="0" @if($i->lembur_pagi == 0) checked @endif>
                                                                         <label class="form-check-label" >Bukan Lembur Pagi</label>
@@ -208,7 +208,7 @@
 
                                                                 <div class="form-group mt-5">
                                                                     <input type="hidden" name="lembur_catatan" value="{{ $i->id }}">
-                                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Edit </button>
+                                                                    <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Simpan </button>
                                                                 </div>
                                                             </form>
                                                         </div>
