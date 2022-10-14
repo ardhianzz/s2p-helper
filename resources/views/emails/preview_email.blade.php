@@ -21,26 +21,25 @@
     </style>
 </head>
 @foreach ($reminders as $d)
-    
-{{-- Yth, {{ $d->user->pegawai->nama }} --}}
-Yth, {{ $d->user->pegawai->nama }} 
+
+Yth. {{ $d->user->pegawai->nama }},
 <br>
 <br>
-Berikut adalah informasi terkait catatan anda yang telah mendekati tanggal jatuh tempo :
+Berikut kami sampaikan :
 <br>
 <br>
 @endforeach
 <body>
     <table>
         <tr>
-            <td style="width: 250px" class="judul"> <b> Nama Catatan </b> </td> 
+            <td style="width: 250px" class="judul"> <b> Subject </b> </td> 
             @foreach ($reminders as $d)
                 
             <td> {{ $d->nama }}</td>
             @endforeach
         </tr>
         <tr>
-            <td class="judul"> <b>Berlaku</b> </td>
+            <td class="judul"> <b>Validity Date</b> </td>
             @foreach ($reminders as $d)
                 @if ($d->from == null && $d->to == null)
                     <td> - </td>
@@ -50,7 +49,7 @@ Berikut adalah informasi terkait catatan anda yang telah mendekati tanggal jatuh
             @endforeach
         </tr>
         <tr>
-            <td class="judul"> <b>Tanggal Expired</b> </td>
+            <td class="judul"> <b>Expired Date</b> </td>
             @foreach ($reminders as $d)
                 @if ($d->tanggal_expired == null)
                     <td> - </td>
@@ -60,7 +59,7 @@ Berikut adalah informasi terkait catatan anda yang telah mendekati tanggal jatuh
             @endforeach
         </tr>
         <tr>
-            <td class="judul"> <b>Tanggal Pengingat</b> </td>
+            <td class="judul"> <b>Reminder Date</b> </td>
             @foreach ($reminders as $d)
                 
             <td> {{ tanggl_id(($d->tanggal_pengingat)) }} </td>
@@ -74,7 +73,7 @@ Berikut adalah informasi terkait catatan anda yang telah mendekati tanggal jatuh
             @endforeach
         </tr>
         <tr>
-            <td class="judul"> <b>Keterangan / Deskripsi</b> </td>
+            <td class="judul"> <b>Description</b> </td>
             @foreach ($reminders as $d)
                 
             <td>{{ $d->keterangan }}</td>

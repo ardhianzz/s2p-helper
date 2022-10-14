@@ -179,7 +179,7 @@ class LemburController extends Controller
         //$data_pengajuan2 = Lembur::where();
 
         return view("lembur.lembur_approved",[
-            "title" => "Pengajuan Lembur",
+            "title" => "Data Lembur",
             "pengajuan_lembur" => $data_pengajuan,
         ]);
     }

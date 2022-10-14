@@ -10,30 +10,30 @@
             </a>
 
             <a class="nav-link" href="/kendaraan/mobil">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
                 Kendaraan
             </a>
 
             <a class="nav-link" href="/kendaraan/service">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-wrench"></i></div>
                 Perbaikan
             </a>
 
             <a class="nav-link" href="/kendaraan/asuransi">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-heart"></i></div>
                 Asuransi
             </a>
 
             <a class="nav-link" href="/kendaraan/setting">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                 Pengaturan
             </a>
 
         </div>
     </div>
     <div class="sb-sidenav-footer">
-        <div class="small">Logged in as:</div>
-        Start Bootstrap
+        <div class="fa fa-address-card"></div>
+        {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
     </div>
 </nav>
     

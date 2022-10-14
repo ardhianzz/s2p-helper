@@ -6,7 +6,7 @@
         <div class="nav">
 
             <a class="nav-link {{ Request::is('pengumuman') ? 'active' : ''}}" href="/pengumuman">
-                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer"></i></div>
                 Dashboard
             </a>
 
@@ -20,8 +20,8 @@
             </a>
 
             <a class="nav-link {{ Request::is('pengumuman/slip_gaji*') ? 'active' : ''}}" href="/pengumuman/slip_gaji/{{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nik }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                @if(gaji_belum_dibuka(auth()->user()->id) != 0)
+                <div class="sb-nav-link-icon"><i class="fa fa-university"></i></div>
+                @if(gaji_belum_dibuka(auth()->user()->id) > 0)
                     <span class="position-flex top-5 start-100 translate-middle badge rounded-pill bg-danger">{{ gaji_belum_dibuka(auth()->user()->id) }}</span>
                 @endif
                 Slip Gaji
@@ -29,16 +29,16 @@
 
             @if($hak_akses == "Administrator HRD" || $hak_akses == "Administrator")
                 <a class="nav-link {{ Request::is('pengumuman/manage_kebijakan*') ? 'active' : ''}}" href="/pengumuman/manage_kebijakan">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Manage Penguman
                 </a>
                 <a class="nav-link {{ Request::is('pengumuman/manage_slip_gaji*') ? 'active' : ''}}" href="/pengumuman/manage_slip_gaji">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Manage Slip Gaji
                 </a>
 
                 <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekenig*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Manage Rekening Gaji
                 </a>
             @endif
