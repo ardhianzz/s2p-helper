@@ -93,14 +93,19 @@ class ReminderController extends Controller
 
     public function index()
     {
-        // $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get(['pegawai_divisi_id']);
-           $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
-        //    $nama = Pegawai::get(['nama']);
-        //    dd($nama);
+        $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
+        $jabatan = DB::table("pegawai_jabatan")->where("id", $divisi_id)->get()[0]->nama;
+        
+        
+        if($jabatan == "Direktur"){
+            $data = Reminder::get();
+        }else{
+            $data = Reminder::where("pegawai_divisi_id", $divisi_id)->get();
+        }
+        
         return view("reminder.index", [
-            // "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id[0]->pegawai_divisi_id)->get(),
-               "reminder_data" => Reminder::where("pegawai_divisi_id", $divisi_id)->get(),
-            "title" => "Schedule"
-        ]);
+                "reminder_data" => $data,
+                "title" => "Division Schedule"
+            ]);
     }
 }

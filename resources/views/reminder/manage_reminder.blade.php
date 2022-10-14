@@ -137,7 +137,7 @@
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="nama" class="mb-2"><b>Subject *</b></label>
-                                                <input type="text" name="nama" class="form-control" placeholder="Subject" required>
+                                                <input type="text" name="nama" class="form-control" placeholder="Subject" required autocomplete="off">
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="validity" class="mb-2"><b>Validity Data</b> </label> <small>(Optional)</small>

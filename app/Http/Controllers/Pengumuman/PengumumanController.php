@@ -365,7 +365,7 @@ class PengumumanController extends Controller
         
         
         return view("pengumuman.manage_slip_gaji", [
-            "title" => "Managemen Pengumuman",
+            "title" => "Managemen Slip Gaji",
             "sub_title" => "Managemen Laporan Pendapatan - PT Sumber Segara Primadaya",
             "slip_gaji" => PSlipGaji::where("periode", "like", "%".$request->cari."%")->
                                         orWhere("status", "like", "%".$request->cari."%")->
@@ -455,7 +455,7 @@ class PengumumanController extends Controller
         }
 
         return view("pengumuman.pengumuman_kebijakan", [
-            "title" => "Pengumuman Kebijakan Perushaan",
+            "title" => "Pengumuman Kebijakan Perusahaan",
             "sub_title" => "Pengumuman - PT Sumber Segara Primadaya",
             "pengumuman" => $semua_pengumuan,
             "hak_akses" => $this->cek_akses(auth()->user()->id),

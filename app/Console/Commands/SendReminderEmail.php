@@ -46,17 +46,17 @@ class SendReminderEmail extends Command
         //ambil data reminder
        
 
-        $jumlah = Reminder::where("tanggal_pengingat", date("m-d"))->count();
+        $jumlah = Reminder::where("tanggal_pengingat", date("Y-m-d"))->count();
 
         for($i=0; $i<$jumlah; $i++){
-            $id = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->id;
-            $untuk = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email;   
+            $id = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email;   
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk);
-            dd($untuk);
+            // dd($untuk);
         }
     }
 
     private function sendEmail($reminders, $untuk){
-        // Mail::to($untuk)->send(new ReminderEmail($reminders));
+        Mail::to($untuk)->send(new ReminderEmail($reminders));
     }
 }
