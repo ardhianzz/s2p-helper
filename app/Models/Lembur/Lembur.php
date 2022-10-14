@@ -191,6 +191,7 @@ class Lembur extends Model
         ->select("id", "periode", "total_biasa", "total_libur")
         ->selectRaw("(SELECT status_pengajuan from lembur_riwayat_pengajuan WHERE lembur_riwayat_pengajuan.lembur_pengajuan_id = lembur_pengajuan.id ORDER by id DESC LIMIT 1) as status")
         ->selectRaw("(SELECT komentar from lembur_riwayat_pengajuan WHERE lembur_riwayat_pengajuan.lembur_pengajuan_id = lembur_pengajuan.id ORDER by id DESC LIMIT 1) as keterangan")
+        ->orderBy("lembur_pengajuan.id", "desc")
         ->where($id)->where("periode", "like", "%".$data."%")->paginate(10);
                     
     }
