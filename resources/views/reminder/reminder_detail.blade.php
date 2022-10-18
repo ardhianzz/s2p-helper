@@ -138,9 +138,10 @@
                         </div>
                         <div class="form-group mb-4">
                             <h5>Validity Date</h5>
+                            <small for="s/d" class="mb-2">From :</small>
                             <input type="date" name="from" class="form-control" value="{{ $d->from }}">
 
-                            <h7 for="s/d" class="mb-2">to</h7>
+                            <small for="s/d" class="mb-2">to</small>
                             <input type="date" name="to" class="form-control" value="{{ $d->to }}">
                         </div>
                         <div class="form-group mb-4">
