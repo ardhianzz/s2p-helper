@@ -141,6 +141,8 @@
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="validity" class="mb-2"><b>Validity Date</b> </label> <small>(Optional)</small>
+                                                <br>
+                                                <small for="s/d" class="mb-2">From :</small>
                                                 <input type="date" name="from" class="form-control">
 
                                                 <small for="s/d" class="mb-2">To :</small>
