@@ -115,7 +115,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <label class="modal-title" id="editdatareminder">Edit Catatan</label>
+                    <label class="modal-title" id="editdatareminder">Edit Reminder </label>
                         <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                          </button>
@@ -133,22 +133,22 @@
                             </select>
                         </div>
                         <div class="form-group mb-4">
-                            <h5 for="nama" class="mb-2">Nama Catatan *</h5>
+                            <h5 for="nama" class="mb-2">Subject *</h5>
                             <input type="text" name="nama" class="form-control" value="{{ $d->nama }}">
                         </div>
                         <div class="form-group mb-4">
-                            <h5>Masa Berlaku *</h5>
+                            <h5>Validity Date</h5>
                             <input type="date" name="from" class="form-control" value="{{ $d->from }}">
 
-                            <h7 for="s/d" class="mb-2">s/d</h7>
+                            <h7 for="s/d" class="mb-2">to</h7>
                             <input type="date" name="to" class="form-control" value="{{ $d->to }}">
                         </div>
                         <div class="form-group mb-4">
-                            <h5 for="expired" class="mb-2">Tanggal Expired *</h5>
+                            <h5 for="expired" class="mb-2">Expired Date</h5>
                             <input type="date" name="tanggal_expired" class="form-control" value="{{ $d->tanggal_expired }}">
                         </div>
                         <div class="form-group mb-4">
-                            <h5 for="pengingat" class="mb-2">Tanggal Pengingat *</h5>
+                            <h5 for="pengingat" class="mb-2">Reminder Date</h5>
                             <input type="date" name="tanggal_pengingat" class="form-control" value="{{ $d->tanggal_pengingat }}">
                         </div>
                         <div class="form-group mb-4">
@@ -156,15 +156,15 @@
                             <input type="text" name="email" class="form-control" value="{{ $d->email }}">
                         </div>
                         <div class="form-group mb-4">
-                            <h5 for="keterangan" class="mb-2">Keterangan / Deskripsi *</h5>
-                            <input class="form-control" name="keterangan" id="" rows="3" value="{{ $d->keterangan }}">
+                            <h5 for="keterangan" class="mb-2">Description *</h5>
+                            <textarea class="form-control" name="keterangan" id="" rows="3" value="{{ $d->keterangan }}">{{ $d->keterangan }}</textarea>
                         </div>
 
 
                         <div class="form-group mt-5">
                             <input type="hidden" name="r_reminder_data" value="{{ $d->id }}">
                             {{-- <input type="hidden" name="r_reminder_data" value="{{ $d->updated_at }}"> --}}
-                            <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Simpan </button>
+                            <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Save </button>
                         </div>
                     </form>
                 </div>
