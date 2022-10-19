@@ -140,7 +140,9 @@
                                                 <input type="text" name="nama" class="form-control" placeholder="Subject" required autocomplete="off">
                                             </div>
                                             <div class="form-group mb-4">
-                                                <label for="validity" class="mb-2"><b>Validity Data</b> </label> <small>(Optional)</small>
+                                                <label for="validity" class="mb-2"><b>Validity Date</b> </label> <small>(Optional)</small>
+                                                <br>
+                                                <small for="s/d" class="mb-2">From :</small>
                                                 <input type="date" name="from" class="form-control">
 
                                                 <small for="s/d" class="mb-2">To :</small>
@@ -198,7 +200,7 @@
                                             </div>
                                             
                                             <div class="form-group mt-5">
-                                                <a href="/reminder/format.xlsx" class="btn col-lg-4 btn-primary btn-xs"> Download Format</a>
+                                                <a href="/reminder/format.xlsx" class="btn col-lg-4 btn-warning btn-xs"> Download Format</a>
                                                 <button class="btn col-lg-2 btn-primary btn-xs" type="submit"> Upload </button>
                                             </div>
                                         </form>

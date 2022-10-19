@@ -23,7 +23,7 @@ class ReminderController extends Controller
         $id = $request->id;
 
         return view("reminder.reminder_detail",[
-            "title" => "Data Reminder",
+            "title" => "Reminder Data",
             "detail" => Reminder::get_reminder_id($id),
         ]);
     }
@@ -31,7 +31,7 @@ class ReminderController extends Controller
         $id = $request->id;
 
         return view("reminder.reminder_detail_divisi",[
-            "title" => "Data Reminder",
+            "title" => "Reminder Data",
             "detail" => Reminder::get_reminder_id($id),
         ]);
     }
@@ -105,7 +105,7 @@ class ReminderController extends Controller
         
         return view("reminder.index", [
                 "reminder_data" => $data,
-                "title" => "Division Schedule"
+                "title" => "Time Schedule"
             ]);
     }
 }
