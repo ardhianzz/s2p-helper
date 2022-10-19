@@ -20,9 +20,10 @@
                         <div class="card-header d-flex justify-content-between">
                             <span>
                                 <button class="btn btn-dark text-light" data-toggle="modal" data-target="#buatPengumumanSlip" >Upload Data</button>
-                                {{-- <a href="#">
-                                    <button class="btn btn-info text-black"> <strong>Layout Slip</strong></button>
-                                </a> --}}
+                                <a href="/form/Detail%20Slip%20Gaji.xlsx">
+                                    <button class="btn btn-primary text-light" >Download From</button>
+                                </a>
+                                
                             </span>
                             <form>
                                 <input type="search" name="cari" value="{{ request()->cari }}" autocomplete="off">
