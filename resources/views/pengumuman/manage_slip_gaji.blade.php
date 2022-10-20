@@ -19,10 +19,10 @@
                     <div class="nav card">
                         <div class="card-header d-flex justify-content-between">
                             <span>
-                                <button class="btn btn-dark text-light" data-toggle="modal" data-target="#buatPengumumanSlip" >Upload Data</button>
                                 <a href="/form/Detail%20Slip%20Gaji.xlsx">
-                                    <button class="btn btn-primary text-light" >Download From</button>
+                                    <button class="btn btn-success text-light" >Form</button>
                                 </a>
+                                <button class="btn btn-primary text-light" data-toggle="modal" data-target="#buatPengumumanSlip" >Upload Data</button>
                                 
                             </span>
                             <form>
