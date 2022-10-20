@@ -26,11 +26,11 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <span>
-                                <button class="btn btn-dark text-light" data-toggle="modal" data-target="#uploadDataRekening" >Upload Data</button>
-                                <button class="btn btn-primary text-light" data-toggle="modal" data-target="#tambahDataRekening" >Tambah Data Manual</button>
                                 <a href="/form/Nomor%20Rekening.xlsx">
-                                    <button class="btn btn-primary text-light">Download Form</button>
+                                    <button class="btn btn-success text-light">Form</button>
                                 </a>
+                                <button class="btn btn-primary text-light" data-toggle="modal" data-target="#uploadDataRekening" >Upload Data</button>
+                                <button class="btn btn-info text-light" data-toggle="modal" data-target="#tambahDataRekening" >Tambah Data</button>
                             </span>
 
                             <span>

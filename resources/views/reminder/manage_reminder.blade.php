@@ -200,7 +200,7 @@
                                             </div>
                                             
                                             <div class="form-group mt-5">
-                                                <a href="/reminder/format.xlsx" class="btn col-lg-4 btn-warning btn-xs"> Download Format</a>
+                                                <a href="/reminder/format.xlsx" class="btn col-lg-2 btn-success btn-xs">Form</a>
                                                 <button class="btn col-lg-2 btn-primary btn-xs" type="submit"> Upload </button>
                                             </div>
                                         </form>

@@ -20,7 +20,7 @@
                         <div class="card-header d-flex justify-content-between">
                             {{-- <button class="btn btn-dark text-light" data-toggle="modal" data-target="#tambahPengajuanService" >Pengajuan Perbaikan</button> --}}
                             <a href="/pengumuman/manage_kebijakan/membuat_pengumuman_baru">
-                                <button class="btn btn-dark text-light">Pengumuman Baru</button>
+                                <button class="btn btn-success text-light">Pengumuman Baru</button>
                             </a>
 
 
