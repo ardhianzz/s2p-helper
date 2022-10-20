@@ -16,21 +16,18 @@ class ReminderImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Reminder([
-            'user_id' => Auth::user()->id,
+            'user_id'           => auth()->user()->id,
             'pegawai_divisi_id' => Pegawai::where('user_id', auth()->user()->id)->get()[0]->pegawai_divisi_id,
-            'jenis' => $row["type"],
-            'nama' => $row["subject"],
-            'from' => date("Y-m-d", (($row["validity_from_date"]-25569)*86400)),
-            'to' => date("Y-m-d", (($row["validity_to_date"]-25569)*86400)),
-            'tanggal_expired' => date("Y-m-d", (($row["expired_date"]-25569)*86400)),
+            'jenis'             => $row["type"],
+            'nama'              => $row["subject"],
+            'from'              => date("Y-m-d", (($row["validity_from_date"]-25569)*86400)),
+            'to'                => date("Y-m-d", (($row["validity_to_date"]-25569)*86400)),
+            'tanggal_expired'   => date("Y-m-d", (($row["expired_date"]-25569)*86400)),
             'tanggal_pengingat' => date("Y-m-d", (($row["reminder_date"]-25569)*86400)),
-            'email' => $row["email"],
-            'keterangan' => $row["description"],
-            'created_at' => now(),
-            'updated_at' => now(),
-            // 'tanggal' => date("Y-m-d", (($row["date"]-25569)*86400)),
-            // 'jam_masuk' => date("H:i:s", (($row["check_in"]-25569)*86400)),
-            // 'jam_pulang' => date("H:i:s", (($row["check_out"]-25569)*86400)),
+            'email'             => $row["email"],
+            'keterangan'        => $row["description"],
+            'created_at'        => now(),
+            'updated_at'        => now(),
         ]);
     }
 }
