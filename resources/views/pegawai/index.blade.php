@@ -15,7 +15,7 @@
                         <div class="navbar box-header">
                           
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Tambah Data Pegawai</a>
-                            <form method="get" action="/pegawai">
+                            <form method="get" action="/pegawai/{{ request()->lokasi }}">
                               <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
                               <button class="btn btn-primary" type="submit">Search</button>
                             </form>
@@ -25,12 +25,15 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                               <tr>
-                                <th scope="col">NIK</th>
+                                <th scope="col">NPK</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Divisi</th>
                                 <th scope="col">Jabatan</th>
-                                <th scope="col">Password</th>
+                                <th scope="col">Lokasi</th>
+                                @if (isJakarta())
+                                  <th scope="col">Password</th>
+                                @endif
                               </tr>
                             </thead>
                             <tbody>
@@ -39,19 +42,30 @@
                             @foreach ($pegawai as $p)    
                                 <tr>
                                     <th scope="row">
-                                        <a href="/pegawai/{{ $p->nik }}">
-                                            {{ $p->nik }}
+                                      @if (isAdminCilacap())
+                                          {{ $p->nik }}
+                                      @endif
+
+                                      @if (isJakarta())
+                                        <a href="/pegawai/{{ request()->lokasi }}/{{ $p->nik }}">
+                                          {{ $p->nik }}
                                         </a>
+                                      @endif
+                                      
                                     </th>
                                     <th scope="col">{{ $p->nama }}</th>
                                     <th scope="col">{{ $p->email }}</th>
                                     <th scope="col">{{ $p->divisi }}</th>
                                     <th scope="col">{{ $p->jabatan }}</th>
-                                    <th scope="col">
-                                        <a href="#" data-toggle="modal" data-target="#reset{{ $p->id }}">
-                                            Edit
-                                        </a>
-                                    </th>
+                                    <th scope="col">{{ $p->lokasi }}</th>
+
+                                    @if (isJakarta())    
+                                      <th scope="col">
+                                          <a href="#" data-toggle="modal" data-target="#reset{{ $p->id }}">
+                                              Edit
+                                          </a>
+                                      </th>
+                                    @endif
 
                                     <div class="modal fade" id="reset{{ $p->id }}" tabindex="-1" role="dialog" aria-labelledby="reset{{ $p->id }}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -119,7 +133,7 @@
             <form action="/pegawai" method="post">
               @csrf
                 <div class="form-group mb-3">
-                    <label for="nik" class='mb-2'>NIK</label>
+                    <label for="nik" class='mb-2'>NPK</label>
                     <input type="text" class="form-control" 
                            name="nik" placeholder="contoh : '23324J' " 
                            value="{{ old('nik') }}" required>
@@ -155,6 +169,15 @@
                         @endforeach
                       </select>    
                 </div>
+
+                {{-- <div class="form-group mb-3">
+                  <label for="nama" class='mb-2'>Lokasi</label>
+                  <select class="form-control custom-select" name="lokasi" required>
+                      @foreach ($lokasi as $p)
+                          <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                      @endforeach
+                    </select>    
+                </div> --}}
 
                 <div class="form-group mb-3">
                     <label for="password" class='mb-2'>Password</label>

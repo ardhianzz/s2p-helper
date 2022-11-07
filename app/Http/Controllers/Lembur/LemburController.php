@@ -536,6 +536,7 @@ class LemburController extends Controller
     
     public function index(Request $request)
     {
+        isCilacap();
         if($this->cek_akses(auth()->user()->id) == "Undefined"){
             abort(403);
         }

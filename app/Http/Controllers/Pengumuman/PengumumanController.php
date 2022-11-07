@@ -17,6 +17,9 @@ use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiJenisPembayaran;
 use App\Models\Pegawai\PegawaiNomorRekening;
 use App\Models\Pegawai\PegawaiPenggunaanNomorRekening;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -27,6 +30,47 @@ use PegawaiPengunaanNomorRekening;
 
 class PengumumanController extends Controller
 {
+
+    public function export_pdf( Request $request){
+        $this->its_me($request->nik);
+
+        $data = DB::table("p_slip_gaji_detail")
+                        ->where("id", $request->id)
+                        ->where("p_slip_gaji_detail.nik", $request->nik)
+                        ->get();
+
+        $pegawai = Pegawai::where("nik", $request->nik)->first();
+
+        if(count($data) == 0){ return abort(404); }
+
+        $dataupdate['has_opened'] = date("Y-m-d H:i:s");
+        $dataupdate['updated_at'] = date("Y-m-d H:i:s");
+
+        PSlipGajiDetail::where("id", $request->id)->where("nik", $request->nik)->update($dataupdate);
+
+        $no_rekening = PegawaiNomorRekening::join("pegawai_penggunaan_nomor_rekening", "pegawai_nomor_rekening.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id")
+                            ->where("nik", $request->nik)
+                            ->where("pegawai_jenis_pembayaran_id", 1)
+                            ->get();
+        
+        if(count($no_rekening) == 0){
+            $no_rekening = null;
+        }
+        
+        $data = [
+            "subtitle" => "Pengumuman : Preview Slip Gaji",
+            "data" => $data,
+            "pegawai" => $pegawai,
+            "no_rekening" => $no_rekening,
+        ];
+
+        $pdf = Pdf::loadView("pengumuman.pdf", $data)->output();
+        return response()->streamDownload(
+            fn () => print($pdf),
+            "filename.pdf"
+        );
+    }
+
     public function tambah_manual_penggunaan_rekening(Request $request){
         $data['nik'] = $request->nik;
         $data['nama_bank'] = $request->nama_bank;

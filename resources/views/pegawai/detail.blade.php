@@ -35,7 +35,7 @@
                             @csrf
                             @method('put')
                             <div class="form-group row mb-3">
-                              <label for="nik" class="col-sm-2 col-form-label">NIK</label>
+                              <label for="nik" class="col-sm-2 col-form-label">NPK</label>
                               <div class="col-sm-10">
                                 <input type="text" class="form-control" name="nik" value="{{ $pegawai[0]->nik }}">
                               </div>
@@ -78,6 +78,32 @@
                                       </option>
                                   @endforeach
                                 </select>
+                              </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
+                              <label for="divisi" class="col-sm-2 col-form-label">Lokasi</label>
+                              <div class="col-sm-10">
+
+                                @if (isAdminCilacap())
+                                  <select class="form-control custom-select" disabled>
+                                    @foreach ($lokasi as $p)
+                                        <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
+                                          {{ $p->nama }}
+                                        </option>
+                                    @endforeach
+                                  </select>
+                                @endif
+
+                                  @if(isJakarta())
+                                    <select class="form-control custom-select" name="pegawai_lokasi_id">
+                                      @foreach ($lokasi as $p)
+                                          <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
+                                            {{ $p->nama }}
+                                          </option>
+                                      @endforeach
+                                    </select>
+                                  @endif
                               </div>
                             </div>
 

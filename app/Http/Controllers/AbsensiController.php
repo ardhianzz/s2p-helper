@@ -107,6 +107,7 @@ class AbsensiController extends Controller
 
     public function index()
     {
+        isCilacap();
         if($this->cek_akses(auth()->user()->id) == "Undefined"){
             abort(403);
         }

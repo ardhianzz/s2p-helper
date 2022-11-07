@@ -2,6 +2,7 @@
 
 
 @section('container')
+
         <div class="container-fluid px-4">
             <h1 class="mt-4">{{ $title }} : {{ $pegawai[0]->nik }}</h1>
             <ol class="breadcrumb mb-4">
@@ -38,7 +39,7 @@
                             @csrf
                             @method('put')
                             <div class="form-group row mb-3">
-                              <label for="nik" class="col-sm-2 col-form-label">NIK</label>
+                              <label for="nik" class="col-sm-2 col-form-label">NPK</label>
                               <div class="col-sm-10">
                                 <input type="text" class="form-control" name="nik" value="{{ $pegawai[0]->nik }}">
                               </div>
@@ -85,6 +86,19 @@
                             </div>
 
                             <div class="form-group row mb-3">
+                              <label for="divisi" class="col-sm-2 col-form-label">Lokasi</label>
+                              <div class="col-sm-10">
+                                <select class="form-control custom-select" disabled>
+                                  @foreach ($lokasi as $p)
+                                      <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
+                                        {{ $p->nama }}
+                                      </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
                               <label for="foto" class="col-sm-2 col-from-label">Foto</label>
                               <div class="col-sm-10">
                                 <input type="file" class="form-control custom-file-input">
@@ -114,17 +128,18 @@
             </div>
         </div>
 
-        @if(session()->has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
-      @endif
-      @if(session()->has('error'))
-        <div class="alert alert-danger" role="alert">
-          {{ session('error') }}
-        </div>
-      @endif
 
+{{-- Script Allert --}}
+@if(session()->has('success'))
+  <div class="alert alert-success" role="alert">
+      {{ session('success') }}
+  </div>
+@endif
+@if(session()->has('error'))
+  <div class="alert alert-danger" role="alert">
+    {{ session('error') }}
+  </div>
+@endif
 
       <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="reset" aria-hidden="true">
         <div class="modal-dialog" role="document">

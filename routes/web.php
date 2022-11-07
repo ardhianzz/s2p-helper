@@ -100,6 +100,7 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/pengumuman/slip_gaji/{nik}', [PengumumanController::class, "pengumuman_slip_gaji"]);
     Route::get('/pengumuman/kebijakan/{nik}', [PengumumanController::class, "pengumuman_kebijakan"]);
     Route::get('/pengumuman/slip_gaji/{nik}/{id}', [PengumumanController::class, "pengumuman_slip_gaji_detail"]);
+    Route::get('/pengumuman/slip_gaji/{nik}/{id}/export_pdf', [PengumumanController::class, "export_pdf"]);
     //pengumuman/slip_gaji
     
     ///pengumuman/manage_nomor_rekening/tambah_nomor_rekenig
@@ -195,9 +196,8 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::post('absensi/pengajuan_dari_tanggal', [AbsensiController::class, "proses_catatan_lembur"]);
 
     //Route::group(['middleware' => ["pegawai"]], function(){
-        Route::get('/pegawai', [UserController::class, 'index']);
-        Route::get('/pegawai/{nik}', [UserController::class, 'detail']);
-        Route::get('/hak_akses', [UserController::class, 'hak_akses']);
+       
+        Route::get('/hak_akses/{param}', [UserController::class, 'hak_akses']);
         Route::post('/hak_akses_put', [UserController::class, 'hak_akses_put']);
         Route::post('/hak_akses_put2', [UserController::class, 'hak_akses_put2']);
         Route::get('/divisi', [UserController::class, 'divisi']);
@@ -210,6 +210,8 @@ Route::group(['middleware' => ["auth"]], function(){
         Route::put('/pegawai', [UserController::class, 'pegawai_put']);
         Route::put('/pegawai/reset', [UserController::class, 'reset_password']);
         Route::get('/profile/{id}', [UserController::class, 'profile_pegawai']);
+        Route::get('/pegawai/{lokasi}', [UserController::class, 'index']);
+        Route::get('/pegawai/{lokasi}/{nik}', [UserController::class, 'detail']);
     //});
 
 });
