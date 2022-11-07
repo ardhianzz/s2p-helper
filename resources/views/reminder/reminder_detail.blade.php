@@ -74,6 +74,28 @@
                                     @endforeach
                                 </tr>
                                 <tr>
+                                    <td> <b>Email</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if ($d->email_2 == null)
+                                            <td> - </td>
+                                        @else
+                                            <td> {{ $d->email_2 }} </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td> <b>Email</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if ($d->email_3 == null)
+                                            <td> - </td>
+                                        @else
+                                            <td> {{ $d->email_3 }} </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
                                     <td> <b>Description</b> </td>
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
@@ -155,6 +177,14 @@
                         <div class="form-group mb-4">
                             <h5 for="email" class="mb-2">Email *</h5>
                             <input type="text" name="email" class="form-control" value="{{ $d->email }}">
+                        </div>
+                        <div class="form-group mb-4">
+                            <h5 for="email" class="mb-2">Email</h5>
+                            <input type="text" name="email_2" class="form-control" value="{{ $d->email_2 }}">
+                        </div>
+                        <div class="form-group mb-4">
+                            <h5 for="email" class="mb-2">Email</h5>
+                            <input type="text" name="email_3" class="form-control" value="{{ $d->email_3 }}">
                         </div>
                         <div class="form-group mb-4">
                             <h5 for="keterangan" class="mb-2">Description *</h5>

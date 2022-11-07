@@ -159,6 +159,12 @@
                                             <div class="form-group mb-4">
                                                 <label for="email" class="mb-2"><b>Email *</b></label>
                                                 <input type="text" name="email" class="form-control" placeholder="example@ssprimadaya.co.id" required>
+                                            </div><div class="form-group mb-4">
+                                                <label for="email" class="mb-2"><b>Email </b></label> <small>(Optional)</small>
+                                                <input type="text" name="email_2" class="form-control" placeholder="example@ssprimadaya.co.id" >
+                                            </div><div class="form-group mb-4">
+                                                <label for="email" class="mb-2"><b>Email </b></label> <small>(Optional)</small>
+                                                <input type="text" name="email_3" class="form-control" placeholder="example@ssprimadaya.co.id" >
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="keterangan" class="mb-2"><b>Description *</b></label>

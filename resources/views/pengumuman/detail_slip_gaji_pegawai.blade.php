@@ -89,6 +89,10 @@
                                                     <a href="/pengumuman/slip_gaji/{{ $i->nik }}/{{ $i->id }}" target="_blank">
                                                         <button class="btn btn-sm btn-primary">Open New Tab</button>
                                                     </a>
+                                                    <a href="/pengumuman/slip_gaji/{{ $i->nik }}/{{ $i->id }}/export_pdf" 
+                                                        class="btn btn-sm btn-success">
+                                                        Save As PDF
+                                                    </a>
                                                     <a href="{{ request()->url() }}">
                                                         <button class="btn btn-sm btn-warning">Close</button>
                                                     </a>

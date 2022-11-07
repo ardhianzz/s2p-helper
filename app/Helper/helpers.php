@@ -1,9 +1,33 @@
 <?php
 
+use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\User;
+
+
+function isJakarta(){
+    $lokasi_id= Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+    if($lokasi_id == 1){
+        return true;
+    }
+    return false;
+}
+
+function isCilacap(){
+    $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+    if($lokasi_id == 2){
+        return abort(403); 
+    }
+}
+
+function isAdminCilacap(){
+    $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+    if($lokasi_id == 2){
+        return true; 
+    } return false;
+}
 
 function peruntukan_rekening($id, $rek_id=0){
     $nik = DB::table("pegawai")->where("user_id", $id)->get()[0]->nik;

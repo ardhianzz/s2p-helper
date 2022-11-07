@@ -51,12 +51,43 @@ class SendReminderEmail extends Command
         for($i=0; $i<$jumlah; $i++){
             $id = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->id;
             $untuk = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email;   
-            $this->sendEmail(Reminder::where("id",$id)->get(), $untuk);
+            $untuk2 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_3;   
+
+            $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
+            // $a = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null;   
+            // $b = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null;  
+            // $c = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
+            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == !null;  
+            // dd($a, $b, $c);
             // dd($untuk);
         }
     }
 
-    private function sendEmail($reminders, $untuk){
-        Mail::to($untuk)->send(new ReminderEmail($reminders));
+    private function sendEmail($reminders, $untuk, $untuk2, $untuk3){
+        if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null ) 
+            {
+            Mail::to($untuk)->send(new ReminderEmail($reminders));
+            }
+        if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null ) 
+            {
+            Mail::to($untuk2)->send(new ReminderEmail($reminders));
+            }
+        if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
+            Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == !null ) 
+            {
+            Mail::to($untuk3)->send(new ReminderEmail($reminders));
+            }
+        
     }
 }

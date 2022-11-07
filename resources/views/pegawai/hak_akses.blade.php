@@ -17,10 +17,11 @@
                             data-target="#exampleModalCenter">Tambah Hak Akses User</a>
 
                             
-                                <form method="get" action="hak_akses">
-                                  <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
-                                  <button class="btn btn-primary" type="submit">Search</button>
-                                </form>
+                              <form method="get" action="/hak_akses/{{ request()->param }}">
+                            
+                                <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                              </form>
                             
                         </div>
                       <div class="box-body table-respon">

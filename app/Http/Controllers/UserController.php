@@ -23,6 +23,7 @@ class UserController extends Controller
             'divisi' => Pegawai::get_divisi(),
             'pegawai' => Pegawai::get_profile($id),
             'jabatan' => Pegawai::get_jabatan(),
+            'lokasi' => Pegawai::get_lokasi(),
         ]);
     }
 
@@ -44,6 +45,7 @@ class UserController extends Controller
         $data['nama'] = $request->nama;
         $data['pegawai_jabatan_id'] = $request->pegawai_jabatan_id;
         $data['pegawai_divisi_id'] = $request->pegawai_divisi_id;
+        $data['pegawai_lokasi_id'] = $request->pegawai_lokasi_id;
         //$data['email'] = $request->email;
 
         $user['email'] = $request->email;
@@ -53,9 +55,9 @@ class UserController extends Controller
         $validate2 = DB::table('users')->where($id)->update($user);
 
         if($validate1 || $validate2){
-            return redirect('/pegawai')->with('success', "Data berhasil dirubah");
+            return back()->with('success', "Data berhasil dirubah");
         }else{
-            return redirect('/pegawai')->with('error', "Data gagal dirubah");
+            return back()->with('error', "Data gagal dirubah");
         }
     }
 
@@ -65,9 +67,14 @@ class UserController extends Controller
         $data['nama'] = $request->nama;
         $data['pegawai_jabatan_id'] = $request->jabatan;
         $data['pegawai_divisi_id'] = $request->divisi;
+        
         $data['created_at'] = now();
         $data['updated_at'] = now();
-        
+
+        $data['pegawai_lokasi_id'] = 1;
+        if(isJakarta() == false){
+            $data['pegawai_lokasi_id'] = 2;
+        }
 
         $user['password'] = bcrypt($request->password);
         $user['email'] = $request->email;
@@ -84,13 +91,13 @@ class UserController extends Controller
                 for($i=1; $i <= count(DB::table("modul")->get()); $i++){
                     DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 4]);
                 }
-                return redirect('/pegawai')->with('success', "Data berhasil di input");
+                return back()->with('success', "Data berhasil di input");
             }else{
                 DB::table('users')->where("id", "=", $data['user_id'])->delete();
-                return redirect('/pegawai')->with('error', "Data ".$data['nik']." Sudah tersedia");
+                return back()->with('error', "Data ".$data['nik']." Sudah tersedia");
             }
         }else{
-            return redirect('/pegawai')->with('error', "Data ".$data['nik']." Sudah tersedia");
+            return back()->with('error', "Data ".$data['nik']." Sudah tersedia");
         }
     }
 
@@ -165,12 +172,24 @@ class UserController extends Controller
         }
     }
 
-    public function detail($nik){
+    public function detail($nik, Request $request){
+        
+        $lokasi = $request->lokasi;
+
+        if($lokasi == "jakarta"){
+            $data_detail = Pegawai::get_detail($request->nik);
+        }
+
+        if($lokasi == "cilacap"){
+            $data_detail = Pegawai::get_detail_cilacap($request->nik);
+        }
+        
         return view("pegawai.detail",[
             "title" => "Detail",
             'divisi' => Pegawai::get_divisi(),
-            'pegawai' => Pegawai::get_detail($nik),
+            'pegawai' => $data_detail,
             'jabatan' => Pegawai::get_jabatan(),
+            'lokasi' => Pegawai::get_lokasi(),
         ]);
     }
 
@@ -187,6 +206,8 @@ class UserController extends Controller
         $data['user_id'] = $request->user_id;
         $data['modul_id'] = $request->modul_id;
         $data['pegawai_level_user_id'] = $request->level_id;
+        $data['created_at'] = now();
+        $data['updated_at'] = now();
 
         $validate = DB::table('pegawai_hak_akses')
                 ->where("user_id", $request->user_id)
@@ -203,6 +224,30 @@ class UserController extends Controller
     }
 
     public function hak_akses(Request $request){
+        $parameter = $request->param;
+
+        if($parameter == "administrator"){
+            $data_hak_akses = Pegawai::hak_akses_cari_administrator($request->cari);
+        }
+
+        if($parameter == "hrd"){
+            $data_hak_akses = Pegawai::hak_akses_cari_hrd($request->cari);
+        }
+
+        if($parameter == "approver"){
+            $data_hak_akses = Pegawai::hak_akses_cari_approver($request->cari);
+        }
+
+        if($parameter == "user_jakarta"){
+            $data_hak_akses = Pegawai::hak_akses_cari_userJ($request->cari);
+        }
+
+        if($parameter == "user_cilacap"){
+            $data_hak_akses = Pegawai::hak_akses_cari_userC($request->cari);
+        }
+
+
+        isCilacap();
         $this->cek_akses(auth()->user()->id);
 
         if($request->cari){
@@ -213,7 +258,7 @@ class UserController extends Controller
 
         return view("pegawai.hak_akses",[
             'title'   => "Manageman Hak Akses",
-            'hak_akses' => Pegawai::hak_akses_cari($request->cari),
+            'hak_akses' => $data_hak_akses,
             'pegawai' => Pegawai::get(),
             'modul' => Pegawai::get_modul(),
             'level' => Pegawai::get_level(),
@@ -238,15 +283,37 @@ class UserController extends Controller
     }
 
 
-    public function index(Request $request){
-        $this->cek_akses(auth()->user()->id);
+    // public function indexCilacap(Request $request){
+    //     $this->cek_akses(auth()->user()->id);
         
+
+    //     return view('pegawai.indexCilacap', 
+    //         [   'title' => "Pegawai",
+    //             'divisi' => Pegawai::get_divisi(),
+    //             'jabatan' => Pegawai::get_jabatan(),
+    //             'lokasi' => Pegawai::get_lokasi(),
+    //             'pegawai' =>  Pegawai::get_pegawai_cari_cilacap($request->cari),
+    //     ]);
+    // }
+
+    public function index(Request $request){
+        $lokasi = $request->lokasi;
+        $this->cek_akses(auth()->user()->id);
+
+        if ($lokasi == "jakarta" ){
+            $data_pegawai = Pegawai::get_pegawai_cari($request->cari);
+        }
+
+        if ($lokasi == "cilacap" ){
+            $data_pegawai = Pegawai::get_pegawai_cari_cilacap($request->cari);
+        }        
 
         return view('pegawai.index', 
             [   'title' => "Pegawai",
                 'divisi' => Pegawai::get_divisi(),
                 'jabatan' => Pegawai::get_jabatan(),
-                'pegawai' =>  Pegawai::get_pegawai_cari($request->cari),
+                'lokasi' => Pegawai::get_lokasi(),
+                'pegawai' =>  $data_pegawai,
         ]);
     }
 

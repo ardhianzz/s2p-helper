@@ -45,6 +45,8 @@ class ReminderController extends Controller
         $data['tanggal_expired'] = $request->tanggal_expired;
         $data['tanggal_pengingat'] = $request->tanggal_pengingat;
         $data['email'] = $request->email;
+        $data['email_2'] = $request->email_2;
+        $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
         $data['updated_at'] = now();
 
@@ -73,6 +75,8 @@ class ReminderController extends Controller
         $data['tanggal_expired'] = $request->tanggal_expired;
         $data['tanggal_pengingat'] = $request->tanggal_pengingat;
         $data['email'] = $request->email;
+        $data['email_2'] = $request->email_2;
+        $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
         $data['created_at'] = now();
         $data['updated_at'] = now();

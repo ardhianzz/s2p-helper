@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Psr7\Request as Psr7Request;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 

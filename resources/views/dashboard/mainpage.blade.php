@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>S2P Office Helper</title>
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <title>S2P App</title>
+    <link rel="shortcut icon" href="/img/new.ico">
     <!-- Bootstrap core CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
     <div class="row d-flex justify-content-center">
       <div class="card-deck mb-12 text-center">
         
-
+        
         @if(DB::table("modul")->where("id", 1)->get()[0]->keterangan == "Aktif")
           @can("pegawaiHrd")
             <div class="card mb-4 box-shadow">
@@ -62,7 +62,7 @@
                 <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
               </div>
               <div class="card-body">
-                <a href="/pegawai">
+                <a href="/pegawai/jakarta">
                     <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
                 </a>
               </div>
@@ -75,42 +75,126 @@
                 <h4 class="my-0 font-weight-normal">Managemen Pegawai</h4>
               </div>
               <div class="card-body">
-                <a href="/pegawai">
+                <a href="/pegawai/jakarta">
                     <span class="material-icons" style="font-size: 190px;"> manage_accounts </span>
                 </a>
               </div>
             </div>
           @endcan
         @endif
+        
+        @if(isJakarta())
+          @if(DB::table("modul")->where("id", 3)->get()[0]->keterangan == "Aktif")
+              @can("lemburUser")
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/lembur">
+                    <span class="material-icons" style="font-size: 190px;">access_time</span>
+                  </a>
+                </div>
+              </div>
+              @endcan
 
+              @can("pegawaiAdmin")
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/lembur">
+                    <span class="material-icons" style="font-size: 190px;">access_time</span>
+                  </a>
+                </div>
+              </div>
+              @endcan
 
-        @if(DB::table("modul")->where("id", 3)->get()[0]->keterangan == "Aktif")
-        <div class="card mb-4 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
-          </div>
-          <div class="card-body">
-            <a href="/lembur">
-              <span class="material-icons" style="font-size: 190px;">access_time</span>
-            </a>
-          </div>
-        </div>
+              @can("pegawaiHrd")
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/lembur">
+                    <span class="material-icons" style="font-size: 190px;">access_time</span>
+                  </a>
+                </div>
+              </div>
+              @endcan
+
+              @can("pegawaiApprove")
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Pengajuan Lembur</h4>
+                </div>
+                <div class="card-body">
+                  <a href="/lembur">
+                    <span class="material-icons" style="font-size: 190px;">access_time</span>
+                  </a>
+                </div>
+              </div>
+              @endcan
+          @endif
         @endif
 
         
         
+        @if(isJakarta())
+          @if(DB::table("modul")->where("id", 2)->get()[0]->keterangan == "Aktif")
+              @can("lemburUser")
+                <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+                  </div>
+                  <div class="card-body">
+                    <a href="/absen">
+                      <span class="material-icons" style="font-size: 190px;">co_present</span>
+                    </a>
+                  </div>
+                </div>
+              @endcan
 
-        @if(DB::table("modul")->where("id", 2)->get()[0]->keterangan == "Aktif")
-          <div class="card mb-4 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
-            </div>
-            <div class="card-body">
-              <a href="/absen">
-                <span class="material-icons" style="font-size: 190px;">co_present</span>
-              </a>
-            </div>
-          </div>
+              @can("pegawaiAdmin")
+                <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+                  </div>
+                  <div class="card-body">
+                    <a href="/absen">
+                      <span class="material-icons" style="font-size: 190px;">co_present</span>
+                    </a>
+                  </div>
+                </div>
+              @endcan
+
+              @can("pegawaiHrd")
+                <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+                  </div>
+                  <div class="card-body">
+                    <a href="/absen">
+                      <span class="material-icons" style="font-size: 190px;">co_present</span>
+                    </a>
+                  </div>
+                </div>
+              @endcan
+
+              @can("pegawaiApprove")
+                <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Presensi & Absensi</h4>
+                  </div>
+                  <div class="card-body">
+                    <a href="/absen">
+                      <span class="material-icons" style="font-size: 190px;">co_present</span>
+                    </a>
+                  </div>
+                </div>
+              @endcan
+          @endif
         @endif
         
         
@@ -170,7 +254,7 @@
                   {{ total_pengumuman(auth()->user()->id) }}
                 </span>
               @endif
-              <h4 class="my-0 font-weight-normal">Informasi & Pengumuman</h4>
+              <h4 class="my-0 font-weight-normal">Pengumuman & Slip Gaji</h4>
               </div>
               <div class="card-body">
                 <a href="/pengumuman">

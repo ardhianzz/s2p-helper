@@ -73,6 +73,28 @@
                                     @endforeach
                                 </tr>
                                 <tr>
+                                    <td> <b>Email</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if ($d->email_2 == null)
+                                            <td> - </td>
+                                        @else
+                                            <td> {{ $d->email_2 }} </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td> <b>Email</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if ($d->email_3 == null)
+                                            <td> - </td>
+                                        @else
+                                            <td> {{ $d->email_3 }} </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                <tr>
                                     <td> <b>Description</b> </td>
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $d)

@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
             Gate::define("lemburHrd",      function(){ return $this->cek_modul_lembur() == 2 ; });
             Gate::define("lemburApprove",  function(){ return $this->cek_modul_lembur() == 3 ; });
             Gate::define("lemburUser",  function(){ return $this->cek_modul_lembur() == 4 ; });
+            Gate::define("lemburUser_Cilacap",  function(){ return $this->cek_modul_lembur() == 5 ; });
 
             Gate::define("assetAdmin",    function(){ return $this->cek_modul_asset() == 1 ; });
             Gate::define("assetHrd",      function(){ return $this->cek_modul_asset() == 2 ; });
