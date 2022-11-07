@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>S2P APP</title>
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <title>S2P App</title>
+    <link rel="shortcut icon" href="/img/new.ico">
     <!-- Bootstrap core CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
