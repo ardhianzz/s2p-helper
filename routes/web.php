@@ -7,6 +7,7 @@ use App\Http\Controllers\SppdController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Asset\KendaraanController;
+use App\Http\Controllers\MailLoginController;
 use App\Http\Controllers\Pengumuman\PengumumanController;
 use App\Http\Controllers\Reminder\ReminderController;
 use App\Models\Absensi;
@@ -71,8 +72,8 @@ Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 
 Route::group(['middleware' => ["auth"]], function(){
-    
-    
+
+
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
     Route::get('/main2', [DashboardController::class, "index2"]);
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);

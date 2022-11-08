@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Pegawai;
+use App\Mail\notif_login;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -23,8 +28,18 @@ class LoginController extends Controller
             //$request->session()->put($id);
             // session("nomor_id");
 
-
+            $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
+            $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
             $request->session()->regenerate();
+            $details = [
+                'title' => 'Notifikasi Keamanan',
+                'IP' => $data_ip,
+                'waktu' => $data_waktu,
+                ];
+               
+                Mail::to($request->email)->send(new notif_login($details));
+               
+                // dd("$data_ip");
             return redirect()->intended("/main");
         }
         return back()->with("LoginError", "Login Failed");
