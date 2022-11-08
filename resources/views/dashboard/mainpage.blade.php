@@ -54,7 +54,6 @@
     <div class="row d-flex justify-content-center">
       <div class="card-deck mb-12 text-center">
         
-        
         @if(DB::table("modul")->where("id", 1)->get()[0]->keterangan == "Aktif")
           @can("pegawaiHrd")
             <div class="card mb-4 box-shadow">

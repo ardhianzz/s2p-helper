@@ -67,7 +67,7 @@ class PengumumanController extends Controller
         $pdf = Pdf::loadView("pengumuman.pdf", $data)->output();
         return response()->streamDownload(
             fn () => print($pdf),
-            "filename.pdf"
+            "Laporan_Slip_Gaji.pdf"
         );
     }
 
