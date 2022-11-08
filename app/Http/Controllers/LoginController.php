@@ -30,19 +30,20 @@ class LoginController extends Controller
 
             $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
             $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
-            $check = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
-            $ip = trim(shell_exec("curl https://ifconfig.co"));
+            $check = geoip()->getLocation(trim(shell_exec("curl https://ifconfig.co")));
+            // $ip = trim(shell_exec("curl https://ifconfig.co"));
             $agent = request()->header('user-agent');
             $request->session()->regenerate();
             $details = [
                 'title' => 'Notifikasi Keamanan',
-                'IP' => $data_ip,
+                'ip_local' => $data_ip,
                 'waktu' => $data_waktu,
-                'check' => $check,
+                'ip_public' => $check,
+                'user_agent' => $agent,
                 ];
                
-                // Mail::to($request->email)->send(new notif_login($details));
-                dd($agent);
+                Mail::to($request->email)->send(new notif_login($details));
+                // dd($check);
 
                 
             return redirect()->intended("/main");

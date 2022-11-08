@@ -28,16 +28,24 @@
 
     <table>
         <tr>
-            <td style="width: 250px" class="judul"> <b> Alamat IP </b> </td> 
-            <td> {{ $details['IP'] }}</td>
+            <td style="width: 250px" class="judul"> <b> Alamat IP Local </b> </td> 
+            <td> {{ $details['ip_local'] }}</td>
+        </tr>
+        <tr>
+            <td style="width: 250px" class="judul"> <b> Alamat IP Public </b> </td> 
+            <td> {{ $details['ip_public']->ip }}</td>
+        </tr>
+        <tr>
+            <td style="width: 250px" class="judul"> <b> User Agent </b> </td> 
+            <td> {{ $details['user_agent'] }}</td>
         </tr>
         <tr>
             <td style="width: 250px" class="judul"> <b> Kota </b> </td> 
-            <td> {{ $details['check']->city }}</td>
+            <td> {{ $details['ip_public']->city }}</td>
         </tr>
         <tr>
             <td style="width: 250px" class="judul"> <b> Negara </b> </td> 
-            <td> {{ $details['check']->country }}</td>
+            <td> {{ $details['ip_public']->country }}</td>
         </tr>
     </table>
    

@@ -40,13 +40,17 @@ class UserController extends Controller
 
         $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
         $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
-        $check = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+        $check = geoip()->getLocation(trim(shell_exec("curl https://ifconfig.co")));
+        // $ip = trim(shell_exec("curl https://ifconfig.co"));
+        $agent = request()->header('user-agent');
         $email = DB::table("users")->where("id", auth()->user()->id)->get()[0]->email;
+
         $reset = [
             'title' => 'Notifikasi Keamanan',
-            'IP' => $data_ip,
+            'ip_local' => $data_ip,
             'waktu' => $data_waktu,
-            'check' => $check,
+            'ip_public' => $check,
+            'user_agent' => $agent,
             ];
 
             Mail::to($email)->send(new notif_reset_password($reset));
