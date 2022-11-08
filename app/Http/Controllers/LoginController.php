@@ -31,6 +31,8 @@ class LoginController extends Controller
             $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
             $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
             $check = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+            $test = trim(shell_exec("dig +short myip.opendns.com @resolverl.opendns.com"));
+            // $test = $request->getClientIp();
             $request->session()->regenerate();
             $details = [
                 'title' => 'Notifikasi Keamanan',
@@ -39,8 +41,8 @@ class LoginController extends Controller
                 'check' => $check,
                 ];
                
-                Mail::to($request->email)->send(new notif_login($details));
-                // dd($check);
+                // Mail::to($request->email)->send(new notif_login($details));
+                dd($test);
                 
             return redirect()->intended("/main");
         }
