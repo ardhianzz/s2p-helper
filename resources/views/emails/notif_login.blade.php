@@ -29,7 +29,7 @@
     <table>
         <tr>
             <td style="width: 250px" class="judul"> <b> Alamat IP </b> </td> 
-            <td> {{ $details['check']->ip }}</td>
+            <td> {{ $details['IP'] }}</td>
         </tr>
         <tr>
             <td style="width: 250px" class="judul"> <b> Kota </b> </td> 
