@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\notif_reset_password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Pegawai\Pegawai;
-
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -36,6 +37,19 @@ class UserController extends Controller
             return back()->with('error', "Password yang anda masukan tidak sama");
         } 
         DB::table('users')->where($id)->update($data);
+
+        $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
+        $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
+        $check = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
+        $email = DB::table("users")->where("id", auth()->user()->id)->get()[0]->email;
+        $reset = [
+            'title' => 'Notifikasi Keamanan',
+            'IP' => $data_ip,
+            'waktu' => $data_waktu,
+            'check' => $check,
+            ];
+
+            Mail::to($email)->send(new notif_reset_password($reset));
         return back()->with('success', "Data berhasil dirubah");
     }
 

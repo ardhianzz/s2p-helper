@@ -30,16 +30,18 @@ class LoginController extends Controller
 
             $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
             $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
+            $check = geoip()->getLocation($_SERVER['REMOTE_ADDR']);
             $request->session()->regenerate();
             $details = [
                 'title' => 'Notifikasi Keamanan',
                 'IP' => $data_ip,
                 'waktu' => $data_waktu,
+                'check' => $check,
                 ];
                
                 Mail::to($request->email)->send(new notif_login($details));
-               
-                // dd("$data_ip");
+                // dd($check);
+                
             return redirect()->intended("/main");
         }
         return back()->with("LoginError", "Login Failed");

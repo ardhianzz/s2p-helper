@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $details['title'] }}</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+        .judul {
+            background-color: #363b36;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <p> Anda Baru Saja Login dengan Alamat IP {{ $details['IP'] }} </p>
-    <p> Jika bukan Anda yang memberikan akses, sebaiknya periksa aktivitas ini dan segera beritahu Tim IT </p>
+    <h3> Anda Baru Saja Login </h3>
+    <p> Jika bukan Anda yang memberikan akses, sebaiknya periksa aktivitas ini dan segera beritahu Tim IT. </p>
+
+    <p>Berikut Data Login Anda : </p>
+
+    <table>
+        <tr>
+            <td style="width: 250px" class="judul"> <b> Alamat IP </b> </td> 
+            <td> {{ $details['check']->ip }}</td>
+        </tr>
+        <tr>
+            <td style="width: 250px" class="judul"> <b> Kota </b> </td> 
+            <td> {{ $details['check']->city }}</td>
+        </tr>
+        <tr>
+            <td style="width: 250px" class="judul"> <b> Negara </b> </td> 
+            <td> {{ $details['check']->country }}</td>
+        </tr>
+    </table>
    
-    <p>Thank you</p>
+    <p>Salam,
+        <br>
+        <br>
+        <br>
+    IT Support
+    </p>
 </body>
 </html>
