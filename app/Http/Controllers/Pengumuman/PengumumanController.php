@@ -422,8 +422,10 @@ class PengumumanController extends Controller
 
     public function simpan_penguman_baru(Request $request){
         $this->is_admin(auth()->user()->id);
+
         $data['nama'] = $request->nama;
         $data['keterangan'] = $request->keterangan;
+        $data['lokasi'] = $request->lokasi;
         $data['status'] = "Belum Diumumkan";
         $data['created_at'] = date("Y-m-d H:i:s");
         $data['updated_at'] = date("Y-m-d H:i:s");
@@ -471,29 +473,49 @@ class PengumumanController extends Controller
             "title" => "Managemen Pengumuman",
             "sub_title" => "Membuat Pengumuman - PT Sumber Segara Primadaya",
             "hak_akses" => $this->cek_akses(auth()->user()->id),
+            "lokasi" => Pegawai::get_lokasi(),
         ]);
     }
 
     public function pengumuman_kebijakan(Request $request){
         $this->its_me($request->nik);
 
-        $semua_pengumuan = PPengumuman::where("status", "=","Diumumkan")
+        // $semua_pengumuan = PPengumuman::where("status", "=","Diumumkan")
+        //                                 ->where("keterangan", "like", "%".$request->cari."%")
+        //                                 ->where("lokasi", "=", "Semua")
+        //                                 ->orderBy("p_pengumuman.id", "desc")->paginate(10);
+
+        $jakarta = PPengumuman::where("status", "=","Diumumkan")
                                         ->where("keterangan", "like", "%".$request->cari."%")
+                                        ->where("lokasi", "=", "Jakarta")
+                                        ->orWhere("lokasi", "=", "Semua")
+                                        ->orderBy("p_pengumuman.id", "desc")->paginate(10);
+
+        $cilacap = PPengumuman::where("status", "=","Diumumkan")
+                                        ->where("keterangan", "like", "%".$request->cari."%")
+                                        ->where("lokasi", "=", "Cilacap")
+                                        ->orWhere("lokasi", "=", "Semua")
                                         ->orderBy("p_pengumuman.id", "desc")->paginate(10);
 
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
+            $lokasi = DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
             
             $data['p_pengumuman_id'] = $request->previewID;
             $data['user_id'] = auth()->user()->id;
+            $data['lokasi'] = $lokasi;
             $data['created_at'] = date("Y-m-d H:i:s");
             $data['updated_at'] = date("Y-m-d H:i:s");
-            if(PPengumumanRiwayat::where("user_id", $data['user_id'])->where("p_pengumuman_id", $data['p_pengumuman_id'])->count() == 0){
+            if(PPengumumanRiwayat::where("user_id", $data['user_id'])
+                                    ->where("p_pengumuman_id", $data['p_pengumuman_id'])
+                                    ->where("lokasi", $data['lokasi'])
+                                    ->count() == 0){
                 PPengumumanRiwayat::create($data);
             }else{
                 PPengumumanRiwayat::where("user_id", $data['user_id'])
                                     ->where("p_pengumuman_id", $data['p_pengumuman_id'])
+                                    ->where("lokasi", $data['lokasi'])
                                     ->update(["updated_at" => $data['updated_at']]);
             }
         }
@@ -501,7 +523,9 @@ class PengumumanController extends Controller
         return view("pengumuman.pengumuman_kebijakan", [
             "title" => "Pengumuman Kebijakan Perusahaan",
             "sub_title" => "Pengumuman - PT Sumber Segara Primadaya",
-            "pengumuman" => $semua_pengumuan,
+            // "pengumuman" => $semua_pengumuan,
+            "pengumuman_jkt" => $jakarta,
+            "pengumuman_clcp" => $cilacap,
             "hak_akses" => $this->cek_akses(auth()->user()->id),
             "dokumen" => $dokumen,
         ]);
@@ -524,7 +548,7 @@ class PengumumanController extends Controller
         if($request->type == "takedown"){
             $data['status'] = "Belum Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
-                return back()->with('success', 'Publish Pengumuman Berhasil');
+                return back()->with('success', 'Takedown Pengumuman Berhasil');
             }else{
                 return back()->with('error', 'proses gagal');
             }
@@ -539,18 +563,30 @@ class PengumumanController extends Controller
 
 
         $semua_pengumuan = PPengumuman::where("nama", "like", "%".$request->cari."%")
-                                        ->orWhere("keterangan", "like", "%".$request->cari."%")
+                                        ->where("lokasi", "=", "Semua")
+                                        ->orWhere("lokasi", "=", "Cilacap")
+                                        ->Where("keterangan", "like", "%".$request->cari."%")
                                         ->orderBy("id", "desc")->paginate(10);
+
+         $all = PPengumuman::where("nama", "like", "%".$request->cari."%")
+                                        ->Where("keterangan", "like", "%".$request->cari."%")
+                                        ->orderBy("id", "desc")->paginate(10);
+
+        // dd($semua_pengumuan);
 
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
         }
 
+        // dd($dokumen);
+
         return view("pengumuman.manage_kebijakan", [
             "title" => "Managemen Pengumuman",
             "sub_title" => "Managemen Pengumuman - PT Sumber Segara Primadaya",
             "pengumuman" => $semua_pengumuan,
+            "pengumuman_jkt" => $all,
+            // "pengumuman_clcp" => $pengumuman_clcp,
             "hak_akses" => $this->cek_akses(auth()->user()->id),
             "dokumen" => $dokumen,
         ]);
@@ -567,7 +603,7 @@ class PengumumanController extends Controller
         $infoGaji = $this->gaji_belum_dibuka($nik);
         
         //Pengumuman Kebijakan yang belum dibuka
-        $pengumuman = $this->pengumuman_belum_dibuka(auth()->user()->id);
+        $pengumuman = pengumuman_belum_dibuka(auth()->user()->id);
         
 
         return view("pengumuman.index",[

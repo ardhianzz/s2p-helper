@@ -37,6 +37,7 @@
                                             <tr>
                                                 <td width="50px">No</td>
                                                 <td>Nama</td>
+                                                <td>Lokasi Pengumuman</td>
                                                 @if(request()->previewID == null) 
                                                     <td>Deskripsi / Keterangan</td> 
                                                     <td>Status</td> 
@@ -45,136 +46,177 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($pengumuman as $i)    
-                                                <tr>
-                                                    <td>{{ $loop->index + $pengumuman->firstItem() }}</td>
-                                                    <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
-                                                    @if(request()->previewID == null) 
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->status }} </a></td> 
-                                                    @endif
-                                                    <td>
-                                                        @if($i->status == "Belum Diumumkan") 
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#publish{{ $i->id }}">Publish</button>
+
+                                            @if(isJakarta())
+                                                @foreach ($pengumuman_jkt as $i)    
+                                                    <tr>
+                                                        <td>{{ $loop->index + $pengumuman_jkt->firstItem() }}</td>
+                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
+                                                        <td> {{ $i->lokasi }} </td>
+                                                        @if(request()->previewID == null) 
+                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
+                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->status }} </a></td> 
                                                         @endif
+                                                        <td>
+                                                            @if($i->status == "Belum Diumumkan") 
+                                                                <button class="btn btn-primary" data-toggle="modal" data-target="#publish{{ $i->id }}">Publish</button>
+                                                            @endif
 
-                                                        @if($i->status == "Diumumkan") 
-                                                            <button class="btn btn-warning" data-toggle="modal" data-target="#takedown{{ $i->id }}">Takedown</button>
-                                                        @endif
+                                                            @if($i->status == "Diumumkan") 
+                                                                <button class="btn btn-warning" data-toggle="modal" data-target="#takedown{{ $i->id }}">Takedown</button>
+                                                            @endif
 
-                                                    </td>
+                                                        </td>
 
-                                                    {{-- Modal Publish Pengumuman --}}
-                                                    <div class="modal fade" id="publish{{ $i->id }}" tabindex="-1" role="dialog"
-                                                    aria-labelledby="uploaddata"
-                                                    aria-hidden="true">
-                        
-                                                        <div class="modal-dialog modal-lg" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="publish{{ $i->id }}">Publish Pengumuman</h5>
-                                                                        <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
-                                                                        @csrf
-                                                                        <p>
-                                                                            <strong>{{ $i->nama }}</strong> <br>
-                                                                            {{ $i->keterangan }}
-                                                                        </p>
-                                                                        <br>
-                                                                        <input type="hidden" name="type" value="publish">
-                                                                        <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
-                                                                        <button type="submit" class="btn btn-primary"> Publish</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {{-- <div class="modal fade" id="publish{{ $i->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">@csrf
-                                                            <div class="modal-header">
-                                                            <h5 class="modal-title" id="publish{{ $i->id }}">Publish Pengumuman</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            </div>
-                                            
-                                                                <p>
-                                                                    <strong>{{ $i->nama }}</strong> <br>
-                                                                    {{ $i->keterangan }}
-                                                                </p>
-                                                                <hr>
-                                                                <input type="hidden" name="type" value="publish">
-                                                                <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
-                                                                <button type="submit" class="btn btn-primary"> Publish</button>
-                                                            </form>
-                                                        </div>
-                                                        </div>
-                                                    </div> --}}
-
-                                                    {{-- Modal Takedown Pengumuman --}}
-
-                                                    <div class="modal fade" id="takedown{{ $i->id }}" tabindex="-1" role="dialog"
+                                                        {{-- Modal Publish Pengumuman --}}
+                                                        <div class="modal fade" id="publish{{ $i->id }}" tabindex="-1" role="dialog"
                                                         aria-labelledby="uploaddata"
                                                         aria-hidden="true">
                             
-                                                        <div class="modal-dialog modal-lg" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="takedown{{ $i->id }}">Publish Pengumuman</h5>
-                                                                        <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
-                                                                        @csrf
-                                                                        <p>
-                                                                            <strong>{{ $i->nama }}</strong> <br>
-                                                                            {{ $i->keterangan }}
-                                                                        </p>
-                                                                        <br>
-                                                                        <input type="hidden" name="type" value="takedown">
-                                                                        <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
-                                                                        <button type="submit" class="btn btn-warning"> Takedown</button>
-                                                                    </form>
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="publish{{ $i->id }}">Publish Pengumuman</h5>
+                                                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
+                                                                            @csrf
+                                                                            <p>
+                                                                                <strong>{{ $i->nama }}</strong> <br>
+                                                                                {{ $i->keterangan }}
+                                                                            </p>
+                                                                            <br>
+                                                                            <input type="hidden" name="type" value="publish">
+                                                                            <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
+                                                                            <button type="submit" class="btn btn-primary"> Publish</button>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    {{-- <div class="modal fade" id="takedown{{ $i->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                            <h5 class="modal-title" id="takedown{{ $i->id }}">Takedown Pengumuman</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
+                                                        {{-- Modal Takedown Pengumuman --}}
+
+                                                        <div class="modal fade" id="takedown{{ $i->id }}" tabindex="-1" role="dialog"
+                                                            aria-labelledby="uploaddata"
+                                                            aria-hidden="true">
+                                
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="takedown{{ $i->id }}">Publish Pengumuman</h5>
+                                                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
+                                                                            @csrf
+                                                                            <p>
+                                                                                <strong>{{ $i->nama }}</strong> <br>
+                                                                                {{ $i->keterangan }}
+                                                                            </p>
+                                                                            <br>
+                                                                            <input type="hidden" name="type" value="takedown">
+                                                                            <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
+                                                                            <button type="submit" class="btn btn-warning"> Takedown</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                            
-                                                            <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">@csrf
-                                                                <p>
-                                                                    <strong>{{ $i->nama }}</strong> <br>
-                                                                    {{ $i->keterangan }}
-                                                                </p>
-                                                                <hr>
-                                                                <input type="hidden" name="type" value="takedown">
-                                                                <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
-                                                                <button type="submit" class="btn btn-warning"> Takedown</button>
-                                                            </form>
                                                         </div>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
+                                            @if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
+                                                @foreach ($pengumuman as $i)    
+                                                    <tr>
+                                                        <td>{{ $loop->index + $pengumuman->firstItem() }}</td>
+                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
+                                                        <td> {{ $i->lokasi }} </td>
+                                                        @if(request()->previewID == null) 
+                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
+                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->status }} </a></td> 
+                                                        @endif
+                                                        <td>
+                                                            @if($i->status == "Belum Diumumkan") 
+                                                                <button class="btn btn-primary" data-toggle="modal" data-target="#publish{{ $i->id }}">Publish</button>
+                                                            @endif
+
+                                                            @if($i->status == "Diumumkan") 
+                                                                <button class="btn btn-warning" data-toggle="modal" data-target="#takedown{{ $i->id }}">Takedown</button>
+                                                            @endif
+
+                                                        </td>
+
+                                                        {{-- Modal Publish Pengumuman --}}
+                                                        <div class="modal fade" id="publish{{ $i->id }}" tabindex="-1" role="dialog"
+                                                        aria-labelledby="uploaddata"
+                                                        aria-hidden="true">
+                            
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="publish{{ $i->id }}">Publish Pengumuman</h5>
+                                                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
+                                                                            @csrf
+                                                                            <p>
+                                                                                <strong>{{ $i->nama }}</strong> <br>
+                                                                                {{ $i->keterangan }}
+                                                                            </p>
+                                                                            <br>
+                                                                            <input type="hidden" name="type" value="publish">
+                                                                            <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
+                                                                            <button type="submit" class="btn btn-primary"> Publish</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div> --}}
-                                                
-                                                </tr>
-                                            @endforeach
+
+                                                        {{-- Modal Takedown Pengumuman --}}
+
+                                                        <div class="modal fade" id="takedown{{ $i->id }}" tabindex="-1" role="dialog"
+                                                            aria-labelledby="uploaddata"
+                                                            aria-hidden="true">
+                                
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="takedown{{ $i->id }}">Publish Pengumuman</h5>
+                                                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="/pengumuman/manage_kebijakan/aksi_publish_pengumuman" method="POST">
+                                                                            @csrf
+                                                                            <p>
+                                                                                <strong>{{ $i->nama }}</strong> <br>
+                                                                                {{ $i->keterangan }}
+                                                                            </p>
+                                                                            <br>
+                                                                            <input type="hidden" name="type" value="takedown">
+                                                                            <input type="hidden" name="publish_pengumuman" value="{{ $i->id }}">
+                                                                            <button type="submit" class="btn btn-warning"> Takedown</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -205,7 +247,7 @@
                                     </div>
                                 </div>
                                 @endif
-
+                                
                             </div>
                             
                         </div>

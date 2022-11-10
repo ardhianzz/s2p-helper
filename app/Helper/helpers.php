@@ -102,13 +102,41 @@ function total_pengumuman($user_id){
 }
 
 function pengumuman_belum_dibuka($user_id){
-    //Jumlah pengumuma yang publish
-    $total_pengumuman = PPengumuman::where("status", "Diumumkan")->count();
+    //Jumlah pengumuman yang publish di Jakarta
+    $total_pengumuman = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Jakarta")->count();
+
+    //Jumlah pengumuman yang publish di Cilacap
+    $total_pengumuman_clcp = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Cilacap")->count();
+    
+    //Jumlah pengumuman yang publish di Semua Lokasi
+    $total_pengumuman_semua = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Semua")->count();
 
     //jumlah pengumuman yang sudah dibuka
     $total_dibuka = PPengumumanRiwayat::where("user_id", $user_id)->count();
 
-    return $total_pengumuman-$total_dibuka;
+    //Jika Ada Pengumuman untuk All Lokasi
+    if (PPengumuman::where("lokasi", "Semua")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1){
+            return $total_pengumuman_semua+$total_pengumuman-$total_dibuka;
+        }
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2){
+            return $total_pengumuman_semua+$total_pengumuman_clcp-$total_dibuka;
+        }
+    }
+
+    //Jika Ada Pengumuman untuk Lokasi Jakarta
+    if (PPengumuman::where("lokasi", "Jakarta")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1){
+            return $total_pengumuman-$total_dibuka;
+        }
+    }
+
+    //Jika Ada Pengumuman untuk Lokasi Cilacap
+    if (PPengumuman::where("lokasi", "Cilacap")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2){
+            return $total_pengumuman_clcp-$total_dibuka;
+        }
+    }
 }
 
 function gaji_belum_dibuka($user_id){

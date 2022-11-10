@@ -30,7 +30,7 @@
             @if($hak_akses == "Administrator HRD" || $hak_akses == "Administrator")
                 <a class="nav-link {{ Request::is('pengumuman/manage_kebijakan*') ? 'active' : ''}}" href="/pengumuman/manage_kebijakan">
                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                    Manage Penguman
+                    Manage Pengumuman
                 </a>
                 <a class="nav-link {{ Request::is('pengumuman/manage_slip_gaji*') ? 'active' : ''}}" href="/pengumuman/manage_slip_gaji">
                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
