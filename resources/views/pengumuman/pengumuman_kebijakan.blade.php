@@ -40,7 +40,9 @@
                                         </thead>
                                         <tbody>
 
-                                            @if(DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
+                                            @if(DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
+                                            {{-- dd(DB::table("Pegawai")->where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1); --}}
+
                                                 @foreach ($pengumuman_jkt as $i)
                                                 <div hidden>
                                                     {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
@@ -62,7 +64,7 @@
                                                 @endforeach
                                             @endif
 
-                                            @if(DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
+                                            @if(DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
                                                 @foreach ($pengumuman_clcp as $i)
                                                 <div hidden>
                                                     {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
@@ -88,10 +90,10 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="4">
-                                                    @if(DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
+                                                    @if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
                                                         {{ $pengumuman_jkt->withQueryString()->links() }}
                                                     @endif
-                                                    @if(DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
+                                                    @if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
                                                         {{ $pengumuman_clcp->withQueryString()->links() }}
                                                 @endif
                                                 </td>
