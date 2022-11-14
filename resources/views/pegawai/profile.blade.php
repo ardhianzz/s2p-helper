@@ -88,7 +88,7 @@
                             <div class="form-group row mb-3">
                               <label for="divisi" class="col-sm-2 col-form-label">Lokasi</label>
                               <div class="col-sm-10">
-                                <select class="form-control custom-select" disabled>
+                                <select class="form-control custom-select" name="pegawai_lokasi_id" disabled>
                                   @foreach ($lokasi as $p)
                                       <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
                                         {{ $p->nama }}

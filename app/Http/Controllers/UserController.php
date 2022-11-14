@@ -58,12 +58,20 @@ class UserController extends Controller
     }
 
     public function pegawai_put(Request $request){
+
+        $lokasi = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
         $pegawai['id'] = $request->id;
         $data['nik'] = $request->nik;
         $data['nama'] = $request->nama;
         $data['pegawai_jabatan_id'] = $request->pegawai_jabatan_id;
         $data['pegawai_divisi_id'] = $request->pegawai_divisi_id;
-        $data['pegawai_lokasi_id'] = $request->pegawai_lokasi_id;
+
+        if ($lokasi == 1){
+            $data['pegawai_lokasi_id'] = "1";
+        }
+        if ($lokasi == 2){
+            $data['pegawai_lokasi_id'] = "2";
+        }
         //$data['email'] = $request->email;
 
         $user['email'] = $request->email;
