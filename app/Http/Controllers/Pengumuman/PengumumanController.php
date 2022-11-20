@@ -521,7 +521,7 @@ class PengumumanController extends Controller
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
-            $lokasi = DB::table("Pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+            $lokasi = DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
             
             $data['p_pengumuman_id'] = $request->previewID;
             $data['user_id'] = auth()->user()->id;
