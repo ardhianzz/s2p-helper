@@ -3,6 +3,18 @@
 @include('pengumuman.sidebar.menu')
 
 @section('container')
+
+@if(session()->has('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+@if(session()->has('error'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('error') }}
+    </div>
+@endif
+
         <style>
             a{
                 text-decoration: none;
@@ -35,12 +47,8 @@
 
                             <span>
                                 <form>
-                                    <div>
-                                        <span class="d-flex">
-                                            <input type="search" name="cari" value="{{ request()->cari }}" class="form-control" autocomplete="off">
-                                            <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
-                                        </span>
-                                    </div>
+                                    <input type="search" name="cari" value="{{ request()->cari }}" autocomplete="off">
+                                    <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
                                 </form>
                             </span>
                         </div>
@@ -52,9 +60,14 @@
                                     <tr>
                                         <td width="20px">No</td>
                                         <td width="100px">Nama</td>
-                                        <td width="500px">Rekening</td>
-                                        <td>Penggunaan</td>
-                                        <td width="180px">Aksi</td>
+                                        <td width="250px">Rekening</td>
+                                        <td width="160px">Penggunaan</td>
+                                        @if("tombolHapus()" == null)
+                                            <td width="80px">Aksi</td>
+                                        @else 
+                                            <td width="20px">Aksi</td>
+                                        @endif
+
                                     </tr>
                                 </thead>
 
@@ -101,34 +114,48 @@
                                                     <span>
                                                         <button class="btn btn-sm btn-info"> 
                                                             {{ $data[$z]->nama }}
-                                                                <button class="btn btn-sm btn-warning" id="hapusPenggunaan{{ $data[$z]->id }}" onclick="toggleButton({{ $data[$z]->id }})"><strong>X</strong></button>
-                                                                
-                                                                <button hidden 
-                                                                        class="btn btn-sm btn-danger" 
-                                                                        id="hapusPenggunaanAksi{{ $data[$z]->id }}" 
-                                                                        onclick="toggleButtonAksi({{ $data[$z]->id }})">
-                                                                        <a href="?hapusPenggunaanNomorIni={{ $data[$z]->id }}">
-                                                                            <strong>X</strong>
-                                                                        </a>
-                                                                </button>
-                                                            
-                                                        </button>    
+                                                        </button>  
+
+                                                        <button class="btn btn-sm btn-danger" id="hapusPenggunaan{{ $data[$z]->id }}" onclick="toggleButton({{ $data[$z]->id }})">
+                                                            <strong>
+                                                                <i data-toogle="tooltip" data-placement="top" title="Hapus">-</i>
+                                                            </strong>
+                                                        </button>
+                                                        
+                                                        <button hidden 
+                                                                class="btn btn-sm btn-danger" 
+                                                                id="hapusPenggunaanAksi{{ $data[$z]->id }}" 
+                                                                onclick="toggleButtonAksi({{ $data[$z]->id }})">
+                                                                <a href="?hapusPenggunaanNomorIni={{ $data[$z]->id }}">
+                                                                    <strong>Hapus</strong>
+                                                                </a>
+                                                        </button>
+                                                        <button hidden class="btn btn-sm btn-success" id="hapusPenggunaanBatal{{ $data[$z]->id }}" onclick="toggleButtonBatal({{ $data[$z]->id }})">Batal</button>          
                                                     </span>
                                                 @endfor
-                                                <span><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add{{ $peg->id }}"><b>+</b></button></span>
+                                                <span>
+                                                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add{{ $peg->id }}"><b>+</b></button>
+                                                </span>
                                             </td>
 
                                             <td>
                                                 <span>
-                                                    <button class="btn btn-warning" id="tombolHapus{{ $peg->id }}" onclick="tombolHapus({{ $peg->id }})">Hapus</button>
-                                                    <form>
-                                                        <input type="hidden" name="hapus_rekening_id" value="{{ $peg->id }}">
-                                                        <button hidden class="btn btn-danger" type="submit" id="tombolHapusKonfirm{{ $peg->id }}">Hapus</button>
-                                                        <button hidden class="btn btn-success" id="tombolHapusBatal{{ $peg->id }}" onclick="tombolHapusBatal({{ $peg->id }})">Batal</button>
-                                                    </form>
+                                                    <button class="btn btn-sm btn-info" id="tombolHapus{{ $peg->id }}" onclick="tombolHapus({{ $peg->id }})">
+                                                        <i data-toogle="tooltip" data-placement="top" title="Hapus" class="fa fa-trash"></i>
+                                                        <form>
+                                                            <input type="hidden" name="hapus_rekening_id" value="{{ $peg->id }}">
+                                                            <button hidden class="btn btn-sm btn-danger" id="tombolHapusKonfirm{{ $peg->id }}">
+                                                            <strong>Hapus</strong> 
+                                                            </button>
+                                                        </form>
+                                                        <button hidden class="btn btn-sm btn-success" id="tombolHapusBatal{{ $peg->id }}" onclick="tombolHapusBatal({{ $peg->id }})">
+                                                        <strong>Batal</strong> 
+                                                        </button>
+                                                    </button>
                                                 </span>
                                             </td>
                                         </tr>
+
                                         {{-- Modal Penggunaan Rekening --}}
                                         <div class="modal fade" id="add{{ $peg->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -239,20 +266,28 @@
 
 
 <script>
+
+    function toggleButtonBatal(id){
+        document.getElementById("hapusPenggunaanBatal"+id).hidden = true;
+        document.getElementById("hapusPenggunaan"+id).hidden = false;
+        document.getElementById("hapusPenggunaanAksi"+id).hidden = true;
+    }
+
     function toggleButton(id){
+        document.getElementById("hapusPenggunaanBatal"+id).hidden = false;
         document.getElementById("hapusPenggunaan"+id).hidden = true;
         document.getElementById("hapusPenggunaanAksi"+id).hidden = false;
     }
 
     function toggleButtonAksi(id){
+        document.getElementById("hapusPenggunaanBatal"+id).hidden = false;
         document.getElementById("hapusPenggunaan"+id).hidden = false;
         document.getElementById("hapusPenggunaanAksi"+id).hidden = true;
     }
 
     function tombolHapusBatal(id){
-        
-        document.getElementById("tombolHapusBatal"+id).hidden = false;
-        document.getElementById("tombolHapus"+id).hidden = true;
+        document.getElementById("tombolHapusBatal"+id).hidden = true;
+        document.getElementById("tombolHapus"+id).hidden = false;
         document.getElementById("tombolHapusKonfirm"+id).hidden = true;
     }
 
@@ -268,15 +303,5 @@
     }
 </script>
 
-@if(session()->has('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-@endif
-@if(session()->has('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
-@endif
 @endsection
 

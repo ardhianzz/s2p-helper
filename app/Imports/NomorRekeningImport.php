@@ -14,7 +14,7 @@ class NomorRekeningImport implements ToModel, WithHeadingRow
     {
         return new PegawaiNomorRekening([
             //database => //slug row in exel
-            'nik' => $row["nik"],
+            'nik' => $row["npk"],
             'nama_bank' => $row["nama_bank"],
             'nama_akun' => $row["nama_akun"],
             'nomor_rekening' => $row["nomor_rekening"],

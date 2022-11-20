@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\SlipGajiImport;
 use App\Imports\NomorRekeningImport;
+use App\Mail\send_pengumuman;
 use App\Models\Pengumuman\PSlipGajiDetail;
 use App\Models\Pengumuman\PSlipGaji;
 use App\Models\Pengumuman\PPengumuman;
@@ -17,12 +18,14 @@ use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiJenisPembayaran;
 use App\Models\Pegawai\PegawaiNomorRekening;
 use App\Models\Pegawai\PegawaiPenggunaanNomorRekening;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use PegawaiPengunaanNomorRekening;
 
 //use App\Models\ManagemenKendaraan\AKendaraanDokumen;
@@ -201,18 +204,28 @@ class PengumumanController extends Controller
                                         "pegawai_nomor_rekening.nama_akun",
                                         "pegawai_nomor_rekening.nomor_rekening",
                                         )
+                                ->where("nama_akun", "like", "%".$request->cari."%")
                                 ->paginate(10);
 
-        return view("pengumuman.manage_nomor_rekening", [
-            "title" => "Nomor Rekening Pegawai",
-            "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
-            "pegawai" => Pegawai::get(["nik", "nama"]),
-            "pegawai2" => $pegawai2,
-            "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
-            "penggunaan" => PegawaiPenggunaanNomorRekening::get(),
-            "pembayaran" => PegawaiJenisPembayaran::get(),
-            "hak_akses" => $this->cek_akses(auth()->user()->id),
-        ]);
+
+        $lokasi = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+        $hak = $this->cek_akses(auth()->user()->id);
+        
+        if($lokasi == 2 || $hak != "Administrator HRD"){
+            return abort(403);
+        } else {
+            return view("pengumuman.manage_nomor_rekening", [
+                "title" => "Nomor Rekening Pegawai",
+                "sub_title" => "Nomor Rekening - PT Sumber Segara Primadaya",
+                "pegawai" => Pegawai::get(["nik", "nama"]),
+                "pegawai2" => $pegawai2,
+                "rekening" => PegawaiNomorRekening::where("nama_akun", "like", "%".$request->cari."%")->orderBy("nama_akun", "asc")->paginate(10),
+                "penggunaan" => PegawaiPenggunaanNomorRekening::get(),
+                "pembayaran" => PegawaiJenisPembayaran::get(),
+                "hak_akses" => $this->cek_akses(auth()->user()->id),
+            ]);
+        }
+
     }
 
     public function pengumuman_slip_gaji_detail(Request $request){
@@ -305,10 +318,10 @@ class PengumumanController extends Controller
 
         
         $no_rekening = PegawaiNomorRekening::join("pegawai_penggunaan_nomor_rekening", "pegawai_nomor_rekening.id", "=", "pegawai_penggunaan_nomor_rekening.pegawai_nomor_rekening_id")
-                            ->where("nik", $request->nik)
-                            ->where("pegawai_jenis_pembayaran_id", 1)
-                            ->get();
-        
+                                            ->where("nik", $request->nik)
+                                            ->where("pegawai_jenis_pembayaran_id", 1)
+                                            ->get();
+
         if(count($no_rekening) == 0){
             $no_rekening = null;
         }
@@ -406,16 +419,22 @@ class PengumumanController extends Controller
 
     public function manage_slip_gaji(Request $request){
         $this->is_admin(auth()->user()->id);
+        $lokasi = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+        $hak = $this->cek_akses(auth()->user()->id);
+
+        if($lokasi == 2 || $hak != "Administrator HRD"){
+            return abort(403);
+        } else {
+            return view("pengumuman.manage_slip_gaji", [
+                "title" => "Managemen Slip Gaji",
+                "sub_title" => "Managemen Laporan Pendapatan - PT Sumber Segara Primadaya",
+                "slip_gaji" => PSlipGaji::where("periode", "like", "%".$request->cari."%")->
+                                            orWhere("status", "like", "%".$request->cari."%")->
+                                            orderBy("created_at", "desc")->paginate(10),
+                "hak_akses" => $this->cek_akses(auth()->user()->id),
+            ]);
+        }
         
-        
-        return view("pengumuman.manage_slip_gaji", [
-            "title" => "Managemen Slip Gaji",
-            "sub_title" => "Managemen Laporan Pendapatan - PT Sumber Segara Primadaya",
-            "slip_gaji" => PSlipGaji::where("periode", "like", "%".$request->cari."%")->
-                                        orWhere("status", "like", "%".$request->cari."%")->
-                                        orderBy("created_at", "desc")->paginate(10),
-            "hak_akses" => $this->cek_akses(auth()->user()->id),
-        ]);
     }
 
 
@@ -485,18 +504,20 @@ class PengumumanController extends Controller
         //                                 ->where("lokasi", "=", "Semua")
         //                                 ->orderBy("p_pengumuman.id", "desc")->paginate(10);
 
-        $jakarta = PPengumuman::where("status", "=","Diumumkan")
-                                        ->where("keterangan", "like", "%".$request->cari."%")
-                                        ->where("lokasi", "=", "Jakarta")
-                                        ->orWhere("lokasi", "=", "Semua")
-                                        ->orderBy("p_pengumuman.id", "desc")->paginate(10);
+        // $jakarta = PPengumuman::where("status", "=","Diumumkan")
+        //                                 ->where("keterangan", "like", "%".$request->cari."%")
+        //                                 ->where("lokasi", "=", "Jakarta")
+        //                                 ->orWhere("lokasi", "=", "Semua")
+        //                                 ->orderBy("p_pengumuman.id", "desc")->paginate(10);
 
-        $cilacap = PPengumuman::where("status", "=","Diumumkan")
-                                        ->where("keterangan", "like", "%".$request->cari."%")
-                                        ->where("lokasi", "=", "Cilacap")
-                                        ->orWhere("lokasi", "=", "Semua")
-                                        ->orderBy("p_pengumuman.id", "desc")->paginate(10);
-
+        // $jakarta = PPengumuman::where("nama", "like", "%".$request->cari."%")
+        //                         ->where("status", "=","Diumumkan")
+        //                         ->where("lokasi", "=", "Jakarta")
+        //                         ->get();
+        $jakarta = PPengumuman::get_pengumuman_jakarta($request);
+        // dd($jakarta);
+        $cilacap = PPengumuman::get_pengumuman_cilacap($request);
+        
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
@@ -535,10 +556,18 @@ class PengumumanController extends Controller
 
     public function aksi_publish_pengumuman(Request $request){
         $data["updated_at"] = date("Y-m-d H:i:s");
+        $title      =  DB::table("p_pengumuman")->get()[0]->nama;
+        $keterangan =  DB::table("p_pengumuman")->get()[0]->keterangan;
+        $pengumuman = [
+            'title'      => $title,
+            'keterangan' => $keterangan,
+        ];
+        // $email = DB::table("users")->get("email");
         
         if($request->type == "publish"){
             $data['status'] = "Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
+                // Mail::to("support@ssprimadaya.co.id")->send(new send_pengumuman($pengumuman));
                 return back()->with('success', 'Publish Pengumuman Berhasil');
             }else{
                 return back()->with('error', 'proses gagal');
@@ -560,7 +589,7 @@ class PengumumanController extends Controller
 
     public function manage_kebijakan(Request $request){
         $this->is_admin(auth()->user()->id);
-
+        $hak = $this->cek_akses(auth()->user()->id);
 
         $semua_pengumuan = PPengumuman::where("nama", "like", "%".$request->cari."%")
                                         ->where("lokasi", "=", "Semua")
@@ -572,24 +601,25 @@ class PengumumanController extends Controller
                                         ->Where("keterangan", "like", "%".$request->cari."%")
                                         ->orderBy("id", "desc")->paginate(10);
 
-        // dd($semua_pengumuan);
-
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
         }
 
-        // dd($dokumen);
+        if ($hak != "Administrator HRD" ){
+            return abort(403);
+        } else {
+            return view("pengumuman.manage_kebijakan", [
+                "title" => "Managemen Pengumuman",
+                "sub_title" => "Managemen Pengumuman - PT Sumber Segara Primadaya",
+                "pengumuman" => $semua_pengumuan,
+                "pengumuman_jkt" => $all,
+                // "pengumuman_clcp" => $pengumuman_clcp,
+                "hak_akses" => $this->cek_akses(auth()->user()->id),
+                "dokumen" => $dokumen,
+            ]);    
+        }
 
-        return view("pengumuman.manage_kebijakan", [
-            "title" => "Managemen Pengumuman",
-            "sub_title" => "Managemen Pengumuman - PT Sumber Segara Primadaya",
-            "pengumuman" => $semua_pengumuan,
-            "pengumuman_jkt" => $all,
-            // "pengumuman_clcp" => $pengumuman_clcp,
-            "hak_akses" => $this->cek_akses(auth()->user()->id),
-            "dokumen" => $dokumen,
-        ]);
         
         
     }

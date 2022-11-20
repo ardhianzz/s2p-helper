@@ -93,7 +93,7 @@
                                         </div>
 
 
-                                        {{-- Modal Publish --}}
+                                        {{-- Modal Takedown --}}
                                         <div class="modal fade" id="takedown{{ $i->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                             <div class="modal-content">
@@ -118,7 +118,7 @@
                                         </div>
 
 
-                                        {{-- Modal Publish --}}
+                                        {{-- Modal Hapus --}}
                                         <div class="modal fade" id="hapus{{ $i->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                             <div class="modal-content">

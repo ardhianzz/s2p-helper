@@ -41,10 +41,18 @@ class LoginController extends Controller
                 'ip_public' => $check,
                 'user_agent' => $agent,
                 ];
-               
-                Mail::to($request->email)->send(new notif_login($details));
-                // dd($check);
+            
+            //Kirim Email Notifikasi Login
+            Mail::to($request->email)->send(new notif_login($details));
 
+            //insert aktifitas login
+            $s['user_id'] = Auth::user()->id;  
+            $s['ip_address'] = $data_ip;
+            $s['user_agent'] = $agent;
+            $s['last_activity'] = $data_waktu;
+            $s['ip_public'] = $check->ip;
+            $s['lokasi'] = $check->city;
+            DB::table("sessions")->insert($s);
                 
             return redirect()->intended("/main");
         }

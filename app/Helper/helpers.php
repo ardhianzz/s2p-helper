@@ -6,6 +6,21 @@ use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\User;
 
+function hrdcilacap(){
+    $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+    if ($lokasi_id == 2){
+        return false;
+    }
+    return true;
+}
+
+function hrd(){
+    $hak = DB::table("pegawai_hak_akses")->where("modul_id", 5)->where("user_id", auth()->user()->id)->get()[0]->pegawai_level_user_id;
+    if ($hak == 2){
+        return true;
+    } 
+    return false;
+}
 
 function isJakarta(){
     $lokasi_id= Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;

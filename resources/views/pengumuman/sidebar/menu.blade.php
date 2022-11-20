@@ -27,20 +27,22 @@
                 Slip Gaji
             </a>
 
-            @if($hak_akses == "Administrator HRD" || $hak_akses == "Administrator")
+            @if(hrd())
                 <a class="nav-link {{ Request::is('pengumuman/manage_kebijakan*') ? 'active' : ''}}" href="/pengumuman/manage_kebijakan">
                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Manage Pengumuman
                 </a>
-                <a class="nav-link {{ Request::is('pengumuman/manage_slip_gaji*') ? 'active' : ''}}" href="/pengumuman/manage_slip_gaji">
-                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                    Manage Slip Gaji
-                </a>
+                @if(hrdcilacap())
+                    <a class="nav-link {{ Request::is('pengumuman/manage_slip_gaji*') ? 'active' : ''}}" href="/pengumuman/manage_slip_gaji">
+                        <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                        Manage Slip Gaji
+                    </a>
 
-                <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekenig*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
-                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                    Manage Rekening Gaji
-                </a>
+                    <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekenig*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
+                        <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                        Manage Rekening Gaji
+                    </a>
+                @endif
             @endif
 
         </div>

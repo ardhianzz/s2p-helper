@@ -48,7 +48,7 @@ class ReminderController extends Controller
         $data['email_2'] = $request->email_2;
         $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
-        $data['updated_at'] = now();
+        $data['updated_at'] = now("asia/jakarta");
 
         if(DB::table("r_reminder_data")->where($id)->update($data)){
             return back()->with("success", "Perubahan Data Berhasil");
@@ -78,8 +78,8 @@ class ReminderController extends Controller
         $data['email_2'] = $request->email_2;
         $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
-        $data['created_at'] = now();
-        $data['updated_at'] = now();
+        $data['created_at'] = now("asia/jakarta");
+        $data['updated_at'] = now("asia/jakarta");
 
                 DB::table("r_reminder_data")->insert($data);     
                 return back()->with("success", "Penambahan Data Berhasil");
@@ -98,9 +98,10 @@ class ReminderController extends Controller
     public function index()
     {
         $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
-        $jabatan = DB::table("pegawai_jabatan")->where("id", $divisi_id)->get()[0]->nama;
+        $jabatan_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_jabatan_id;
+        $jabatan = DB::table("pegawai_jabatan")->where("id", $jabatan_id)->get()[0]->nama;
         
-        
+        // dd($jabatan);
         if($jabatan == "Direktur"){
             $data = Reminder::get();
         }else{

@@ -41,6 +41,8 @@
                                     @foreach ($detail as $d)
                                         @if ($d->from == null && $d->to == null)
                                             <td> - </td>
+                                        @elseif ($d->from == "1899-12-30" && $d->to == "1899-12-30" )
+                                            <td> - </td>
                                         @else
                                             <td>{{ tanggl_id(($d->from)) }} - {{ tanggl_id(($d->to)) }} </td>
                                         @endif
@@ -51,6 +53,8 @@
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
                                         @if ($d->tanggal_expired == null)
+                                            <td> - </td>
+                                        @elseif ($d->tanggal_expired == "1899-12-30" )
                                             <td> - </td>
                                         @else
                                             <td> {{ tanggl_id(($d->tanggal_expired)) }} </td>

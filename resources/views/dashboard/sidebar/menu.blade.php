@@ -9,6 +9,11 @@
                 Go Live Modul
             </a>
 
+            <a class="nav-link {{ Request::is('main/aktifitas*') ? 'active' : ''}}" href="/main/aktifitas">
+                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                Aktivitas
+            </a>
+
             {{-- <a class="nav-link {{ Request::is('main/mailler*') ? 'active' : ''}}" href="/main/mailler">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Pengaturan Email

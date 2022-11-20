@@ -25,6 +25,8 @@ class ReminderImport implements ToModel, WithHeadingRow
             'tanggal_expired'   => date("Y-m-d", (($row["expired_date"]-25569)*86400)),
             'tanggal_pengingat' => date("Y-m-d", (($row["reminder_date"]-25569)*86400)),
             'email'             => $row["email"],
+            'email_2'             => $row["email_2"],
+            'email_3'             => $row["email_3"],
             'keterangan'        => $row["description"],
             'created_at'        => now(),
             'updated_at'        => now(),

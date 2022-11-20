@@ -36,6 +36,10 @@
             <td> {{ $details['ip_public']->ip }}</td>
         </tr>
         <tr>
+            <td style="width: 250px" class="judul"> <b> Waktu </b> </td> 
+            <td> {{ $details['waktu'] }}</td>
+        </tr>
+        <tr>
             <td style="width: 250px" class="judul"> <b> User Agent </b> </td> 
             <td> {{ $details['user_agent'] }}</td>
         </tr>

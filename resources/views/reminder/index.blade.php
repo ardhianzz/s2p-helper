@@ -45,6 +45,8 @@
                                 <td>
                                     @if ($r->tanggal_expired == null)
                                         -
+                                    @elseif ($r->tanggal_expired == "1899-12-30")
+                                        -
                                     @else
                                     {{ tanggl_id(($r->tanggal_expired)) }}
                                     @endif

@@ -19,7 +19,9 @@ class CreateSessionsTable extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->text('payload');
-            $table->integer('last_activity')->index();
+            $table->string('last_activity', 30)->nullable();
+            $table->text('ip_public')->nullable();
+            $table->text('lokasi')->nullable();
         });
     }
 

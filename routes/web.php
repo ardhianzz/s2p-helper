@@ -77,6 +77,7 @@ Route::group(['middleware' => ["auth"]], function(){
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
     Route::get('/main2', [DashboardController::class, "index2"]);
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
+    Route::get('/main/aktifitas', [DashboardController::class, 'aktifitas']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
 
     Route::get('/reminder/dashboard',[ReminderController::class,'index']);
