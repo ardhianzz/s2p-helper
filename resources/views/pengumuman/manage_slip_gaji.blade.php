@@ -155,7 +155,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4">
+                                        <td colspan="3">
                                             {{ $slip_gaji->withQueryString()->links() }}
                                         </td>
                                     </tr>

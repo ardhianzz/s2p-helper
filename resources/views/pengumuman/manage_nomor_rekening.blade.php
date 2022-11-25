@@ -193,6 +193,11 @@
                                     @endforeach
                                    
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4"> {{ $rekening->withQueryString()->links() }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

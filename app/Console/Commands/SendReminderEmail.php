@@ -55,17 +55,6 @@ class SendReminderEmail extends Command
             $untuk3 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_3;   
 
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
-            // $a = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null;   
-            // $b = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null;  
-            // $c = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
-            //      Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == !null;  
-            // dd($a, $b, $c);
-            // dd($untuk);
         }
     }
 

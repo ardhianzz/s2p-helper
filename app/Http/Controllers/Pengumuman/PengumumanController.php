@@ -430,7 +430,7 @@ class PengumumanController extends Controller
                 "sub_title" => "Managemen Laporan Pendapatan - PT Sumber Segara Primadaya",
                 "slip_gaji" => PSlipGaji::where("periode", "like", "%".$request->cari."%")->
                                             orWhere("status", "like", "%".$request->cari."%")->
-                                            orderBy("created_at", "desc")->paginate(10),
+                                            orderBy("created_at", "desc")->paginate(5),
                 "hak_akses" => $this->cek_akses(auth()->user()->id),
             ]);
         }
@@ -486,7 +486,6 @@ class PengumumanController extends Controller
 
     public function membuat_pengumuman_baru(){
         $this->is_admin(auth()->user()->id);
-
 
         return view("pengumuman.form_pengumuman", [
             "title" => "Managemen Pengumuman",
@@ -555,20 +554,43 @@ class PengumumanController extends Controller
 
 
     public function aksi_publish_pengumuman(Request $request){
-        $data["updated_at"] = date("Y-m-d H:i:s");
-        $title      =  DB::table("p_pengumuman")->get()[0]->nama;
-        $keterangan =  DB::table("p_pengumuman")->get()[0]->keterangan;
-        $pengumuman = [
-            'title'      => $title,
-            'keterangan' => $keterangan,
-        ];
-        // $email = DB::table("users")->get("email");
-        
+        $data["updated_at"]     = date("Y-m-d H:i:s");
+        $title                  = DB::table("p_pengumuman")->where("id", $request->publish_pengumuman)->get()[0]->nama;
+        $keterangan             = DB::table("p_pengumuman")->where("id", $request->publish_pengumuman)->get()[0]->keterangan;
+        $email_all              = DB::table("users")->join("pegawai", "users.id", "=", "pegawai.user_id")
+                                                    ->select("users.username", "users.email", "pegawai.nama", "pegawai.pegawai_lokasi_id")
+                                                    // ->where("pegawai.user_id", "=", "6")
+                                                    ->get(); 
+        $email_jkt              = DB::table("users")->join("pegawai", "users.id", "=", "pegawai.user_id")
+                                                    ->select("users.username", "users.email", "pegawai.nama", "pegawai.pegawai_lokasi_id")
+                                                    ->where("pegawai.pegawai_lokasi_id", "=", "1")
+                                                    // ->where("pegawai.user_id", "=", "8")
+                                                    ->get();
+        $email_clcp             = DB::table("users")->join("pegawai", "users.id", "=", "pegawai.user_id")
+                                                    ->select("users.username", "users.email", "pegawai.nama", "pegawai.pegawai_lokasi_id")
+                                                    ->where("pegawai.pegawai_lokasi_id", "=", "2")
+                                                    // ->where("pegawai.user_id", "=", "7")
+                                                    ->get();
+        $pengumuman             = [ 'title'      => $title,
+                                    'keterangan' => $keterangan,
+                                ];
+        $lokasi                 = DB::table("p_pengumuman")->where("id", $request->publish_pengumuman)->get()[0]->lokasi;
+
         if($request->type == "publish"){
             $data['status'] = "Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
-                // Mail::to("support@ssprimadaya.co.id")->send(new send_pengumuman($pengumuman));
-                return back()->with('success', 'Publish Pengumuman Berhasil');
+                if($lokasi == "Jakarta"){
+                    Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
+                    return back()->with('success', 'Publish Pengumuman Berhasil');
+                } 
+                if($lokasi == "Cilacap") {
+                    Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
+                    return back()->with('success', 'Publish Pengumuman Berhasil');
+                }
+                if($lokasi == "Semua") {
+                    Mail::to($email_all)->send(new send_pengumuman($pengumuman));
+                    return back()->with('success', 'Publish Pengumuman Berhasil');
+                }
             }else{
                 return back()->with('error', 'proses gagal');
             }
@@ -590,6 +612,13 @@ class PengumumanController extends Controller
     public function manage_kebijakan(Request $request){
         $this->is_admin(auth()->user()->id);
         $hak = $this->cek_akses(auth()->user()->id);
+
+        // $email_jkt = DB::table("users")->join("pegawai", "users.id", "=", "pegawai.user_id")
+        //                                ->select("users.username", "users.email", "pegawai.nama", "pegawai.pegawai_lokasi_id")
+        //                                ->where("pegawai.pegawai_lokasi_id", "=", "1")
+        //                                ->where("pegawai.user_id", "=", "8")
+        //                                ->get();
+        // dd($email_jkt);
 
         $semua_pengumuan = PPengumuman::where("nama", "like", "%".$request->cari."%")
                                         ->where("lokasi", "=", "Semua")

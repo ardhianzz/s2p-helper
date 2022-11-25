@@ -2,10 +2,14 @@
 
 namespace App\Mail;
 
+use App\Models\Pengumuman\PPengumuman as PengumumanPPengumuman;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
+use PPengumuman;
 
 class send_pengumuman extends Mailable
 {
@@ -27,11 +31,29 @@ class send_pengumuman extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(Request $request)
     {
-        return $this->subject('Pengumuman')
-                    ->view('emails.send_pengumuman');
-                    // ->attach();
-        // return $this->view('view.name');
+        $isi = DB::table('p_pengumuman')->leftJoin("p_pengumuman_dokumen", "p_pengumuman.id", "=", "p_pengumuman_dokumen.p_pengumuman_id")
+                                        ->select("p_pengumuman.id", "p_pengumuman.nama", "p_pengumuman.keterangan", "p_pengumuman_dokumen.path")
+                                        ->where("p_pengumuman.id", $request->publish_pengumuman)
+                                        ->get()[0]->path;
+
+        $subject = DB::table('p_pengumuman')->leftJoin("p_pengumuman_dokumen", "p_pengumuman.id", "=", "p_pengumuman_dokumen.p_pengumuman_id")
+                                        ->select("p_pengumuman.id", "p_pengumuman.nama", "p_pengumuman.keterangan", "p_pengumuman_dokumen.path")
+                                        ->where("p_pengumuman.id", $request->publish_pengumuman)
+                                        ->get()[0]->nama;
+        if ($isi == null){
+            return $this->subject($subject)
+                        ->view('emails.send_pengumuman');
+        } 
+        else if ($isi != null ){
+            $id = DB::table("p_pengumuman")->where("id", $request->publish_pengumuman)->get()[0]->id;
+            $name1 = DB::table("p_pengumuman_dokumen")->where("p_pengumuman_id", $id)->get()[0]->path;
+            $path = public_path($name1);
+
+            return $this->subject($subject)
+                        ->view('emails.send_pengumuman_att')
+                        ->attach($path);
+        }
     }
 }

@@ -7,7 +7,7 @@
 </head>
 <body>
     <p>Yth. Bapak/Ibu, </p>
-    <p>Berikut Kami Sampaikan Pengumuman dengan Keterangan :</p>
+    <p>Berikut Terlampir Pengumuman dengan Keterangan :</p>
     <p>{{ $pengumuman['keterangan'] }}</p>
     <br>
     <p>Salam,</p>
