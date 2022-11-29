@@ -62,7 +62,15 @@
                                     {{ tanggl_id(($r->tanggal_expired)) }}
                                 @endif
                             </td>
-                            <td width="150px">{{ tanggl_id(($r->tanggal_pengingat)) }}</td>
+                            <td width="150px">
+                                @if($r->pengingat == "Month")
+                                {{ $r->tanggal_pengingat }}
+                                @elseif($r->pengingat == "Year") 
+                                {{ bulan(($r->tanggal_pengingat)) }}
+                                @elseif($r->pengingat == "One")
+                                {{ tanggl_id(($r->tanggal_pengingat)) }} 
+                                @endif
+                            </td>
                             <td width="100px">{{ $r->email }}</td>
                             <td width="100px">
                                 <a href="/reminder/manage_reminder/detail/{{ $r->id }}" class="btn btn-info btn-xs">
@@ -153,6 +161,15 @@
                                             <div class="form-group mb-4"> 
                                                 <label for="expired" class="mb-2"><b>Expired Date</b> </label> <small>(Optional)</small>
                                                 <input type="date" name="tanggal_expired" class="form-control">
+                                            </div>
+                                            <div class="form-group mb-4"> 
+                                                <label for="pengingat" class="mb-2"> <b>Reminder *</b> </label>
+                                                <select name="pengingat" class="form-control" required>
+                                                    <option value="">-- Select --</option>
+                                                    <option value="One">One Time</option>
+                                                    <option value="Year">Every Year</option>
+                                                    <option value="Month">Every Month</option>
+                                                </select>
                                             </div>
                                             <div class="form-group mb-4"> 
                                                 <label for="pengingat" class="mb-2"><b>Reminder Date *</b></label>

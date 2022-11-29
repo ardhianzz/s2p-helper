@@ -51,7 +51,14 @@
                                     {{ tanggl_id(($r->tanggal_expired)) }}
                                     @endif
                                 </td>
-                                <td>{{ tanggl_id(($r->tanggal_pengingat)) }}</td>
+                                <td>@if($r->pengingat == "Month")
+                                    {{ $r->tanggal_pengingat }}
+                                    @elseif($r->pengingat == "Year") 
+                                    {{ bulan(($r->tanggal_pengingat)) }}
+                                    @elseif($r->pengingat == "One")
+                                    {{ tanggl_id(($r->tanggal_pengingat)) }} 
+                                    @endif
+                                </td>
                                 <td>{{ $r->email }}</td>
                                 <td align="center">{{ $r->pegawai_divisi->nama }}</td>
                                 <td>{{ $r->user->pegawai->nama }}</td>

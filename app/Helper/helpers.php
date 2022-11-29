@@ -4,7 +4,9 @@ use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
+use App\Models\Reminder\Reminder;
 use App\Models\User;
+
 
 function hrdcilacap(){
     $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
@@ -173,6 +175,26 @@ function gaji_belum_dibuka($user_id){
     return $total-$sudahDibuka;
 }
 
+    function bulan($tanggal="01-01"){
+        $b = substr($tanggal, "0", "2");
+            switch ($b){
+                case "01" : $bulan = "Januari"; break;
+                case "02" : $bulan = "Februari"; break;
+                case "03" : $bulan = "Maret"; break;
+                case "04" : $bulan = "April"; break;
+                case "05" : $bulan = "Mei"; break;
+                case "06" : $bulan = "Juni"; break;
+                case "07" : $bulan = "Juli"; break;
+                case "08" : $bulan = "Agustus"; break;
+                case "09" : $bulan = "September"; break;
+                case "10" : $bulan = "Oktober"; break;
+                case "11" : $bulan = "November"; break;
+                case "12" : $bulan = "Desember"; break;
+            }
+        $hari = substr($tanggal, "3", "2");
+        return $bulan." ".$hari;
+
+    }
 
     function tanggl_id($tanggal="2022-01-01"){
         

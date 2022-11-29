@@ -46,13 +46,31 @@ class SendReminderEmail extends Command
         //ambil data reminder
        
 
-        $jumlah = Reminder::where("tanggal_pengingat", date("Y-m-d"))->count();
+        $jumlah_one = Reminder::where("tanggal_pengingat", date("Y-m-d"))->count();
+        $jumlah_month = Reminder::where("tanggal_pengingat", date("d"))->count();
+        $jumlah_year = Reminder::where("tanggal_pengingat", date("m-d"))->count();
 
-        for($i=0; $i<$jumlah; $i++){
+        for($i=0; $i<$jumlah_one; $i++){
             $id = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->id;
             $untuk = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email;   
             $untuk2 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_2;   
             $untuk3 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_3;   
+
+            $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
+        }
+        for($i=0; $i<$jumlah_month; $i++){
+            $id = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email;   
+            $untuk2 = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email_3;   
+
+            $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
+        }
+        for($i=0; $i<$jumlah_year; $i++){
+            $id = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email;   
+            $untuk2 = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email_3;   
 
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
         }
@@ -77,6 +95,5 @@ class SendReminderEmail extends Command
             {
             Mail::to($untuk3)->send(new ReminderEmail($reminders));
             }
-        
     }
 }

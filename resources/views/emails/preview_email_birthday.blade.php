@@ -42,7 +42,15 @@ Berikut kami sampaikan :
             <td class="judul"> <b>Reminder Date</b> </td>
             @foreach ($reminders as $d)
                 
-            <td> {{ tanggl_id(($d->tanggal_pengingat)) }} </td>
+            <td> 
+                @if($d->pengingat == "Month")
+                {{ $d->tanggal_pengingat }}
+                @elseif($d->pengingat == "Year") 
+                {{ bulan(($d->tanggal_pengingat)) }}
+                @elseif($d->pengingat == "One")
+                {{ tanggl_id(($d->tanggal_pengingat)) }} 
+                @endif
+            </td>
             @endforeach
         </tr>
         <tr>

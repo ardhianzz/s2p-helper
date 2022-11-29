@@ -8,6 +8,7 @@ use App\Imports\ReminderImport;
 use App\Models\Pegawai\Pegawai;
 use App\Models\Pegawai\PegawaiDivisi;
 use App\Models\Reminder\Reminder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,7 +74,16 @@ class ReminderController extends Controller
         $data['from'] = $request->from;
         $data['to'] = $request->to;
         $data['tanggal_expired'] = $request->tanggal_expired;
-        $data['tanggal_pengingat'] = $request->tanggal_pengingat;
+        $data['pengingat'] = $request->pengingat;
+        if($request->pengingat == "Month"){
+            $data['tanggal_pengingat'] = Carbon::createFromFormat('Y-m-d', $request->tanggal_pengingat )->format("d");
+        }
+        if($request->pengingat == "Year"){
+            $data['tanggal_pengingat'] = Carbon::createFromFormat('Y-m-d', $request->tanggal_pengingat )->format("m-d");
+        }
+        if($request->pengingat == "One"){
+            $data['tanggal_pengingat'] = Carbon::createFromFormat('Y-m-d', $request->tanggal_pengingat )->format("Y-m-d");
+        }
         $data['email'] = $request->email;
         $data['email_2'] = $request->email_2;
         $data['email_3'] = $request->email_3;
@@ -88,7 +98,7 @@ class ReminderController extends Controller
 
     public function manage_reminder()
     {
-        return view("reminder.manage_reminder", [
+            return view("reminder.manage_reminder", [
             "reminder_data" => Reminder::where("user_id", auth()->user()->id)->get(),
             'title' => 'Manage Reminder'
         ]);

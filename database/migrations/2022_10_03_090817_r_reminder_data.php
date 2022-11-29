@@ -21,7 +21,8 @@ class RReminderData extends Migration
             $table->date("from")->nullable();
             $table->date("to")->nullable();
             $table->date("tanggal_expired")->nullable();
-            $table->date("tanggal_pengingat")->nullable();
+            $table->string("tanggal_pengingat")->nullable();
+            $table->text("pengingat")->nullable();
             $table->text("email")->nullable();
             $table->text("email_2")->nullable();
             $table->text("email_3")->nullable();
