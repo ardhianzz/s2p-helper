@@ -196,6 +196,15 @@
                             <h5 for="expired" class="mb-2">Expired Date</h5>
                             <input type="date" name="tanggal_expired" class="form-control" value="{{ $d->tanggal_expired }}">
                         </div>
+                        <div class="form-group mb-4"> 
+                            <label for="pengingat" class="mb-2"> <b>Reminder *</b> </label>
+                            <select name="pengingat" class="form-control" required>
+                                <option value="">-- Select --</option>
+                                <option value="One" @if ($d->pengingat == "One") selected @endif>One Time</option>
+                                <option value="Year" @if ($d->pengingat == "Year") selected @endif>Every Year</option>
+                                <option value="Month" @if ($d->pengingat == "Month") selected @endif>Every Month</option>
+                            </select>
+                        </div>
                         <div class="form-group mb-4">
                             <h5 for="pengingat" class="mb-2">Reminder Date</h5>
                             <input type="date" name="tanggal_pengingat" class="form-control" value="{{ $d->tanggal_pengingat }}">
@@ -220,7 +229,6 @@
 
                         <div class="form-group mt-5">
                             <input type="hidden" name="r_reminder_data" value="{{ $d->id }}">
-                            {{-- <input type="hidden" name="r_reminder_data" value="{{ $d->updated_at }}"> --}}
                             <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Save </button>
                         </div>
                     </form>
