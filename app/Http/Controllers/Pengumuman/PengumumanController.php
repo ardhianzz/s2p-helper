@@ -498,30 +498,36 @@ class PengumumanController extends Controller
     public function pengumuman_kebijakan(Request $request){
         $this->its_me($request->nik);
 
-        // $semua_pengumuan = PPengumuman::where("status", "=","Diumumkan")
-        //                                 ->where("keterangan", "like", "%".$request->cari."%")
-        //                                 ->where("lokasi", "=", "Semua")
-        //                                 ->orderBy("p_pengumuman.id", "desc")->paginate(10);
-
-        // $jakarta = PPengumuman::where("status", "=","Diumumkan")
-        //                                 ->where("keterangan", "like", "%".$request->cari."%")
-        //                                 ->where("lokasi", "=", "Jakarta")
-        //                                 ->orWhere("lokasi", "=", "Semua")
-        //                                 ->orderBy("p_pengumuman.id", "desc")->paginate(10);
-
-        // $jakarta = PPengumuman::where("nama", "like", "%".$request->cari."%")
-        //                         ->where("status", "=","Diumumkan")
-        //                         ->where("lokasi", "=", "Jakarta")
-        //                         ->get();
         $jakarta = PPengumuman::get_pengumuman_jakarta($request);
-        // dd($jakarta);
+
         $cilacap = PPengumuman::get_pengumuman_cilacap($request);
+
+        $lokasi = DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
         
+        if($request->readID){
+            $data['p_pengumuman_id'] = $request->readID;
+            $data['user_id'] = auth()->user()->id;
+            $data['lokasi'] = $lokasi;
+            $data['created_at'] = date("Y-m-d H:i:s");
+            $data['updated_at'] = date("Y-m-d H:i:s");
+            if(PPengumumanRiwayat::where("user_id", $data['user_id'])
+                                    ->where("p_pengumuman_id", $data['p_pengumuman_id'])
+                                    ->where("lokasi", $data['lokasi'])
+                                    ->count() == 0){
+                PPengumumanRiwayat::create($data);
+            }else{
+                PPengumumanRiwayat::where("user_id", $data['user_id'])
+                                    ->where("p_pengumuman_id", $data['p_pengumuman_id'])
+                                    ->where("lokasi", $data['lokasi'])
+                                    ->update(["updated_at" => $data['updated_at']]);
+            }
+            return back()->with('success', 'Tidak Ada Berkas yang harus dibuka');
+        }
+
+
         $dokumen = false;
         if($request->previewID != null){
             $dokumen = PPengumumanDokumen::where("p_pengumuman_id", $request->previewID)->get();
-            $lokasi = DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
-            
             $data['p_pengumuman_id'] = $request->previewID;
             $data['user_id'] = auth()->user()->id;
             $data['lokasi'] = $lokasi;
@@ -613,22 +619,23 @@ class PengumumanController extends Controller
         $this->is_admin(auth()->user()->id);
         $hak = $this->cek_akses(auth()->user()->id);
 
-        // $email_jkt = DB::table("users")->join("pegawai", "users.id", "=", "pegawai.user_id")
-        //                                ->select("users.username", "users.email", "pegawai.nama", "pegawai.pegawai_lokasi_id")
-        //                                ->where("pegawai.pegawai_lokasi_id", "=", "1")
-        //                                ->where("pegawai.user_id", "=", "8")
-        //                                ->get();
-        // dd($email_jkt);
+        $cilacap = DB::table('p_pengumuman')->leftJoin("p_pengumuman_dokumen", "p_pengumuman.id", "=", "p_pengumuman_dokumen.p_pengumuman_id")
+                                            ->select("p_pengumuman.id", "p_pengumuman.nama", "p_pengumuman.keterangan","p_pengumuman.lokasi","p_pengumuman.status", "p_pengumuman_dokumen.path")
+                                            ->where("p_pengumuman.nama", "like", "%".$request->cari."%")
+                                            ->where("status", "=","Diumumkan")
+                                            ->where("lokasi", "=", "Cilacap")
+                                            ->orWhere("lokasi", "=", "Semua")
+                                            ->orderBy("p_pengumuman.id", "desc")->paginate(10);
 
-        $semua_pengumuan = PPengumuman::where("nama", "like", "%".$request->cari."%")
-                                        ->where("lokasi", "=", "Semua")
-                                        ->orWhere("lokasi", "=", "Cilacap")
-                                        ->Where("keterangan", "like", "%".$request->cari."%")
-                                        ->orderBy("id", "desc")->paginate(10);
+        $jakarta = DB::table('p_pengumuman')->leftJoin("p_pengumuman_dokumen", "p_pengumuman.id", "=", "p_pengumuman_dokumen.p_pengumuman_id")
+                                            ->select("p_pengumuman.id", "p_pengumuman.nama", "p_pengumuman.keterangan","p_pengumuman.lokasi","p_pengumuman.status", "p_pengumuman_dokumen.path")
+                                            ->where("p_pengumuman.nama", "like", "%".$request->cari."%")
+                                            ->orderBy("p_pengumuman.id", "desc")
+                                            ->paginate(10);
 
-         $all = PPengumuman::where("nama", "like", "%".$request->cari."%")
-                                        ->Where("keterangan", "like", "%".$request->cari."%")
-                                        ->orderBy("id", "desc")->paginate(10);
+        if($request->readID){
+            return back()->with('success', 'Tidak Ada Berkas yang harus dibuka');
+        }
 
         $dokumen = false;
         if($request->previewID != null){
@@ -641,8 +648,8 @@ class PengumumanController extends Controller
             return view("pengumuman.manage_kebijakan", [
                 "title" => "Managemen Pengumuman",
                 "sub_title" => "Managemen Pengumuman - PT Sumber Segara Primadaya",
-                "pengumuman" => $semua_pengumuan,
-                "pengumuman_jkt" => $all,
+                "pengumuman" => $cilacap,
+                "pengumuman_jkt" => $jakarta,
                 // "pengumuman_clcp" => $pengumuman_clcp,
                 "hak_akses" => $this->cek_akses(auth()->user()->id),
                 "dokumen" => $dokumen,

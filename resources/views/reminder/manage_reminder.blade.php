@@ -64,9 +64,9 @@
                             </td>
                             <td width="150px">
                                 @if($r->pengingat == "Month")
-                                {{ $r->tanggal_pengingat }}
+                                Every {{ $r->tanggal_pengingat }}th
                                 @elseif($r->pengingat == "Year") 
-                                {{ bulan(($r->tanggal_pengingat)) }}
+                                Every {{ bulan(($r->tanggal_pengingat)) }}th
                                 @elseif($r->pengingat == "One")
                                 {{ tanggl_id(($r->tanggal_pengingat)) }} 
                                 @endif

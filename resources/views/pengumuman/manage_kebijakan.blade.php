@@ -51,11 +51,29 @@
                                                 @foreach ($pengumuman_jkt as $i)    
                                                     <tr>
                                                         <td>{{ $loop->index + $pengumuman_jkt->firstItem() }}</td>
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
+                                                        <td>
+                                                            @if ($i->path != null)
+                                                            <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
+                                                            @else
+                                                            <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
+                                                            @endif
+                                                        </td>
                                                         <td> {{ $i->lokasi }} </td>
                                                         @if(request()->previewID == null) 
-                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
-                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->status }} </a></td> 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
+                                                                @endif
+                                                            </td> 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->status }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->status }} </a>
+                                                                @endif
+                                                            </td> 
                                                         @endif
                                                         <td>
                                                             @if($i->status == "Belum Diumumkan") 
@@ -136,11 +154,29 @@
                                                 @foreach ($pengumuman as $i)    
                                                     <tr>
                                                         <td>{{ $loop->index + $pengumuman->firstItem() }}</td>
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
+                                                        <td>
+                                                            @if ($i->path != null)
+                                                                <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
+                                                            @else
+                                                                <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
+                                                            @endif
+                                                        </td>
                                                         <td> {{ $i->lokasi }} </td>
                                                         @if(request()->previewID == null) 
-                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a></td> 
-                                                            <td><a href="?previewID={{ $i->id }}"> {{ $i->status }} </a></td> 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
+                                                                @endif
+                                                            </td> 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->status }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->status }} </a>
+                                                                @endif    
+                                                            </td> 
                                                         @endif
                                                         <td>
                                                             @if($i->status == "Belum Diumumkan") 

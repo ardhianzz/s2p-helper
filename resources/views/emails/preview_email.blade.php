@@ -59,18 +59,30 @@ Berikut kami sampaikan :
             @endforeach
         </tr>
         <tr>
+            <td class="judul"> <b>Reminder</b> </td>
+            @foreach ($reminders as $r)
+                <td> @if($r->pengingat == "One")
+                    One Time
+                    @elseif($r->pengingat == "Month")
+                    Every Month
+                    @elseif($r->pengingat == "Year")
+                    Every Year
+                    @endif
+                </td>
+            @endforeach
+        </tr>
+        <tr>
             <td class="judul"> <b>Reminder Date</b> </td>
             @foreach ($reminders as $d)
                 
             <td>
                 @if($d->pengingat == "Month")
-                {{ $d->tanggal_pengingat }}
+                Every {{ $d->tanggal_pengingat }}th
                 @elseif($d->pengingat == "Year") 
-                {{ bulan(($d->tanggal_pengingat)) }}
+                Every {{ bulan(($d->tanggal_pengingat)) }}th
                 @elseif($d->pengingat == "One")
                 {{ tanggl_id(($d->tanggal_pengingat)) }} 
                 @endif
-                 {{-- {{ tanggl_id(($d->tanggal_pengingat)) }}  --}}
             </td>
             @endforeach
         </tr>

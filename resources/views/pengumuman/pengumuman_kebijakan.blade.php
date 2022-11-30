@@ -51,7 +51,7 @@
                                                             @if ($i->path != null)
                                                                 <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
                                                             @else
-                                                                <a href="?previewID={{ request()->url() }}"> {{ $i->nama }} </a>
+                                                                <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
                                                             @endif
                                                         </td>
                                                         @if(request()->previewID == null) 
@@ -59,7 +59,7 @@
                                                                 @if ($i->path != null)
                                                                     <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
                                                                 @else
-                                                                    <a href="{{ request()->url() }}"> {{ $i->keterangan }} </a>
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
                                                                 @endif
                                                             </td> 
                                                         @endif
@@ -84,7 +84,7 @@
                                                             @if ($i->path != null)
                                                                 <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
                                                             @else
-                                                                <a href="{{ request()->url() }}"> {{ $i->nama }} </a>
+                                                                <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
                                                             @endif
                                                         </td>
                                                         @if(request()->previewID == null) 
@@ -92,7 +92,7 @@
                                                                 @if ($i->path != null)
                                                                     <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
                                                                 @else
-                                                                    <a href="{{ request()->url() }}"> {{ $i->keterangan }} </a>
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
                                                                 @endif
                                                             </td> 
                                                         @endif

@@ -108,14 +108,19 @@ class UserController extends Controller
 
 
         if(Pegawai::pegawai_validasi($data)){
-
-            
-            
             $data['user_id'] = DB::table('users')->insertGetId($user);
             
             if(DB::table('pegawai')->insert($data)){
                 for($i=1; $i <= count(DB::table("modul")->get()); $i++){
+                if ($data['pegawai_lokasi_id'] = 1)
+                    {
                     DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 4]);
+                    }
+                if ($data['pegawai_lokasi_id'] = 1)
+                    {
+                    DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 5]);  
+                    }
+                
                 }
                 return back()->with('success', "Data berhasil di input");
             }else{
