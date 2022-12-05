@@ -240,6 +240,7 @@ class Pegawai extends Model
                             "pegawai_jabatan.nama as jabatan", 
                             "pegawai_divisi.nama as divisi",
                             "pegawai_lokasi.nama as lokasi")
+                ->orderBy("pegawai.nama", "asc")
                 ->paginate(10);
     }
 
@@ -261,6 +262,7 @@ class Pegawai extends Model
                             "pegawai_jabatan.nama as jabatan", 
                             "pegawai_divisi.nama as divisi",
                             "pegawai_lokasi.nama as lokasi")
+                ->orderBy("pegawai.nama", "asc")
                 ->paginate(10);
     }
 

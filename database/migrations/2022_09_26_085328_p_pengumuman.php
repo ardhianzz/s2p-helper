@@ -18,6 +18,7 @@ class PPengumuman extends Migration
             $table->text("nama")->nullable();
             $table->text("keterangan")->nullable();
             $table->text("status")->nullable();
+            $table->text("lokasi")->nullable();
             $table->timestamps();
         });
     }

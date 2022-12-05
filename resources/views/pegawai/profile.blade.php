@@ -62,7 +62,7 @@
                             <div class="form-group row mb-3">
                               <label for="jabatan" class="col-sm-2 col-form-label">Jabatan</label>
                               <div class="col-sm-10">
-                                <select class="form-control custom-select" name="pegawai_jabatan_id">
+                                <select class="form-control custom-select" name="pegawai_jabatan_id" disabled>
                                   @foreach ($jabatan as $p)
                                       <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->jabatan) selected @endif>
                                         {{ $p->nama }}
@@ -75,7 +75,7 @@
                             <div class="form-group row mb-3">
                               <label for="divisi" class="col-sm-2 col-form-label">Divisi</label>
                               <div class="col-sm-10">
-                                <select class="form-control custom-select" name="pegawai_divisi_id">
+                                <select class="form-control custom-select" name="pegawai_divisi_id" disabled>
                                   @foreach ($divisi as $p)
                                       <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->divisi) selected @endif>
                                         {{ $p->nama }}
@@ -85,6 +85,7 @@
                               </div>
                             </div>
 
+                            @if(isJakarta())
                             <div class="form-group row mb-3">
                               <label for="divisi" class="col-sm-2 col-form-label">Lokasi</label>
                               <div class="col-sm-10">
@@ -97,6 +98,7 @@
                                 </select>
                               </div>
                             </div>
+                            @endif
 
                             <div class="form-group row mb-3">
                               <label for="foto" class="col-sm-2 col-from-label">Foto</label>

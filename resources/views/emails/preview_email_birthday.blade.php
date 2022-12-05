@@ -39,14 +39,14 @@ Berikut kami sampaikan :
             @endforeach
         </tr>
         <tr>
-            <td class="judul"> <b>Reminder</b> </td>
+            <td class="judul"> <b>Repeat</b> </td>
             @foreach ($reminders as $r)
                 <td> @if($r->pengingat == "One")
-                    One Time
+                    Never
                     @elseif($r->pengingat == "Month")
-                    Every Month
+                    Monthly
                     @elseif($r->pengingat == "Year")
-                    Every Year
+                    Yearly
                     @endif
                 </td>
             @endforeach

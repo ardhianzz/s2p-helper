@@ -17,6 +17,7 @@ class RReminderData extends Migration
             $table->id();
             $table->foreignId("user_id")->nullable();
             $table->foreignId('pegawai_divisi_id')->nullable();
+            $table->text('jenis')->nullable();
             $table->text("nama")->nullable();
             $table->date("from")->nullable();
             $table->date("to")->nullable();

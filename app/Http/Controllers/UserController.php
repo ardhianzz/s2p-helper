@@ -67,10 +67,10 @@ class UserController extends Controller
         $data['pegawai_divisi_id'] = $request->pegawai_divisi_id;
 
         if ($lokasi == 1){
-            $data['pegawai_lokasi_id'] = "1";
+            $data['pegawai_lokasi_id'] = $request->pegawai_lokasi_id;
         }
         if ($lokasi == 2){
-            $data['pegawai_lokasi_id'] = "2";
+            $data['pegawai_lokasi_id'] = 2;
         }
         //$data['email'] = $request->email;
 
@@ -81,7 +81,12 @@ class UserController extends Controller
         $validate2 = DB::table('users')->where($id)->update($user);
 
         if($validate1 || $validate2){
-            return back()->with('success', "Data berhasil dirubah");
+            if($request->pegawai_lokasi_id == 1){
+                return redirect('/pegawai/jakarta')->with('success', "Data berhasil dirubah");
+            }
+            elseif($request->pegawai_lokasi_id == 2){
+                return redirect('/pegawai/cilacap')->with('success', "Data berhasil dirubah");
+            }
         }else{
             return back()->with('error', "Data gagal dirubah");
         }
@@ -97,7 +102,10 @@ class UserController extends Controller
         $data['created_at'] = now();
         $data['updated_at'] = now();
 
-        $data['pegawai_lokasi_id'] = 1;
+        // $data['pegawai_lokasi_id'] = 1;
+        if(isJakarta() == true){
+            $data['pegawai_lokasi_id'] = $request->lokasi;
+        }
         if(isJakarta() == false){
             $data['pegawai_lokasi_id'] = 2;
         }
@@ -111,17 +119,19 @@ class UserController extends Controller
             $data['user_id'] = DB::table('users')->insertGetId($user);
             
             if(DB::table('pegawai')->insert($data)){
-                for($i=1; $i <= count(DB::table("modul")->get()); $i++){
-                if ($data['pegawai_lokasi_id'] = 1)
-                    {
-                    DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 4]);
-                    }
-                if ($data['pegawai_lokasi_id'] = 1)
-                    {
-                    DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 5]);  
-                    }
+                    for($i=1; $i <= count(DB::table("modul")->get()); $i++){
+                        if ($data['pegawai_lokasi_id'] == "1"){
+                            DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => "4"]); 
+                        }
+                        if($data['pegawai_lokasi_id'] == "2"){
+                            DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => "5"]); 
+                        }
+                        }
                 
-                }
+                // if (Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == "2") {
+                //     DB::table("pegawai_hak_akses")->insert(["user_id" => $data['user_id'] , "modul_id"=> $i, "pegawai_level_user_id" => 4]);  
+                // }
+                
                 return back()->with('success', "Data berhasil di input");
             }else{
                 DB::table('users')->where("id", "=", $data['user_id'])->delete();
@@ -203,7 +213,7 @@ class UserController extends Controller
         }
     }
 
-    public function detail($nik, Request $request){
+    public function detail(Request $request){
         
         $lokasi = $request->lokasi;
 
@@ -215,6 +225,7 @@ class UserController extends Controller
             $data_detail = Pegawai::get_detail_cilacap($request->nik);
         }
         
+        // dd($data_detail);
         return view("pegawai.detail",[
             "title" => "Detail",
             'divisi' => Pegawai::get_divisi(),
@@ -277,7 +288,7 @@ class UserController extends Controller
             $data_hak_akses = Pegawai::hak_akses_cari_userC($request->cari);
         }
 
-
+        // dd($data_hak_akses);
         isCilacap();
         $this->cek_akses(auth()->user()->id);
 
@@ -312,20 +323,6 @@ class UserController extends Controller
             'divisi' => Pegawai::get_divisi(),
         ]);
     }
-
-
-    // public function indexCilacap(Request $request){
-    //     $this->cek_akses(auth()->user()->id);
-        
-
-    //     return view('pegawai.indexCilacap', 
-    //         [   'title' => "Pegawai",
-    //             'divisi' => Pegawai::get_divisi(),
-    //             'jabatan' => Pegawai::get_jabatan(),
-    //             'lokasi' => Pegawai::get_lokasi(),
-    //             'pegawai' =>  Pegawai::get_pegawai_cari_cilacap($request->cari),
-    //     ]);
-    // }
 
     public function index(Request $request){
         $lokasi = $request->lokasi;

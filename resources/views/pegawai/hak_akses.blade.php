@@ -19,7 +19,7 @@
                             
                               <form method="get" action="/hak_akses/{{ request()->param }}">
                             
-                                <input type="search" placeholder="Cari... " name="cari" aria-label="Search" value="{{ request('cari') }}">
+                                <input type="search" placeholder="Cari Nama... " name="cari" aria-label="Search" value="{{ request('cari') }}">
                                 <button class="btn btn-primary" type="submit">Search</button>
                               </form>
                             
@@ -28,7 +28,7 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                               <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">No</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Modul</th>
                                 <th scope="col">Level Sistem</th>

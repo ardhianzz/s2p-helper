@@ -141,7 +141,8 @@ class SystemSeeder extends Seeder
          PegawaiLevelUser::create(['nama' => 'Administrator']);
          PegawaiLevelUser::create(['nama' => 'Administrator HRD']);
          PegawaiLevelUser::create(['nama' => 'Approver']);
-         PegawaiLevelUser::create(['nama' => 'User']);
+         PegawaiLevelUser::create(['nama' => 'User Jakarta']);
+         PegawaiLevelUser::create(['nama' => 'User Cilacap']);
 
          PegawaiLevel::create(["nama" => "Level 1"]);
          PegawaiLevel::create(["nama" => "Level 2"]);

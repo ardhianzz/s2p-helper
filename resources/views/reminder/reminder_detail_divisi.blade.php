@@ -61,16 +61,16 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td> <b>Reminder </b> </td>
+                                    <td> <b>Repeat </b> </td>
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $r)
                                         
                                     <td> @if($r->pengingat == "One")
-                                        One Time
+                                        Never
                                         @elseif($r->pengingat == "Month")
-                                        Every Month
+                                        Monthly
                                         @elseif($r->pengingat == "Year")
-                                        Every Year
+                                        Yearly
                                         @endif
                                     </td>
                                     @endforeach

@@ -163,12 +163,12 @@
                                                 <input type="date" name="tanggal_expired" class="form-control">
                                             </div>
                                             <div class="form-group mb-4"> 
-                                                <label for="pengingat" class="mb-2"> <b>Reminder *</b> </label>
+                                                <label for="pengingat" class="mb-2"> <b>Repeat *</b> </label>
                                                 <select name="pengingat" class="form-control" required>
                                                     <option value="">-- Select --</option>
-                                                    <option value="One">One Time</option>
-                                                    <option value="Year">Every Year</option>
-                                                    <option value="Month">Every Month</option>
+                                                    <option value="One">Never</option>
+                                                    <option value="Month">Monthly</option>
+                                                    <option value="Year">Yearly</option>
                                                 </select>
                                             </div>
                                             <div class="form-group mb-4"> 

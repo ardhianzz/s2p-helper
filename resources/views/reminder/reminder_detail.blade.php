@@ -62,16 +62,16 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <td> <b>Reminder </b> </td>
+                                    <td> <b>Repeat </b> </td>
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $r)
                                         
                                     <td> @if($r->pengingat == "One")
-                                        One Time
+                                        Never
                                         @elseif($r->pengingat == "Month")
-                                        Every Month
+                                        Monthly
                                         @elseif($r->pengingat == "Year")
-                                        Every Year
+                                        Yearly
                                         @endif
                                     </td>
                                     @endforeach
@@ -197,12 +197,12 @@
                             <input type="date" name="tanggal_expired" class="form-control" value="{{ $d->tanggal_expired }}">
                         </div>
                         <div class="form-group mb-4"> 
-                            <label for="pengingat" class="mb-2"> <b>Reminder *</b> </label>
+                            <label for="pengingat" class="mb-2"> <b>Repeat *</b> </label>
                             <select name="pengingat" class="form-control" required>
                                 <option value="">-- Select --</option>
-                                <option value="One" @if ($d->pengingat == "One") selected @endif>One Time</option>
-                                <option value="Year" @if ($d->pengingat == "Year") selected @endif>Every Year</option>
-                                <option value="Month" @if ($d->pengingat == "Month") selected @endif>Every Month</option>
+                                <option value="One" @if ($d->pengingat == "One") selected @endif>Never</option>
+                                <option value="Month" @if ($d->pengingat == "Month") selected @endif>Monthly</option>
+                                <option value="Year" @if ($d->pengingat == "Year") selected @endif>Yearly</option>
                             </select>
                         </div>
                         <div class="form-group mb-4">
