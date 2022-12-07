@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>S2P App</title>
+    <title>S2P-App</title>
     <link rel="shortcut icon" href="/img/new.ico">
     <!-- Bootstrap core CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -53,7 +53,6 @@
     {{-- <div class="container"> --}}
     <div class="row d-flex justify-content-center">
       <div class="card-deck mb-12 text-center">
-        
         
         @if(DB::table("modul")->where("id", 1)->get()[0]->keterangan == "Aktif")
           @can("pegawaiHrd")

@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Pegawai;
+use App\Mail\notif_login;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
-
 
 
     public function autenticate(Request $request){
@@ -23,8 +28,32 @@ class LoginController extends Controller
             //$request->session()->put($id);
             // session("nomor_id");
 
-
+            $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
+            $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
+            $check = geoip()->getLocation(trim(shell_exec("curl https://ifconfig.co")));
+            // $ip = trim(shell_exec("curl https://ifconfig.co"));
+            $agent = request()->header('user-agent');
             $request->session()->regenerate();
+            $details = [
+                'title' => 'Notifikasi Keamanan',
+                'ip_local' => $data_ip,
+                'waktu' => $data_waktu,
+                'ip_public' => $check,
+                'user_agent' => $agent,
+                ];
+            
+            //Kirim Email Notifikasi Login
+            Mail::to($request->email)->send(new notif_login($details));
+
+            //insert aktifitas login
+            $s['user_id'] = Auth::user()->id;  
+            $s['ip_address'] = $data_ip;
+            $s['user_agent'] = $agent;
+            $s['last_activity'] = $data_waktu;
+            $s['ip_public'] = $check->ip;
+            $s['lokasi'] = $check->city;
+            DB::table("sessions")->insert($s);
+                
             return redirect()->intended("/main");
         }
         return back()->with("LoginError", "Login Failed");

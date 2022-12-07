@@ -24,6 +24,18 @@
 
                             <span class="input-group mt-3 mb-3">
                                 <div class="col-lg-3">
+                                    <label for="">Lokasi</label>
+                                </div>
+                                <select name="lokasi" class="form-control" required>
+                                    <option value="">-- Select --</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Cilacap">Cilacap</option>
+                                    <option value="Semua">Semua Lokasi</option>
+                                </select>
+                            </span>
+
+                            <span class="input-group mt-3 mb-3">
+                                <div class="col-lg-3">
                                     <label for="">Nama Pengumuman / Peraturan</label>
                                 </div>
                                 <div class="col-lg-9">

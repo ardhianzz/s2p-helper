@@ -31,8 +31,12 @@
                                 <th scope="col">Divisi</th>
                                 <th scope="col">Jabatan</th>
                                 <th scope="col">Lokasi</th>
-                                @if (isJakarta())
+                                @if (isJakarta() == true)
                                   <th scope="col">Password</th>
+                                @elseif (isJakarta() == false)
+                                  @if(request()->lokasi == "cilacap")
+                                  <th scope="col">Password</th>
+                                  @endif
                                 @endif
                               </tr>
                             </thead>
@@ -43,7 +47,13 @@
                                 <tr>
                                     <th scope="row">
                                       @if (isAdminCilacap())
+                                        @if (request()->lokasi == "jakarta")
                                           {{ $p->nik }}
+                                        @elseif (request()->lokasi == "cilacap")
+                                          <a href="/pegawai/{{ request()->lokasi }}/{{ $p->nik }}">
+                                            {{ $p->nik }}
+                                          </a>
+                                        @endif
                                       @endif
 
                                       @if (isJakarta())
@@ -59,12 +69,20 @@
                                     <th scope="col">{{ $p->jabatan }}</th>
                                     <th scope="col">{{ $p->lokasi }}</th>
 
-                                    @if (isJakarta())    
+                                    @if (isJakarta() == true)    
                                       <th scope="col">
                                           <a href="#" data-toggle="modal" data-target="#reset{{ $p->id }}">
                                               Edit
                                           </a>
                                       </th>
+                                    @elseif (isJakarta() == false)  
+                                      @if (request()->lokasi == "cilacap")  
+                                        <th scope="col">
+                                            <a href="#" data-toggle="modal" data-target="#reset{{ $p->id }}">
+                                                Edit
+                                            </a>
+                                        </th>
+                                      @endif
                                     @endif
 
                                     <div class="modal fade" id="reset{{ $p->id }}" tabindex="-1" role="dialog" aria-labelledby="reset{{ $p->id }}" aria-hidden="true">
@@ -170,15 +188,16 @@
                       </select>    
                 </div>
 
-                {{-- <div class="form-group mb-3">
-                  <label for="nama" class='mb-2'>Lokasi</label>
-                  <select class="form-control custom-select" name="lokasi" required>
-                      @foreach ($lokasi as $p)
-                          <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                      @endforeach
-                    </select>    
-                </div> --}}
-
+                @if(isJakarta() == true)
+                  <div class="form-group mb-3">
+                    <label for="nama" class='mb-2'>Lokasi</label>
+                    <select class="form-control custom-select" name="lokasi" required>
+                        @foreach ($lokasi as $p)
+                            <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                        @endforeach
+                      </select>    
+                  </div>
+                @endif
                 <div class="form-group mb-3">
                     <label for="password" class='mb-2'>Password</label>
                     <input type="password" class="form-control" name="password" required>

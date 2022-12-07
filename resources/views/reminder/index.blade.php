@@ -17,11 +17,15 @@
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
     </ol>
-
+    
     <div class="conten">
         <div class="card">
-            <div class="card-header">
+            <div class="nav justify-content-between card-header">
                 <h5>List Schedule</h5>
+                <form>
+                    <input type="search" name="cari" placeholder="Subject.." value="{{ request()->cari }}">
+                    <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
+                </form>
             </div>
             <div class="card-body table-respon">
                 <table class="table table-bordered table-striped">
@@ -45,22 +49,40 @@
                                 <td>
                                     @if ($r->tanggal_expired == null)
                                         -
+                                    @elseif ($r->tanggal_expired == "1899-12-30")
+                                        -
                                     @else
                                     {{ tanggl_id(($r->tanggal_expired)) }}
                                     @endif
                                 </td>
-                                <td>{{ tanggl_id(($r->tanggal_pengingat)) }}</td>
+                                <td>@if($r->pengingat == "Month")
+                                    Every {{ $r->tanggal_pengingat }}th
+                                    @elseif($r->pengingat == "Year") 
+                                    Every {{ bulan(($r->tanggal_pengingat)) }}th
+                                    @elseif($r->pengingat == "One")
+                                    {{ tanggl_id(($r->tanggal_pengingat)) }} 
+                                    @endif
+                                </td>
                                 <td>{{ $r->email }}</td>
                                 <td align="center">{{ $r->pegawai_divisi->nama }}</td>
                                 <td>{{ $r->user->pegawai->nama }}</td>
-                                <td width="50px">
-                                    <a href="/reminder/manage_reminder/divisi/detail/{{ $r->id }}" class="btn btn-info btn-xs">
-                                        <i class="fa fa-info" aria-hidden="true" data-toogle="tooltip" data-placement="top" title="Detail"></i>
+                                <td width="50px" align="center">
+                                    <a href="/reminder/divisi/detail/{{ $r->id }}" >
+                                        <i class="material-icons" data-toogle="tooltip" data-placement="top" title="Detail"  style="font-size: 30px">
+                                            info
+                                        </i>
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                {{ $reminder_data->withQueryString()->links() }}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

@@ -38,7 +38,7 @@
                                             <tr>
                                                 <td align="center">{{ $loop->index+1 }}</td>
                                                 <td>
-                                                    <a href="/lembur_approve/detail/{{ $d->id }}"">
+                                                    <a href="/lembur_approve/detail/{{ $d->id }}">
                                                         <strong>{{ $d->nama }}</strong>
                                                     </a>
                                                 </td>

@@ -81,31 +81,20 @@
                               </div>
                             </div>
 
+                            @if(isJakarta())
                             <div class="form-group row mb-3">
                               <label for="divisi" class="col-sm-2 col-form-label">Lokasi</label>
                               <div class="col-sm-10">
-
-                                @if (isAdminCilacap())
-                                  <select class="form-control custom-select" disabled>
-                                    @foreach ($lokasi as $p)
-                                        <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
-                                          {{ $p->nama }}
-                                        </option>
-                                    @endforeach
-                                  </select>
-                                @endif
-
-                                  @if(isJakarta())
-                                    <select class="form-control custom-select" name="pegawai_lokasi_id">
-                                      @foreach ($lokasi as $p)
-                                          <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
-                                            {{ $p->nama }}
-                                          </option>
-                                      @endforeach
-                                    </select>
-                                  @endif
+                                <select class="form-control custom-select" name="pegawai_lokasi_id">
+                                  @foreach ($lokasi as $p)
+                                      <option value="{{ $p->id }}" @if($p->nama == $pegawai[0]->lokasi) selected @endif>
+                                        {{ $p->nama }}
+                                      </option>
+                                  @endforeach
+                                </select>
                               </div>
                             </div>
+                            @endif
 
                             <div class="form-group row mb-3">
                               <label for="foto" class="col-sm-2 col-from-label">Foto</label>

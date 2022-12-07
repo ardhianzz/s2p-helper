@@ -40,6 +40,8 @@
                                     @foreach ($detail as $d)
                                         @if ($d->from == null && $d->to == null)
                                             <td> - </td>
+                                        @elseif ($d->from == "1899-12-30" && $d->to == "1899-12-30" )
+                                            <td> - </td>
                                         @else
                                             <td>{{ tanggl_id(($d->from)) }} - {{ tanggl_id(($d->to)) }} </td>
                                         @endif
@@ -51,17 +53,41 @@
                                     @foreach ($detail as $d)
                                         @if ($d->tanggal_expired == null)
                                             <td> - </td>
+                                        @elseif ($d->tanggal_expired == "1899-12-30" )
+                                            <td> - </td>
                                         @else
                                             <td> {{ tanggl_id(($d->tanggal_expired)) }} </td>
                                         @endif   
                                     @endforeach
                                 </tr>
                                 <tr>
+                                    <td> <b>Repeat </b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $r)
+                                        
+                                    <td> @if($r->pengingat == "One")
+                                        Never
+                                        @elseif($r->pengingat == "Month")
+                                        Monthly
+                                        @elseif($r->pengingat == "Year")
+                                        Yearly
+                                        @endif
+                                    </td>
+                                    @endforeach
+                                </tr>
+                                <tr>
                                     <td> <b>Reminder Date</b> </td>
                                     <td> <b>:</b> </td>
-                                    @foreach ($detail as $d)
+                                    @foreach ($detail as $r)
                                         
-                                    <td> {{ tanggl_id(($d->tanggal_pengingat)) }} </td>
+                                    <td> @if($r->pengingat == "Month")
+                                        Every {{ $r->tanggal_pengingat }}th
+                                        @elseif($r->pengingat == "Year") 
+                                        Every {{ bulan(($r->tanggal_pengingat)) }}th
+                                        @elseif($r->pengingat == "One")
+                                        {{ tanggl_id(($r->tanggal_pengingat)) }} 
+                                        @endif
+                                    </td>
                                     @endforeach
                                 </tr>
                                 <tr>
@@ -94,6 +120,30 @@
                                         @endif
                                     @endforeach
                                 </tr>
+                                <tr>
+                                    <td> <b>Status</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if($d->status == "Ongoing")
+                                        <td><b>Ongoing</b></td> 
+                                        @elseif($d->status == "prosess")
+                                        <td><b>Finished</b></td> 
+                                        @endif
+                                    @endforeach
+                                </tr>
+
+                                @if($d->status == "prosess")
+                                    @if($d->komentar != null)
+                                    <tr>
+                                        <td> <b>Comment</b> </td>
+                                        <td> <b>:</b> </td>
+                                        @foreach ($detail as $d)
+                                        <td>{{ $d->komentar }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endif
+                                @endif
+
                                 <tr>
                                     <td> <b>Description</b> </td>
                                     <td> <b>:</b> </td>

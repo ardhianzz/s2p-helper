@@ -7,6 +7,7 @@ use App\Http\Controllers\SppdController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Asset\KendaraanController;
+use App\Http\Controllers\MailLoginController;
 use App\Http\Controllers\Pengumuman\PengumumanController;
 use App\Http\Controllers\Reminder\ReminderController;
 use App\Models\Absensi;
@@ -72,18 +73,21 @@ Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 Route::group(['middleware' => ["auth"]], function(){
     
-    
+
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
     Route::get('/main2', [DashboardController::class, "index2"]);
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
+    Route::get('/main/aktifitas', [DashboardController::class, 'aktifitas']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
 
     Route::get('/reminder/dashboard',[ReminderController::class,'index']);
+    Route::get('/reminder/finished',[ReminderController::class,'prosess_index']);
+    Route::put('/reminder/process/aksi',[ReminderController::class,'prosess']);
     Route::get('/reminder/manage_reminder', [ReminderController::class, 'manage_reminder']); 
     route::post('/reminder/import', [ReminderController::class, 'import_reminder']);
     Route::post('/reminder/tambah_catatan', [ReminderController::class, 'tambah_catatan']);
     Route::get('/reminder/manage_reminder/detail/{id}', [ReminderController::class, 'reminder_detail']);
-    Route::get('/reminder/manage_reminder/divisi/detail/{id}', [ReminderController::class, 'reminder_detail_divisi']);
+    Route::get('/reminder/divisi/detail/{id}', [ReminderController::class, 'reminder_detail_divisi']);
     Route::put('/reminder/edit_data_reminder', [ReminderController::class, 'edit_data_reminder']);
     Route::post('/reminder/hapus_data_reminder', [ReminderController::class, 'hapus_catatan']);
 

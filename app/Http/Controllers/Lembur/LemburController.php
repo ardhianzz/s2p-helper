@@ -11,6 +11,7 @@ use App\Models\Pegawai\PegawaiJabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use PDF;
 
 
@@ -132,6 +133,8 @@ class LemburController extends Controller
         $qr_diajukan = DB::table('validasi')->where('modul', "Lembur-Diajukan")->where("id_validasi", $request->pengajuan_lembur_id)->get();
         $qr_disetujui = DB::table('validasi')->where('modul', "Lembur-Disetujui")->where("id_validasi", $request->pengajuan_lembur_id)->get();
         $qr_selesai = DB::table('validasi')->where('modul', "Lembur-Selesai")->where("id_validasi", $request->pengajuan_lembur_id)->get();
+
+        
         
         //generate link validasi
         if(count($qr_diajukan) > 0 && $qr_diajukan[0]->status == "aktif"){
@@ -153,8 +156,6 @@ class LemburController extends Controller
             $data['qr_selesai'] = "";
         }
         //tanggal_diterima //tanggal_approve
-
-
 
 
         if($approver_id != null){   
@@ -185,7 +186,7 @@ class LemburController extends Controller
     }
 
     public function lembur_approve_aksi(Request $request){
-        $id['id'] = $request->pengajuan_lembur_id;
+        $id['id']           = $request->pengajuan_lembur_id;
         $data['status']     = $request->status;
         $data['updated_at'] = date("Y-m-d H:i:s");
 

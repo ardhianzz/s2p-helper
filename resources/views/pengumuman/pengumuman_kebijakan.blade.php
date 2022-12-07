@@ -39,30 +39,83 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($pengumuman as $i)
-                                            <div hidden>
-                                                {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
-                                            </div>    
-                                                <tr @if($dibuka == 0) style="background-color: beige; font-weight: bold;" @endif>
-                                                    <td>{{ $loop->index + $pengumuman->firstItem() }}</td>
-                                                    <td><a href="?previewID={{ $i->id }}"> {{ $i->nama }} </a></td>
-                                                    @if(request()->previewID == null) 
-                                                        <td><a href="?previewID={{ $i->id }}"> {{ $i->keterangan }} </a>
-                                                        </td> 
-                                                    @endif
-                                                    <td>
-                                                        <a href="?previewID={{ $i->id }}">
-                                                            <button class="btn btn-success">Preview</button>
-                                                        </a>
-                                                    </td>
-                                                
-                                                </tr>
-                                            @endforeach
+
+                                            @if(DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
+                                                @foreach ($pengumuman_jkt as $i)
+                                                <div hidden>
+                                                    {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
+                                                </div>    
+                                                    <tr @if($dibuka == 0) style="background-color: beige; font-weight: bold;" @endif>
+                                                        <td>{{ $loop->index + $pengumuman_jkt->firstItem() }}</td>
+                                                        <td>
+                                                            @if ($i->path != null)
+                                                                <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
+                                                            @else
+                                                                <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
+                                                            @endif
+                                                        </td>
+                                                        @if(request()->previewID == null) 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
+                                                                @endif
+                                                            </td> 
+                                                        @endif
+                                                        <td>
+                                                            <a href="?previewID={{ $i->id }}">
+                                                                <button class="btn btn-success">Preview</button>
+                                                            </a>
+                                                        </td>
+                                                    
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
+                                            @if(DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
+                                                @foreach ($pengumuman_clcp as $i)
+                                                <div hidden>
+                                                    {{ $dibuka = DB::table("p_pengumuman_riwayat")->where("user_id", auth()->user()->id)->where("p_pengumuman_id", $i->id)->count() }}
+                                                </div>    
+                                                    <tr @if($dibuka == 0) style="background-color: beige; font-weight: bold;" @endif>
+                                                        <td>{{ $loop->index + $pengumuman_clcp->firstItem() }}</td>
+                                                        <td>
+                                                            @if ($i->path != null)
+                                                                <a href="?previewID={{ $i->id }}"> {{ $i->nama }}</a>
+                                                            @else
+                                                                <a href="?readID={{ $i->id }}"> {{ $i->nama }} </a>
+                                                            @endif
+                                                        </td>
+                                                        @if(request()->previewID == null) 
+                                                            <td>
+                                                                @if ($i->path != null)
+                                                                    <a href="?previewID={{ $i->id }}"> {{ $i->keterangan }}</a>
+                                                                @else
+                                                                    <a href="?readID={{ $i->id }}"> {{ $i->keterangan }} </a>
+                                                                @endif
+                                                            </td> 
+                                                        @endif
+                                                        <td>
+                                                            <a href="?previewID={{ $i->id }}">
+                                                                <button class="btn btn-success">Preview</button>
+                                                            </a>
+                                                        </td>
+                                                    
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <td colspan="4">
-                                                    {{ $pengumuman->withQueryString()->links() }}
+                                                    @if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1)
+                                                        {{ $pengumuman_jkt->withQueryString()->links() }}
+                                                    @endif
+                                                    @if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2)
+                                                        {{ $pengumuman_clcp->withQueryString()->links() }}
+                                                @endif
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -77,7 +130,7 @@
                                                 Preview
                                             </span>
                                             <span>
-                                                <a href="{{ $i->p_pengumuman_dokumen->path }}" target="_blank">
+                                                <a href="{{ $i->path }}" target="_blank">
                                                     <button class="btn btn-primary btn-sm"> Open New Tab</button>
                                                 </a>
                                                 <a href="{{ request()->url() }}">

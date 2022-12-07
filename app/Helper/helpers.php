@@ -4,8 +4,25 @@ use App\Models\Pegawai\Pegawai;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengumuman\PPengumuman;
 use App\Models\Pengumuman\PPengumumanRiwayat;
+use App\Models\Reminder\Reminder;
 use App\Models\User;
 
+
+function hrdcilacap(){
+    $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+    if ($lokasi_id == 2){
+        return false;
+    }
+    return true;
+}
+
+function hrd(){
+    $hak = DB::table("pegawai_hak_akses")->where("modul_id", 5)->where("user_id", auth()->user()->id)->get()[0]->pegawai_level_user_id;
+    if ($hak == 2){
+        return true;
+    } 
+    return false;
+}
 
 function isJakarta(){
     $lokasi_id= Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
@@ -102,13 +119,41 @@ function total_pengumuman($user_id){
 }
 
 function pengumuman_belum_dibuka($user_id){
-    //Jumlah pengumuma yang publish
-    $total_pengumuman = PPengumuman::where("status", "Diumumkan")->count();
+    //Jumlah pengumuman yang publish di Jakarta
+    $total_pengumuman = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Jakarta")->count();
+
+    //Jumlah pengumuman yang publish di Cilacap
+    $total_pengumuman_clcp = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Cilacap")->count();
+    
+    //Jumlah pengumuman yang publish di Semua Lokasi
+    $total_pengumuman_semua = PPengumuman::where("status", "Diumumkan")->where("lokasi", "Semua")->count();
 
     //jumlah pengumuman yang sudah dibuka
     $total_dibuka = PPengumumanRiwayat::where("user_id", $user_id)->count();
 
-    return $total_pengumuman-$total_dibuka;
+    //Jika Ada Pengumuman untuk All Lokasi
+    if (PPengumuman::where("lokasi", "Semua")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1){
+            return $total_pengumuman_semua+$total_pengumuman-$total_dibuka;
+        }
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2){
+            return $total_pengumuman_semua+$total_pengumuman_clcp-$total_dibuka;
+        }
+    }
+
+    //Jika Ada Pengumuman untuk Lokasi Jakarta
+    if (PPengumuman::where("lokasi", "Jakarta")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 1){
+            return $total_pengumuman-$total_dibuka;
+        }
+    }
+
+    //Jika Ada Pengumuman untuk Lokasi Cilacap
+    if (PPengumuman::where("lokasi", "Cilacap")->get()){
+        if(DB::table("pegawai")->where("id", auth()->user()->id)->get()[0]->pegawai_lokasi_id == 2){
+            return $total_pengumuman_clcp-$total_dibuka;
+        }
+    }
 }
 
 function gaji_belum_dibuka($user_id){
@@ -130,6 +175,26 @@ function gaji_belum_dibuka($user_id){
     return $total-$sudahDibuka;
 }
 
+    function bulan($tanggal="01-01"){
+        $b = substr($tanggal, "0", "2");
+            switch ($b){
+                case "01" : $bulan = "Januari"; break;
+                case "02" : $bulan = "Februari"; break;
+                case "03" : $bulan = "Maret"; break;
+                case "04" : $bulan = "April"; break;
+                case "05" : $bulan = "Mei"; break;
+                case "06" : $bulan = "Juni"; break;
+                case "07" : $bulan = "Juli"; break;
+                case "08" : $bulan = "Agustus"; break;
+                case "09" : $bulan = "September"; break;
+                case "10" : $bulan = "Oktober"; break;
+                case "11" : $bulan = "November"; break;
+                case "12" : $bulan = "Desember"; break;
+            }
+        $hari = substr($tanggal, "3", "2");
+        return $bulan." ".$hari;
+
+    }
 
     function tanggl_id($tanggal="2022-01-01"){
         

@@ -18,7 +18,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow
         return new PSlipGajiDetail([
             //database => //slug row in exel
 
-            'nik' => $row['nik'],
+            'nik' => $row['npk'],
             'p_slip_gaji_id' => $id,
             'i_gaji_dasar'              => enkipsi_decript($row['gaji_dasar'], "en"),
             'i_tunjangan'               => enkipsi_decript($row['tunjangan'], "en"),
