@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Pegawai;
-use App\Mail\notif_login;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
@@ -11,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\notif_login;
 
 class LoginController extends Controller
 {
@@ -23,15 +23,12 @@ class LoginController extends Controller
         ];
 
         if(Auth::attempt($data)){
-            //Cara Manual
-            // $id["nomor_id"] = Auth::user()->id;
-            //$request->session()->put($id);
-            // session("nomor_id");
+            //single login 
+            Auth::logoutOtherDevices(request()->password);
 
             $data_ip = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_ip;
             $data_waktu = DB::table("users")->where("id", auth()->user()->id)->get()[0]->last_login_at;
             $check = geoip()->getLocation(trim(shell_exec("curl https://ifconfig.co")));
-            // $ip = trim(shell_exec("curl https://ifconfig.co"));
             $agent = request()->header('user-agent');
             $request->session()->regenerate();
             $details = [
@@ -42,8 +39,9 @@ class LoginController extends Controller
                 'user_agent' => $agent,
                 ];
             
-            //Kirim Email Notifikasi Login
+            
             Mail::to($request->email)->send(new notif_login($details));
+            
 
             //insert aktifitas login
             $s['user_id'] = Auth::user()->id;  

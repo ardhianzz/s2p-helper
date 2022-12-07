@@ -585,18 +585,18 @@ class PengumumanController extends Controller
         if($request->type == "publish"){
             $data['status'] = "Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
-                if($lokasi == "Jakarta"){
-                    Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
-                    return back()->with('success', 'Publish Pengumuman Berhasil');
-                } 
-                if($lokasi == "Cilacap") {
-                    Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
-                    return back()->with('success', 'Publish Pengumuman Berhasil');
-                }
-                if($lokasi == "Semua") {
-                    Mail::to($email_all)->send(new send_pengumuman($pengumuman));
-                    return back()->with('success', 'Publish Pengumuman Berhasil');
-                }
+                // if($lokasi == "Jakarta"){
+                //     Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
+                //     return back()->with('success', 'Publish Pengumuman Berhasil');
+                // } 
+                // if($lokasi == "Cilacap") {
+                //     Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
+                //     return back()->with('success', 'Publish Pengumuman Berhasil');
+                // }
+                // if($lokasi == "Semua") {
+                //     Mail::to($email_all)->send(new send_pengumuman($pengumuman));
+                //     return back()->with('success', 'Publish Pengumuman Berhasil');
+                // }
             }else{
                 return back()->with('error', 'proses gagal');
             }

@@ -17,10 +17,6 @@ class DashboardController extends Controller
         }
 
         $data = Sessions::get_sessions();
-        // $nama = Pegawai::where("id", $user_id)->get();
-
-        // dd($data);
-        // $data_user = Sessions::where("user_id", $nama)->get();
 
         return view("dashboard.aktifitas", [
             'title' => "History Login",
