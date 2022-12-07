@@ -17,7 +17,7 @@
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
     </ol>
-    
+
     <div class="conten">
         <div class="card">
             <div class="nav justify-content-between card-header">
@@ -35,8 +35,8 @@
                             <td width="200px">Subject</td>
                             <td width="150px">Expired Date</td>
                             <td width="150px">Reminder Date</td>
-                            <td width="100px">Email</td>
                             <td width="100px">Divisi</td>
+                            <td width="100px">Status</td>
                             <td width="100px">Created</td>
                             <td width="50px">Action</td>
                         </tr>
@@ -63,11 +63,17 @@
                                     {{ tanggl_id(($r->tanggal_pengingat)) }} 
                                     @endif
                                 </td>
-                                <td>{{ $r->email }}</td>
                                 <td align="center">{{ $r->pegawai_divisi->nama }}</td>
+                                <td align="center">
+                                    @if($r->status == "Ongoing") 
+                                        Ongoing
+                                    @elseif($r->status == "prosess") 
+                                        Finished
+                                    @endif
+                                </td>
                                 <td>{{ $r->user->pegawai->nama }}</td>
                                 <td width="50px" align="center">
-                                    <a href="/reminder/divisi/detail/{{ $r->id }}" >
+                                    <a href="/reminder/divisi/detail/{{ $r->id }}">
                                         <i class="material-icons" data-toogle="tooltip" data-placement="top" title="Detail"  style="font-size: 30px">
                                             info
                                         </i>
@@ -76,13 +82,6 @@
                             </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4">
-                                {{ $reminder_data->withQueryString()->links() }}
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

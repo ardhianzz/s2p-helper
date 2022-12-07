@@ -186,7 +186,7 @@ class LemburController extends Controller
     }
 
     public function lembur_approve_aksi(Request $request){
-        $id['id'] = $request->pengajuan_lembur_id;
+        $id['id']           = $request->pengajuan_lembur_id;
         $data['status']     = $request->status;
         $data['updated_at'] = date("Y-m-d H:i:s");
 

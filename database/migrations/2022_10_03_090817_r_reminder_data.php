@@ -28,6 +28,8 @@ class RReminderData extends Migration
             $table->text("email_2")->nullable();
             $table->text("email_3")->nullable();
             $table->text("keterangan")->nullable();
+            $table->text("status")->nullable();
+            $table->text("komentar")->nullable();
             $table->timestamps();
         });
     }

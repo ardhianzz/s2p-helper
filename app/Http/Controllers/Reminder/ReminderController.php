@@ -15,6 +15,57 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReminderController extends Controller
 {
+    public function prosess_index(Request $request){
+
+        $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
+        $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
+        $jabatan_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_jabatan_id;
+        $jabatan = DB::table("pegawai_jabatan")->where("id", $jabatan_id)->get()[0]->nama;
+        
+        
+        if($lokasi_id == 1){
+            if($jabatan == "Direktur"){
+                $data = Reminder::where("status", "!=", "Ongoing")
+                                ->where("nama", "like", "%".$request->cari."%")
+                                ->orderBy("tanggal_pengingat", "desc")
+                                ->paginate(20);
+            }else{
+                $data = Reminder::where("pegawai_divisi_id", $divisi_id)
+                                ->where("status", "!=", "Ongoing")
+                                ->where("nama", "like", "%".$request->cari."%")
+                                ->orderBy("tanggal_pengingat", "desc")
+                                ->paginate(20);
+            }
+        }
+        elseif ($lokasi_id == 2){
+            $data = Reminder::where("pegawai_divisi_id", $divisi_id)
+                            ->where("status", "!=", "Ongoing")
+                            ->where("nama", "like", "%".$request->cari."%")
+                            ->orderBy("tanggal_pengingat", "desc")
+                            ->paginate(20);
+        }
+        
+        return view("reminder.index_finished", [
+                "reminder_data" => $data,
+                "title" => "Time Schedule Finished"
+            ]);
+    }
+
+    public function prosess(Request $request){
+        $id['id'] = $request->prosess_reminder_id;
+        $data['status'] = $request->status;
+        $data['komentar'] = $request->komentar;
+        $data['updated_at'] = now("asia/jakarta");
+
+        $status = DB::table("r_reminder_data")->where("id", $id['id'])->get()[0]->status == "prosess";
+        if($status == true){
+            return redirect('/reminder/manage_reminder')->with("error", "Pengingat Telah Selesai");
+        } else {
+            DB::table("r_reminder_data")->where($id)->update($data);
+            return redirect('/reminder/finished')->with("success", "Pengingat berhasil di selesaikan");
+        }
+    }
+
     public function import_reminder(Request $request){
         Excel::import(new ReminderImport, $request->file("import"));
         return redirect("/reminder/manage_reminder")->with("success", "Import Data berhasil");
@@ -58,6 +109,7 @@ class ReminderController extends Controller
         $data['email_2'] = $request->email_2;
         $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
+        $data['status'] = "Ongoing";
         $data['updated_at'] = now("asia/jakarta");
 
         if(DB::table("r_reminder_data")->where($id)->update($data)){
@@ -97,24 +149,27 @@ class ReminderController extends Controller
         $data['email_2'] = $request->email_2;
         $data['email_3'] = $request->email_3;
         $data['keterangan'] = $request->keterangan;
+        $data['status'] = "Ongoing";
         $data['created_at'] = now("asia/jakarta");
         $data['updated_at'] = now("asia/jakarta");
 
-                DB::table("r_reminder_data")->insert($data);     
+                DB::table("r_reminder_data")->insert($data);         
                 return back()->with("success", "Penambahan Data Berhasil");
     
     }
 
-    public function manage_reminder()
+    public function manage_reminder(Request $request)
     {
             return view("reminder.manage_reminder", [
-            "reminder_data" => Reminder::where("user_id", auth()->user()->id)->get(),
+            "reminder_data" => Reminder::where("user_id", auth()->user()->id)
+                                        ->where("nama", "like", "%".$request->cari."%")
+                                        ->paginate(20),
             'title' => 'Manage Reminder'
         ]);
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
         $divisi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_divisi_id;
@@ -124,13 +179,24 @@ class ReminderController extends Controller
         // dd($jabatan);
         if($lokasi_id == 1){
             if($jabatan == "Direktur"){
-                $data = Reminder::get();
+                $data = Reminder::where("status", "=", "Ongoing")
+                                ->where("nama", "like", "%".$request->cari."%")
+                                ->orderBy("tanggal_pengingat", "asc")
+                                ->paginate(20);
             }else{
-                $data = Reminder::where("pegawai_divisi_id", $divisi_id)->get();
+                $data = Reminder::where("pegawai_divisi_id", $divisi_id)
+                                ->where("status", "=", "Ongoing")
+                                ->where("nama", "like", "%".$request->cari."%")
+                                ->orderBy("tanggal_pengingat", "asc")
+                                ->paginate(20);
             }
         }
         elseif ($lokasi_id == 2){
-            $data = Reminder::where("pegawai_divisi_id", $divisi_id)->get();
+            $data = Reminder::where("pegawai_divisi_id", $divisi_id)
+                            ->where("status", "=", "Ongoing")
+                            ->where("nama", "like", "%".$request->cari."%")
+                            ->orderBy("tanggal_pengingat", "asc")
+                            ->paginate(20);
         }
         
         return view("reminder.index", [

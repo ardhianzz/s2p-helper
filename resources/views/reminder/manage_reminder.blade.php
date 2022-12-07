@@ -8,6 +8,14 @@
     a{
         text-decoration: none;
     }
+    i.icon-green
+    {
+    color: rgb(7, 169, 34);
+    }
+    i.icon-red
+    {
+    color: rgb(186, 5, 5);
+    }
 </style>
 @if(session()->has('success'))
     <div class="alert alert-success" role="alert">
@@ -36,85 +44,155 @@
                     <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#uploaddata">Upload Data</button>
                 </div>
             </div>
-            <div class="card-body table-respon mt-4">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <td>No</td>
-                            <td>Subject</td>
-                            <td>Expired Date</td>
-                            <td>Reminder Date</td>
-                            <td>Email</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($reminder_data as $r)
-                        <tr>
-                            <td width="10px">{{ $loop->index+1 }}</td>
-                            <td width="150px">{{ $r->nama }}</td>
-                            <td width="150px">
-                                @if ($r->tanggal_expired == null)
-                                    -
-                                @elseif ($r->tanggal_expired == "1899-12-30")
-                                    -
-                                @else
-                                    {{ tanggl_id(($r->tanggal_expired)) }}
-                                @endif
-                            </td>
-                            <td width="150px">
-                                @if($r->pengingat == "Month")
-                                Every {{ $r->tanggal_pengingat }}th
-                                @elseif($r->pengingat == "Year") 
-                                Every {{ bulan(($r->tanggal_pengingat)) }}th
-                                @elseif($r->pengingat == "One")
-                                {{ tanggl_id(($r->tanggal_pengingat)) }} 
-                                @endif
-                            </td>
-                            <td width="100px">{{ $r->email }}</td>
-                            <td width="100px">
-                                <a href="/reminder/manage_reminder/detail/{{ $r->id }}" class="btn btn-info btn-xs">
-                                    <i class="fa fa-info" aria-hidden="true" data-toogle="tooltip" data-placement="top" title="Detail"></i>
-                                </a>
-                                <button class="btn btn-danger btn-xs" 
-                                        data-toggle="modal" 
-                                        data-target="#hapusdata{{ $r->id }}">
-                                        <i class="fa fa-trash" data-toogle="tooltip" data-placement="top" title="Delete Reminder"></i>
-                                </button>
+            <div class="conten">
+                <div class="card">
+                    <div class="nav justify-content-between card-header">
+                        <h5>List Schedule</h5>
+                        <form>
+                            <input type="search" name="cari" placeholder="Subject.." value="{{ request()->cari }}">
+                            <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
+                        </form>
+                    </div>
+                    <div class="card-body table-respon">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Subject</td>
+                                    <td>Expired Date</td>
+                                    <td>Reminder Date</td>
+                                    <td>Email</td>
+                                    <td>Status</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($reminder_data as $r)
+                                <tr>
+                                    <td width="10px">{{ $loop->index+1 }}</td>
+                                    <td width="150px">{{ $r->nama }}</td>
+                                    <td width="150px">
+                                        @if ($r->tanggal_expired == null)
+                                            -
+                                        @elseif ($r->tanggal_expired == "1899-12-30")
+                                            -
+                                        @else
+                                            {{ tanggl_id(($r->tanggal_expired)) }}
+                                        @endif
+                                    </td>
+                                    <td width="150px">
+                                        @if($r->pengingat == "Month")
+                                        Every {{ $r->tanggal_pengingat }}th
+                                        @elseif($r->pengingat == "Year") 
+                                        Every {{ bulan(($r->tanggal_pengingat)) }}th
+                                        @elseif($r->pengingat == "One")
+                                        {{ tanggl_id(($r->tanggal_pengingat)) }} 
+                                        @endif
+                                    </td>
+                                    <td width="100px">{{ $r->email }}</td>
+                                    <td width="100px">
+                                        @if($r->status == "Ongoing")
+                                        Ongoing
+                                        @elseif($r->status == "prosess")
+                                        Finished
+                                        @endif
+                                    </td>
+                                    <td width="120px" align="center">
+                                        <a href="/reminder/manage_reminder/detail/{{ $r->id }}">
+                                            <i class="material-icons" data-toogle="tooltip" data-placement="top" title="Detail"  style="font-size: 30px">
+                                                info
+                                            </i>
+                                        </a>
+                                        @if($r->status == "Ongoing")
+                                            <a href="#" data-toggle="modal" data-target="#persetujuan{{ $r->id }}">
+                                                <i class="material-icons icon-green" style="font-size: 30px" data-toogle="tooltip" data-placement="top" title="Process">
+                                                    verified
+                                                </i>
+                                            </a> 
+                                        @endif
 
-                                <div class="modal fade" id="hapusdata{{ $r->id }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="hapusdata{{ $r->id }}"
+                                        <a href="#" data-toggle="modal" data-target="#hapusdata{{ $r->id }}">
+                                            <i class="material-icons icon-red" style="font-size: 30px" data-toogle="tooltip" data-placement="top" title="Delete">
+                                                delete
+                                            </i>
+                                        </a>
+
+                                        <div class="modal fade" id="hapusdata{{ $r->id }}" tabindex="-1" role="dialog"
+                                            aria-labelledby="hapusdata{{ $r->id }}"
+                                            aria-hidden="true">
+
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="hapusdata{{ $r->id }}">Delete Reminder </h5>
+                                                                <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="/reminder/hapus_data_reminder" method="POST">
+                                                                @csrf
+                                                                <label>Apakah Anda Yakin Ingin Menghapus Catatan {{ $r->nama }}?</label>
+                                                                <input type="hidden" name="r_reminder_data" value="{{ $r->id }}">
+                                                                <div class="form-group mt-5">
+                                                                    <button class="btn col-lg-2 btn-primary btn-xs" type="submit"> Delete </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    </td>
+                                </tr>
+
+                                {{-- Button modal untuk Proccess --}}
+                                <div class="modal fade" id="persetujuan{{ $r->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="persetujuan{{ $r->id }}"
                                     aria-hidden="true">
 
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="hapusdata{{ $r->id }}">Delete Reminder </h5>
-                                                        <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/reminder/hapus_data_reminder" method="POST">
-                                                        @csrf
-                                                        <label>Apakah Anda Yakin Ingin Menghapus Catatan {{ $r->nama }}?</label>
-                                                        <input type="hidden" name="r_reminder_data" value="{{ $r->id }}">
-                                                        <div class="form-group mt-5">
-                                                            <button class="btn col-lg-2 btn-primary btn-xs" type="submit"> Delete </button>
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="persetujuan{{ $r->id }}">Finished Reminder</h5>
+                                                    <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/reminder/process/aksi" method="post">
+                                                    @csrf
+                                                    @method("put")
+                                                        <div class="form-group">
+                                                            <label for="keterangan" class="mb-3">Comment</label> <i>(Optional)</i> 
+                                                            <textarea name="komentar" class="form-control" rows="5"></textarea>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                        <div class="form-group mt-3" hidden>
+                                                            <input class="form-check-input" type="radio" name="status" value="prosess" checked>
+                                                            <label class="form-check-label" for="inlineRadio1">Process</label>
+                                                        </div>
+                                                        <div class="form-group mt-5">
+                                                            <input type="hidden" name="prosess_reminder_id" value="{{ $r->id }}">
+                                                            <button class="btn col-lg-2 btn-primary" type="submit"> Submit </button>
+                                                        </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        {{ $reminder_data->withQueryString()->links() }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                            </td>
-                        </tr>
-
-                        @endforeach
-                    </tbody>
-                </table>
-
+                    </div>
+                </div>
             </div>
         </div>
     </div>

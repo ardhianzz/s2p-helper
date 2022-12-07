@@ -121,6 +121,30 @@
                                     @endforeach
                                 </tr>
                                 <tr>
+                                    <td> <b>Status</b> </td>
+                                    <td> <b>:</b> </td>
+                                    @foreach ($detail as $d)
+                                        @if($d->status == "Ongoing")
+                                        <td><b>Ongoing</b></td> 
+                                        @elseif($d->status == "prosess")
+                                        <td><b>Finished</b></td> 
+                                        @endif
+                                    @endforeach
+                                </tr>
+
+                                @if($d->status == "prosess")
+                                    @if($d->komentar != null)
+                                    <tr>
+                                        <td> <b>Comment</b> </td>
+                                        <td> <b>:</b> </td>
+                                        @foreach ($detail as $d)
+                                        <td>{{ $d->komentar }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endif
+                                @endif
+
+                                <tr>
                                     <td> <b>Description</b> </td>
                                     <td> <b>:</b> </td>
                                     @foreach ($detail as $d)
