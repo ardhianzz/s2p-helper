@@ -12,7 +12,7 @@
 
             <a class="nav-link {{ Request::is('reminder/finished*') ? 'active' : ''}}" href="/reminder/finished">
                 <div class="sb-nav-link-icon"><i class="fa fa-list-alt"></i></div>
-                Finished
+                Close
             </a>
 
             <a class="nav-link {{ Request::is('reminder/manage_reminder*') ? 'active' : ''}}" href="/reminder/manage_reminder">

@@ -39,8 +39,9 @@ class LoginController extends Controller
                 'user_agent' => $agent,
                 ];
             
-            
-            Mail::to($request->email)->send(new notif_login($details));
+            if(DB::table("modul_email")->where("id", 2)->get()[0]->keterangan == "Aktif"){
+                Mail::to($request->email)->send(new notif_login($details));
+            }
             
 
             //insert aktifitas login

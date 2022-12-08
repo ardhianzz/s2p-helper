@@ -94,10 +94,10 @@
                                         @if($r->status == "Ongoing")
                                         Ongoing
                                         @elseif($r->status == "prosess")
-                                        Finished
+                                        Closed
                                         @endif
                                     </td>
-                                    <td width="120px" align="center">
+                                    <td width="120px">
                                         <a href="/reminder/manage_reminder/detail/{{ $r->id }}">
                                             <i class="material-icons" data-toogle="tooltip" data-placement="top" title="Detail"  style="font-size: 30px">
                                                 info
@@ -105,7 +105,7 @@
                                         </a>
                                         @if($r->status == "Ongoing")
                                             <a href="#" data-toggle="modal" data-target="#persetujuan{{ $r->id }}">
-                                                <i class="material-icons icon-green" style="font-size: 30px" data-toogle="tooltip" data-placement="top" title="Process">
+                                                <i class="material-icons icon-green" style="font-size: 30px" data-toogle="tooltip" data-placement="top" title="Close">
                                                     verified
                                                 </i>
                                             </a> 

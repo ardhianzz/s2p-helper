@@ -2,77 +2,58 @@
 @include('dashboard.sidebar.menu')
 
 @section('container')
-<h1>Pengaturan Email</h1>
-<div class="row">
-  <div class="container mt-3">
+
+<div class="container-fluid px-4">
     <div class="row">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header">
-          <h5>Mailer System</h5>
-        </div>
-  
-        <div class="card-body">
-            <form>
-              <div class="row mt-1 mb-2">
-                <div class="col-lg-3">Akun</div>
-                <div class="col-lg-1">:</div>
-                <div class="col-lg-8"><input type="text" class="form-control" name="server_account"></div>
-              </div>
-
-              <div class="row mt-1 mb-2">
-                <div class="col-lg-3">Outgoing Server</div>
-                <div class="col-lg-1">:</div>
-                <div class="col-lg-8"><input type="text" class="form-control" name="server_outgoing"></div>
-              </div>
-
-              <div class="row mt-1 mb-2">
-                <div class="col-lg-3">Outgoing Port</div>
-                <div class="col-lg-1">:</div>
-                <div class="col-lg-8"><input type="number" class="form-control" name="server_port"></div>
-              </div>
-
-              <div class="row mt-1 mb-2">
-                <div class="col-lg-3">Use SSL</div>
-                <div class="col-lg-1">:</div>
-                <div class="col-lg-8">
-                  <select name="use_ssl" class="form-control">
-                    <option value="1" selected>YES</option>
-                    <option value="0">NO</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row mt-1 mb-2">
-                <button type="submit" class="form-control btn btn-info">Simpan</button>
-              </div>
-            </form>
-        </div>
-      </div>
+      <h1>Pengaturan Email</h1>
     </div>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
+    </ol>
 
-    <div class="col-lg-5">
-      <div class="card">
-        <div class="card-header">
-          Tets Akun
-        </div>
+  <div class="conten">
+    <div class="card">
+      <div class="card-header">
+        <h5>Aktifasi Pengiriman Email</h5>
+      </div>
 
-        <div class="card-body">
+      <div class="card-body table-respon">
           <form>
-            <div class="row mt-1 mb-2">
-              <div class="col-lg-3">Test Akun</div>
-              <div class="col-lg-1">:</div>
-              <div class="col-lg-8"><input type="text" class="form-control" name="server_account" required></div>
-            </div>
-
-            <div class="row mt-1 mb-2">
-              <button type="submit" name="test" class="form-control btn btn-primary">Test</button>
-            </div>
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <td>Nama</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            
+            <tbody>
+              @foreach ($modul as $i)
+              <tr>
+                <td>{{ $i->nama }}</td>
+                <td>
+                  <select name="keterangan[]" class="form-control">
+                    <option value="">-- Pilih Satu --</option>
+                    <option @if($i->keterangan == "Aktif") selected @endif value="Aktif">Aktif</option>
+                    <option @if($i->keterangan == "Tidak Aktif") selected @endif value="Tidak Aktif">Tidak Aktif</option>
+                    <input type="hidden" name="id[]" value="{{ $i->id }}">
+                  </select>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+            
+            <tfoot>
+              <tr>
+                <td colspan="2">
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </td>
+              </tr>
+            </tfoot>
           </form>
-        </div>
+        </table>
       </div>
     </div>
-  </div>
   </div>
 </div>
 

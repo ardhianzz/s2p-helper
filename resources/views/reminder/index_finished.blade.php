@@ -68,7 +68,7 @@
                                     @if($r->status == "Ongoing") 
                                         Ongoing
                                     @elseif($r->status == "prosess") 
-                                        Finished
+                                        Closed
                                     @endif
                                 </td>
                                 <td>{{ $r->user->pegawai->nama }}</td>

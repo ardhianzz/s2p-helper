@@ -47,7 +47,7 @@ class ReminderController extends Controller
         
         return view("reminder.index_finished", [
                 "reminder_data" => $data,
-                "title" => "Time Schedule Finished"
+                "title" => "Time Schedule Closed"
             ]);
     }
 
@@ -59,16 +59,16 @@ class ReminderController extends Controller
 
         $status = DB::table("r_reminder_data")->where("id", $id['id'])->get()[0]->status == "prosess";
         if($status == true){
-            return redirect('/reminder/manage_reminder')->with("error", "Pengingat Telah Selesai");
+            return redirect('/reminder/manage_reminder')->with("error", "Reminder Already Closed");
         } else {
             DB::table("r_reminder_data")->where($id)->update($data);
-            return redirect('/reminder/finished')->with("success", "Pengingat berhasil di selesaikan");
+            return redirect('/reminder/manage_reminder')->with("success", "Reminder Closed Successfully");
         }
     }
 
     public function import_reminder(Request $request){
         Excel::import(new ReminderImport, $request->file("import"));
-        return redirect("/reminder/manage_reminder")->with("success", "Import Data berhasil");
+        return redirect("/reminder/manage_reminder")->with("success", "Import Data Successfully");
     }
 
     public function reminder_detail(Request $request){
@@ -113,16 +113,16 @@ class ReminderController extends Controller
         $data['updated_at'] = now("asia/jakarta");
 
         if(DB::table("r_reminder_data")->where($id)->update($data)){
-            return back()->with("success", "Perubahan Data Berhasil");
+            return back()->with("success", "Data Change was Successful");
         }
-        return back()->with("error", "Perubahan Data Tidak Berhasil");
+        return back()->with("error", "Data Change was Successful");
     }
 
     public function hapus_catatan(Request $request){
         $id['id'] = $request->r_reminder_data;
 
         if(DB::table("r_reminder_data")->delete($id));
-        return back()->with("success", "Penghapusan Data Berhasil");
+        return back()->with("success", "Deletion was Successful");
 
 
     }
@@ -154,7 +154,7 @@ class ReminderController extends Controller
         $data['updated_at'] = now("asia/jakarta");
 
                 DB::table("r_reminder_data")->insert($data);         
-                return back()->with("success", "Penambahan Data Berhasil");
+                return back()->with("success", "Successful");
     
     }
 

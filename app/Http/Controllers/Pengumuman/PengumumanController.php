@@ -585,18 +585,22 @@ class PengumumanController extends Controller
         if($request->type == "publish"){
             $data['status'] = "Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
-                // if($lokasi == "Jakarta"){
-                //     Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // } 
-                // if($lokasi == "Cilacap") {
-                //     Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // }
-                // if($lokasi == "Semua") {
-                //     Mail::to($email_all)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // }
+                if(DB::table("modul_email")->where("id", 1)->get()[0]->keterangan == "Aktif"){
+                    if($lokasi == "Jakarta"){
+                        Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    } 
+                    if($lokasi == "Cilacap") {
+                        Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    }
+                    if($lokasi == "Semua") {
+                        Mail::to($email_all)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    }
+                } elseif(DB::table("modul_email")->where("id", 1)->get()[0]->keterangan == "Tidak Aktif"){
+                    return back()->with('success', 'Publish Pengumuman Berhasil Tanpa Dengan Pengiriman Email');
+                }
             }else{
                 return back()->with('error', 'proses gagal');
             }
