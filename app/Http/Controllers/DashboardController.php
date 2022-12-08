@@ -30,11 +30,13 @@ class DashboardController extends Controller
         }
 
         if(request()->id != null){
-            return "Ada Request";
+            for($i=0; $i<count(request()->id); $i++){
+                DB::table("modul_email")->where("id", request()->id[$i])->update(["keterangan" => request()->keterangan[$i]]);
+            }
         }
 
         return view("dashboard.mailer",[
-            'modul' => DB::table("modul")->get(),
+            'modul' => DB::table("modul_email")->get(),
         ]);
 
     }

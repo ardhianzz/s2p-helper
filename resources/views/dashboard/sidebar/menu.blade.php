@@ -14,10 +14,10 @@
                 Aktivitas
             </a>
 
-            {{-- <a class="nav-link {{ Request::is('main/mailler*') ? 'active' : ''}}" href="/main/mailler">
+            <a class="nav-link {{ Request::is('main/mailler*') ? 'active' : ''}}" href="/main/mailler">
                 <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                 Pengaturan Email
-            </a> --}}
+            </a>
 
         </div>
     </div>
