@@ -212,6 +212,7 @@ Route::group(['middleware' => ["auth"]], function(){
         Route::put('/jabatan', [UserController::class, 'jabatan_put']);
         Route::post('/pegawai', [UserController::class, 'pegawai_store']);
         Route::put('/pegawai', [UserController::class, 'pegawai_put']);
+        Route::put('/pegawai/detail', [UserController::class, 'pegawai_put_detail']);
         Route::put('/pegawai/reset', [UserController::class, 'reset_password']);
         Route::get('/profile/{id}', [UserController::class, 'profile_pegawai']);
         Route::get('/pegawai/{lokasi}', [UserController::class, 'index']);

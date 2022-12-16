@@ -3,6 +3,7 @@
 namespace App\Models\Pegawai;
 
 use App\Models\ManagemenKendaraan\AKendaraan;
+use App\Models\PegawaiLampiran;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,10 @@ class Pegawai extends Model
     use HasFactory;
     protected $table = 'pegawai';
     protected $guarded = ['id'];
+
+    public function pegawai_lampiran(){
+        return $this->belongsTo(PegawaiLampiran::class);
+    }
 
     public function pegawai_divisi(){
         return $this->belongsTo(PegawaiDivisi::class);

@@ -10,21 +10,16 @@
 
 
             <div class="row">
-
-
-
-              <div class="col-xl-3">
-                <div class="card mb-2">
+              
+              <div class="col-lg-3">
+                <div class="card-md-12">
                     <div class="card-body">
                       <p align="center">
-                        <span class="material-icons" style="font-size: 200px; align:center;"> account_box </span>
+                        <img src="{{ $dokumen_foto }}" width="150px">
                       </p>
                     </div>
                   </div>
               </div>
-
-
-
                 <div class="col-xl-9">
                     <div class="card mb-2">
                         <div class="card-header">
@@ -35,7 +30,7 @@
                           </div>
                         </div>
                         <div class="card-body">
-                          <form method="post" action="/pegawai">
+                          <form method="POST" action="/pegawai" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="form-group row mb-3">
@@ -103,7 +98,7 @@
                             <div class="form-group row mb-3">
                               <label for="foto" class="col-sm-2 col-from-label">Foto</label>
                               <div class="col-sm-10">
-                                <input type="file" class="form-control custom-file-input">
+                                <input type="file" name="file" class="form-control">
                               </div>
                             </div>
 
@@ -123,10 +118,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
 

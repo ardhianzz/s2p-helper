@@ -6,26 +6,42 @@ use App\Mail\notif_reset_password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Pegawai\Pegawai;
+use App\Models\Pegawai\PegawaiDokumen;
+use App\Models\PegawaiLampiran;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-
-    public function profile_pegawai($id){
+    public function profile_pegawai($id, Request $request){
         
         $id_login = auth()->user()->id;
         
         if($id_login != $id){
             return abort(403);
         }
-
-        return view("pegawai.profile",[
-            "title" => "Profile",
-            'divisi' => Pegawai::get_divisi(),
-            'pegawai' => Pegawai::get_profile($id),
-            'jabatan' => Pegawai::get_jabatan(),
-            'lokasi' => Pegawai::get_lokasi(),
-        ]);
+        $a = DB::table("pegawai")->join("pegawai_lampiran", "pegawai.user_id", "=", "pegawai_lampiran.pegawai_id")
+                                ->select("pegawai.user_id","pegawai_lampiran.path")
+                                ->where("pegawai_id", auth()->user()->id)
+                                ->count();
+        if($a == true ){
+            return view("pegawai.profile",[
+                "title" => "Profile",
+                'divisi' => Pegawai::get_divisi(),
+                'pegawai' => Pegawai::get_profile($id),
+                'jabatan' => Pegawai::get_jabatan(),
+                'lokasi' => Pegawai::get_lokasi(),
+                'dokumen_foto' => DB::table("pegawai_lampiran")->where("pegawai_id", auth()->user()->id)->get()[0]->path,
+            ]);
+        } else {
+            return view("pegawai.profile",[
+                "title" => "Profile",
+                'divisi' => Pegawai::get_divisi(),
+                'pegawai' => Pegawai::get_profile($id),
+                'jabatan' => Pegawai::get_jabatan(),
+                'lokasi' => Pegawai::get_lokasi(),
+                'dokumen_foto' => "/img/user_image.png",
+            ]);
+        }
     }
 
     public function reset_password(Request $request){
@@ -57,7 +73,7 @@ class UserController extends Controller
         return back()->with('success', "Data berhasil dirubah");
     }
 
-    public function pegawai_put(Request $request){
+    public function pegawai_put_detail(Request $request){
 
         $lokasi = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;
         $pegawai['id'] = $request->id;
@@ -67,12 +83,60 @@ class UserController extends Controller
         $data['pegawai_divisi_id'] = $request->pegawai_divisi_id;
 
         if ($lokasi == 1){
-            $data['pegawai_lokasi_id'] = $request->pegawai_lokasi_id;
+            $data_lokasi['pegawai_lokasi_id'] = $request->pegawai_lokasi_id;
         }
         if ($lokasi == 2){
-            $data['pegawai_lokasi_id'] = 2;
+            $data_lokasi['pegawai_lokasi_id'] = 2;
         }
         //$data['email'] = $request->email;
+
+        $user['email'] = $request->email;
+        $id['id'] = $request->user_id;
+
+        $validate0 = DB::table('pegawai')->where($pegawai)->update($data_lokasi);
+        $validate1 = DB::table('pegawai')->where($pegawai)->update($data);
+        $validate2 = DB::table('users')->where($id)->update($user);
+
+        if($request->file != null){
+            if($this->simpan_dokumen($request->file, $id['id'],"profile")){ 
+                if($validate0){
+                    if($request->pegawai_lokasi_id == 1){
+                        return redirect('/pegawai/jakarta')->with('success', "Identitas, Lokasi dan Foto Profile berhasil diubah");
+                    } elseif($request->pegawai_lokasi_id == 2){
+                        return redirect('/pegawai/cilacap')->with('success', "Identitas, Lokasi dan Foto Profile berhasil diubah");
+                    }
+                } else {
+                    return back()->with('success', "Identitas dan Foto Profile Berhasil diubah");
+                } 
+            } else {
+                return back()->with('error', "Foto Profile Gagal diubah");
+            }
+        } elseif($validate1 || $validate2){
+            if($validate0){
+                if($request->pegawai_lokasi_id == 1){
+                    return redirect('/pegawai/jakarta')->with('success', "Identitas dan Lokasi berhasil diubah");
+                } elseif($request->pegawai_lokasi_id == 2){
+                    return redirect('/pegawai/cilacap')->with('success', "Identitas dan Lokasi berhasil diubah");
+                }
+            } else {
+                return back()->with('success', "Identitas Berhasil diubah");
+            }
+        }
+        if($validate0){
+            if($request->pegawai_lokasi_id == 1){
+                return redirect('/pegawai/jakarta')->with('success', "Lokasi berhasil diubah");
+            }
+            elseif($request->pegawai_lokasi_id == 2){
+                return redirect('/pegawai/cilacap')->with('success', "Lokasi berhasil diubah");
+            }
+        }
+    }
+
+    public function pegawai_put(Request $request){
+
+        $pegawai['id'] = $request->id;
+        $data['nik'] = $request->nik;
+        $data['nama'] = $request->nama;
 
         $user['email'] = $request->email;
         $id['id'] = $request->user_id;
@@ -80,16 +144,50 @@ class UserController extends Controller
         $validate1 = DB::table('pegawai')->where($pegawai)->update($data);
         $validate2 = DB::table('users')->where($id)->update($user);
 
-        if($validate1 || $validate2){
-            if($request->pegawai_lokasi_id == 1){
-                return redirect('/pegawai/jakarta')->with('success', "Data berhasil dirubah");
+
+        if($request->file != null){
+            if($this->simpan_dokumen($request->file, $id['id'],"profile")){ 
+                return back()->with('success', "Success");
+            }else {
+                return back()->with('error', "Error");
             }
-            elseif($request->pegawai_lokasi_id == 2){
-                return redirect('/pegawai/cilacap')->with('success', "Data berhasil dirubah");
-            }
-        }else{
-            return back()->with('error', "Data gagal dirubah");
+        }elseif($validate1 || $validate2){
+            return back()->with('success', "Success");
+        } else {
+            return back()->with('error', "Error");
         }
+            
+    }
+
+    public function simpan_dokumen($file, $id="", $sub_folder){      
+        //move file
+        $name1 = $file->getClientOriginalName();
+        $tgl = date("YmdHis");
+        $str = str_replace(" ", "_", $tgl."_".$name1);
+        $filename = $id."_".$str;
+
+        $file-> move(public_path("/dokumen/".$sub_folder."/".$id.'/'), $filename);
+
+        $data['pegawai_id'] = $id;
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $data['nama'] = $name1;
+        $data['path'] = "/dokumen/".$sub_folder."/".$id."/".$filename;
+
+
+        $data_edit['pegawai_id'] = $id;
+        $data_edit['updated_at'] = date('Y-m-d H:i:s');
+        $data_edit['nama'] = $name1;
+        $data_edit['path'] = "/dokumen/".$sub_folder."/".$id."/".$filename;
+
+        $ambil = DB::table("pegawai_lampiran")->where("pegawai_id", auth()->user()->id)->count();
+
+        if($ambil >= 1){
+            return DB::table("pegawai_lampiran")->where("pegawai_id", auth()->user()->id)->update($data_edit); 
+        }
+        if ($ambil == 0){
+            return PegawaiLampiran::create($data); 
+        }
+        
     }
 
     public function pegawai_store(Request $request){
@@ -224,15 +322,31 @@ class UserController extends Controller
         if($lokasi == "cilacap"){
             $data_detail = Pegawai::get_detail_cilacap($request->nik);
         }
+
+        $a = DB::table("pegawai")->join("pegawai_lampiran", "pegawai.user_id", "=", "pegawai_lampiran.pegawai_id")
+                                ->select("pegawai.user_id","pegawai_lampiran.path")
+                                ->where("pegawai_id", auth()->user()->id)
+                                ->count();
         
-        // dd($data_detail);
-        return view("pegawai.detail",[
-            "title" => "Detail",
-            'divisi' => Pegawai::get_divisi(),
-            'pegawai' => $data_detail,
-            'jabatan' => Pegawai::get_jabatan(),
-            'lokasi' => Pegawai::get_lokasi(),
-        ]);
+        if($a == true){
+            return view("pegawai.detail",[
+                "title" => "Detail",
+                'divisi' => Pegawai::get_divisi(),
+                'pegawai' => $data_detail,
+                'jabatan' => Pegawai::get_jabatan(),
+                'lokasi' => Pegawai::get_lokasi(),
+                'dokumen_foto' => DB::table("pegawai_lampiran")->where("pegawai_id", auth()->user()->id)->get()[0]->path,
+            ]);
+        } else{
+            return view("pegawai.detail",[
+                "title" => "Detail",
+                'divisi' => Pegawai::get_divisi(),
+                'pegawai' => $data_detail,
+                'jabatan' => Pegawai::get_jabatan(),
+                'lokasi' => Pegawai::get_lokasi(),
+                'dokumen_foto' => "/img/user_image.png",
+            ]);
+        }
     }
 
     public function hak_akses_put2(Request $request){
