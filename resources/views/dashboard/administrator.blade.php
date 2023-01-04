@@ -6,7 +6,7 @@
 
 <div class="container-fluid px-4">
     <div class="row">
-      <h1>Pengaturan Go Live Aplikasi</h1>
+      <h1 class="mt-4">Pengaturan Go Live Aplikasi</h1>
     </div>
     <ol class="breadcrumb mb-4">
       <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>

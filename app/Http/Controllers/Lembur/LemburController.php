@@ -270,7 +270,7 @@ class LemburController extends Controller
         $id = Auth::user()->id;
 
         return view("lembur.lembur_approve", [
-            "title" => "Pengajuan Lembur",
+            "title" => "Persetujuan Lembur",
             "pengajuan_lembur" => Lembur::get_pengajuan_lembur($id),
         ]);
     }

@@ -15,6 +15,7 @@ use App\Models\Jabatan;
 use App\Models\Divisi;
 use App\Models\Lembur\LemburSettingsGroup;
 use App\Models\Modul_email;
+use App\Models\Modul_tema;
 use Illuminate\Support\Facades\DB;
 
 class SystemSeeder extends Seeder
@@ -178,6 +179,8 @@ class SystemSeeder extends Seeder
          Modul_email::create(['nama' => "Pengiriman Email Pengumuman"]);
          Modul_email::create(['nama' => "Pengiriman Email Notifikasi Login"]);
          Modul_email::create(['nama' => "Pengiriman Email Reminder"]);
+
+         Modul_tema::create(['nama' => "Tooltip"]);
 
          //modul Pegawai
          HakAkses::create([ 'user_id' =>'1' ,  'modul_id'=>'1' , 'pegawai_level_user_id' => '1']);

@@ -12,11 +12,21 @@
             {{-- <div class="row"> --}}
                 <div class="content">
                     <div class="box">
-                        <div class="box-header">
+                        <div class="navbar box-header">
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Tambah Divisi</a>
-                        </div>
+                            <div class="col-lg-3">
+                              <form class="row">
+                                  <div class="col-md-8" style="padding-right: 0px">
+                                      <input class="form-control" type="search" placeholder="Nama.." aria-label="Nama.." name="cari" value="{{ request()->cari }}">
+                                  </div>
+                                  <div class="col-md-3">
+                                      <button class="btn btn-dark text-white" type="submit">Search</button>
+                                  </div>
+                              </form>
+                            </div> 
+                          </div>
 
-                      <div class="box-body table-respon mt-4"> 
+                      <div class="box-body table-respon"> 
                         <table class="table table-bordered table-striped">
                             <thead>
                               <tr>
@@ -81,6 +91,11 @@
                             @endforeach
 
                             </tbody>
+                            <tfoot>
+                              <tr>
+                                <td colspan="5"> {{ $divisi->withQueryString()->links() }}</td>
+                              </tr>
+                            </tfoot>
                           </table>
                         </div>
                     </div>

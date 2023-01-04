@@ -12,7 +12,8 @@
         <div class="col-xl-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    <button class="btn btn-default">Pilih Periode</button>
+                    {{-- <button class="btn btn-default">Pilih Periode</button> --}}
+                    <h5>{{ $title }}</h5>
                 </div>
                 <div class="card-body">
                     <div style="width: 800px;">

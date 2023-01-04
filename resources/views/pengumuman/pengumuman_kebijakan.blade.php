@@ -18,11 +18,20 @@
                 <div class="col-lg-12">
                     <div class="nav card">
                         <div class="card-header d-flex justify-content-between">
-                        
-                            <form>
-                                <input type="search" name="cari" value="{{ request()->cari }}">
-                                <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
-                            </form>
+                            <div class="col-lg-3">
+                                <form class="row">
+                                    <div class="col-md-9" style="padding-right: 0px">
+                                        <input class="form-control" type="search" placeholder="Nama.." aria-label="Nama.." name="cari" value="{{ request()->cari }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-dark text-white" type="submit">Search</button>
+                                    </div>
+                                </form>
+                            </div> 
+                            {{-- <form>
+                                <input class="form-control" type="search" name="cari" value="{{ request()->cari }}">
+                                <button type="submit" aria-placeholder="Nama Pengumuman" class="bnt btn-sm btn-dark">Cari</button>
+                            </form> --}}
                         </div>
                         <div class="card-body">
                             <div class="row">

@@ -3,8 +3,6 @@
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <div class="sb-sidenav-menu-heading">Core</div>
-            
             <a class="nav-link {{ Request::is('absen') ? 'active' : ''}}" href="/absen">
                 <div class="sb-nav-link-icon"><i class="fa fa-bar-chart"></i></div>
                 Statistik Absensi
@@ -41,9 +39,12 @@
             
         </div>
     </div>
-    <div class="sb-sidenav-footer">
-        <div class="fa fa-address-card"></div>
+    <div class="sb-sidenav-footer" align="center">
+        <p align="center">
+            <img src="{{ foto() }}" width="100px" style="border-radius: 50%;">
+        </p>
         {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
+        {{ DB::table("users")->where("id", auth()->user()->id)->get()[0]->email }}
     </div>
 </nav>
     

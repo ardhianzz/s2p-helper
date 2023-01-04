@@ -278,6 +278,7 @@ class PengumumanController extends Controller
                                     "p_slip_gaji_detail.t_takehome")
                         ->join("p_slip_gaji_detail", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
                         ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
+                        ->where("p_slip_gaji.periode", "like", "%".$request->cari."%")
                         ->where("p_slip_gaji.status", "Diumumkan")
                         // ->where("p_slip_gaji_detail.nik", $request->nik)
                         ->paginate(10);
@@ -751,7 +752,8 @@ class PengumumanController extends Controller
             case '1': return "Administrator"; break;
             case '2': return "Administrator HRD"; break;
             case '3': return "Approver"; break;
-            case '4': return "User"; break;
+            case '4': return "User Jakarta"; break;
+            case '5': return "User Cilacap"; break;
             default: return abort(403); break;
         }
     }

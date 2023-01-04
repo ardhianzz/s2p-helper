@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Pegawai extends Model
@@ -211,11 +212,17 @@ class Pegawai extends Model
     }
 
     static function get_jabatan(){
-        return DB::table("pegawai_jabatan")->get();
+        return DB::table("pegawai_jabatan")->paginate(10);
+    }
+    static function get_jabatan_cari($data){
+        return DB::table("pegawai_jabatan")->where("nama", "like", "%".$data."%")->paginate(10);
     }
 
     static function get_divisi(){
-        return DB::table("pegawai_divisi")->get();
+        return DB::table("pegawai_divisi")->paginate(10);
+    }
+    static function get_divisi_cari($data){
+        return DB::table("pegawai_divisi")->where("nama", "like", "%".$data."%")->paginate(10);
     }
 
     static function get_pegawai(){

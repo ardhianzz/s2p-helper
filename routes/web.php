@@ -73,12 +73,13 @@ Route::get("/validasi/{link}", [LemburController::class, "cek_link_validasi"]);
 
 Route::group(['middleware' => ["auth"]], function(){
     
-
+    Route::get('navbar', [DashboardController::class, 'navbar']);
     Route::get('/main', [DashboardController::class, 'index'])->name('home')->middleware("auth");
-    Route::get('/main2', [DashboardController::class, "index2"]);
+    Route::get('/home', [DashboardController::class, "index2"])->name('home')->middleware("auth");
     Route::get('/main/administrator', [DashboardController::class, 'menu_administrator']);
     Route::get('/main/aktifitas', [DashboardController::class, 'aktifitas']);
     Route::get('/main/mailler', [DashboardController::class, 'menu_email']);
+    Route::get('/main/tema', [DashboardController::class, 'menu_tema']);
 
     Route::get('/reminder/dashboard',[ReminderController::class,'index']);
     Route::get('/reminder/finished',[ReminderController::class,'prosess_index']);

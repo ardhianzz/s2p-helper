@@ -13,7 +13,11 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h3> Detail Catatan</h3>
-                            <button class="btn btn-primary" href="#" data-toggle="modal" data-target="#editdatareminder">Edit</button>
+                            @if ( DB::table("r_reminder_data")->where("id", request()->id)->get()[0]->status == "Ongoing" )
+                                <button class="btn btn-primary" href="#" data-toggle="modal" data-target="#editdatareminder">
+                                    Edit
+                                </button>
+                            @endif
                         </div>
                         
                         <div class="box-body table-respon">
@@ -230,7 +234,7 @@
                         </div>
                         <div class="form-group mb-4">
                             <h5 for="pengingat" class="mb-2">Reminder Date</h5>
-                            <input type="date" name="tanggal_pengingat" class="form-control" value="{{ $d->tanggal_pengingat }}">
+                            <input type="date" name="tanggal_pengingat" class="form-control" value="{{ $d->tanggal_pengingat }}" required>
                         </div>
                         <div class="form-group mb-4">
                             <h5 for="email" class="mb-2">Email *</h5>
@@ -261,10 +265,6 @@
             </div>
         </div>
     </div>
-
-        
-
-
 
 
 @if(session()->has('success'))

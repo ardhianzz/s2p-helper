@@ -7,6 +7,18 @@ use App\Models\Pengumuman\PPengumumanRiwayat;
 use App\Models\Reminder\Reminder;
 use App\Models\User;
 
+function foto(){
+    $hitung = DB::table("pegawai")->join("pegawai_lampiran", "pegawai.user_id", "=", "pegawai_lampiran.pegawai_id")
+                                ->select("pegawai.user_id","pegawai_lampiran.path")
+                                ->where("pegawai_id", auth()->user()->id)
+                                ->count();
+    if($hitung >= 1){
+        return  DB::table("pegawai_lampiran")->where("pegawai_id", auth()->user()->id)->get()[0]->path ;
+    }
+    if ($hitung == 0){
+        return "/img/user_image.png";
+    }
+}
 
 function hrdcilacap(){
     $lokasi_id = Pegawai::where("user_id", auth()->user()->id)->get()[0]->pegawai_lokasi_id;

@@ -13,7 +13,7 @@ class CreateModul extends Migration
      */
     public function up()
     {
-        Schema::create('modul_email', function (Blueprint $table) {
+        Schema::create('modul_tema', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
             $table->string('keterangan')->nullable();
@@ -28,6 +28,6 @@ class CreateModul extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modul_email');
+        Schema::dropIfExists('modul_tema');
     }
 }

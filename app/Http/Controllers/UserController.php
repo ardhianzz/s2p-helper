@@ -422,19 +422,19 @@ class UserController extends Controller
     }
 
 
-    public function jabatan(){
+    public function jabatan(Request $request){
         $this->cek_akses(auth()->user()->id);
         return view("pegawai.jabatan",[
             'title'   => "Manageman Jabatan",
-            'jabatan' => Pegawai::get_jabatan(),
+            'jabatan' => Pegawai::get_jabatan_cari($request->cari),
         ]);
     }
 
-    public function divisi(){
+    public function divisi(Request $request){
         $this->cek_akses(auth()->user()->id);
         return view("pegawai.divisi",[
             'title'   => "Manageman Divisi",
-            'divisi' => Pegawai::get_divisi(),
+            'divisi' => Pegawai::get_divisi_cari($request->cari),
         ]);
     }
 

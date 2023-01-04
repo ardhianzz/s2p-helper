@@ -31,9 +31,12 @@
 
         </div>
     </div>
-    <div class="sb-sidenav-footer">
-        <div class="fa fa-address-card"></div>
+    <div class="sb-sidenav-footer" align="center">
+        <p align="center">
+            <img src="{{ foto() }}" width="100px" style="border-radius: 50%;">
+        </p>
         {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
+        {{ DB::table("users")->where("id", auth()->user()->id)->get()[0]->email }}
     </div>
 </nav>
     

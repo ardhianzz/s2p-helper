@@ -16,13 +16,16 @@
                             <a href="#" class="btn btn-primary" data-toggle="modal" 
                             data-target="#exampleModalCenter">Tambah Hak Akses User</a>
 
-                            
-                              <form method="get" action="/hak_akses/{{ request()->param }}">
-                            
-                                <input type="search" placeholder="Cari Nama... " name="cari" aria-label="Search" value="{{ request('cari') }}">
-                                <button class="btn btn-primary" type="submit">Search</button>
+                            <div class="col-lg-3">
+                              <form class="row">
+                                  <div class="col-md-8" style="padding-right: 0px">
+                                      <input class="form-control" type="search" placeholder="Nama.." aria-label="Nama.." name="cari" value="{{ request()->cari }}">
+                                  </div>
+                                  <div class="col-md-3">
+                                      <button class="btn btn-dark text-white" type="submit">Search</button>
+                                  </div>
                               </form>
-                            
+                          </div> 
                         </div>
                       <div class="box-body table-respon">
                         <table class="table table-bordered table-striped">

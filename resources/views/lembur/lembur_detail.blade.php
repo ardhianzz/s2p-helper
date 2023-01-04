@@ -10,91 +10,76 @@
             </ol>
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="card mb-4 col-md-4">
-                            <div class="btn-group">
-                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#tambahData">Tambah Pengajuan </button>
-
-                                <a class="btn btn-dark ml-2" method="post" href="/lembur/calculating/{{ Str::slug($title) }}/{{ $lembur_pengajuan_id }}">Hitung Total</a>
-                            </div>
-                        
+                    <button class="btn btn-success mr-2" data-toggle="modal" data-target="#tambahData">Tambah Pengajuan </button>
+                    <a class="btn btn-dark ml-2" method="post" href="/lembur/calculating/{{ Str::slug($title) }}/{{ $lembur_pengajuan_id }}">Hitung Total</a>
                     
-                        <div class="modal fade" id="tambahData" tabindex="-1" role="dialog"
-                            aria-labelledby="tambahData"
-                            aria-hidden="true">
+                    {{-- Modal Tambah --}}
+                    <div class="modal fade" id="tambahData" tabindex="-1" role="dialog"
+                        aria-labelledby="tambahData"
+                        aria-hidden="true">
 
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="tambahData">Tambah Catatan Lembur</h5>
-                                            <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                             </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/lembur/pengajuan_harian" method="post">
-                                            @csrf
-                                            <div class="form-group mb-4">
-                                                <label for="tanggal" class="mb-2">Tanggal</label>
-                                                <input type="date" name="tanggal" class="form-control" required value="{{ date("Y-m-d") }}">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="tambahData">Tambah Catatan Lembur</h5>
+                                        <button type="button" class="btn close btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/lembur/pengajuan_harian" method="post">
+                                        @csrf
+                                        <div class="form-group mb-4">
+                                            <label for="tanggal" class="mb-2">Tanggal</label>
+                                            <input type="date" name="tanggal" class="form-control" required value="{{ date("Y-m-d") }}">
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label for="keterangan" class="mb-2">Keterangan</label>
+                                            <textarea class="form-control" name="keterangan" id="" rows="10" required></textarea>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <div for=""> <b>Tipe Hari</b></div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="hari_libur" value="0" checked>
+                                                <label class="form-check-label" >Hari Biasa</label>
                                             </div>
-
-                                            <div class="form-group mb-4">
-                                                <label for="keterangan" class="mb-2">Keterangan</label>
-                                                <textarea class="form-control" name="keterangan" id="" rows="10" required></textarea>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="hari_libur" value="1">
+                                                <label class="form-check-label">Hari Libur</label>
                                             </div>
+                                        </div>
 
+                                        @if($lembur_pagi > 0)
                                             <div class="form-group mb-4">
-                                                <div for=""> <b>Tipe Hari</b></div>
+                                                <div for=""> <b>Tipe Lembur</b></div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hari_libur" value="0" checked>
-                                                    <label class="form-check-label" >Hari Biasa</label>
+                                                    <input class="form-check-input" type="radio" name="lembur_pagi" value="0" checked>
+                                                    <label class="form-check-label" >Bukan Lembur Pagi</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hari_libur" value="1">
-                                                    <label class="form-check-label">Hari Libur</label>
-                                                </div>
-                                            </div>
-
-                                            @if($lembur_pagi > 0)
-                                                <div class="form-group mb-4">
-                                                    <div for=""> <b>Tipe Lembur</b></div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="lembur_pagi" value="0" checked>
-                                                        <label class="form-check-label" >Bukan Lembur Pagi</label>
+                                                        <input class="form-check-input" type="radio" name="lembur_pagi" value="1">
+                                                        <label class="form-check-label">Lembur Pagi</label>
                                                     </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="lembur_pagi" value="1">
-                                                            <label class="form-check-label">Lembur Pagi</label>
-                                                        </div>
-                                                    </div>
-                                            @endif
+                                                </div>
+                                        @endif
 
 
-                                            <div class="form-group mt-5">
-                                                <input type="hidden" name="lembur_pengajuan_id" value="{{ $lembur_pengajuan_id }}">
-                                                <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Tambah </button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-
+                                        <div class="form-group mt-5">
+                                            <input type="hidden" name="lembur_pengajuan_id" value="{{ $lembur_pengajuan_id }}">
+                                            <button class="btn col-lg-2 btn-primary btn-lg" type="submit"> Tambah </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
                 </div>
             </div>
 
             <!-- <div class="row"> -->
-                <div class="content">
+                <div class="content" style="margin-top: 20px">
                     <div class="box">
                         <div class="box-header">
                             <h5> Pengajuan Lembur Hari Biasa </h5>

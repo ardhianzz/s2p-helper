@@ -38,7 +38,7 @@
                         Manage Slip Gaji
                     </a>
 
-                    <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekenig*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
+                    <a class="nav-link {{ Request::is('pengumuman/manage_nomor_rekening*') ? 'active' : ''}}" href="/pengumuman/manage_nomor_rekening">
                         <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                         Manage Rekening Gaji
                     </a>
@@ -47,9 +47,12 @@
 
         </div>
     </div>
-    <div class="sb-sidenav-footer">
-        <div class="fa fa-address-card"></div>
+    <div class="sb-sidenav-footer" align="center">
+        <p align="center">
+            <img src="{{ foto() }}" width="100px" style="border-radius: 50%;">
+        </p>
         {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
+        {{ DB::table("users")->where("id", auth()->user()->id)->get()[0]->email }}
     </div>
 </nav>
     
