@@ -12,7 +12,7 @@
 
             <a class="nav-link {{ Request::is('reminder/finished*') ? 'active' : ''}}" href="/reminder/finished">
                 <div class="sb-nav-link-icon"><i class="fa fa-list-alt"></i></div>
-                Finished
+                Close
             </a>
 
             <a class="nav-link {{ Request::is('reminder/manage_reminder*') ? 'active' : ''}}" href="/reminder/manage_reminder">
@@ -22,9 +22,12 @@
 
         </div>
     </div>
-    <div class="sb-sidenav-footer">
-        <div class="fa fa-address-card"></div>
+    <div class="sb-sidenav-footer" align="center">
+        <p align="center">
+            <img src="{{ foto() }}" width="100px" style="border-radius: 50%;">
+        </p>
         {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
+        {{ DB::table("users")->where("id", auth()->user()->id)->get()[0]->email }}
     </div>
 </nav>
     

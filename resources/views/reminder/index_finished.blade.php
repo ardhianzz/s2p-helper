@@ -22,10 +22,16 @@
         <div class="card">
             <div class="nav justify-content-between card-header">
                 <h5>List Schedule</h5>
-                <form>
-                    <input type="search" name="cari" placeholder="Subject.." value="{{ request()->cari }}">
-                    <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
-                </form>
+                <div class="col-lg-3">
+                    <form class="row">
+                        <div class="col-md-8" style="padding-right: 0px">
+                            <input class="form-control" type="search" placeholder="Subject.." aria-label="Subject.." name="cari" value="{{ request()->cari }}">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-dark text-white" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div> 
             </div>
             <div class="card-body table-respon">
                 <table class="table table-bordered table-striped">
@@ -68,7 +74,7 @@
                                     @if($r->status == "Ongoing") 
                                         Ongoing
                                     @elseif($r->status == "prosess") 
-                                        Finished
+                                        Closed
                                     @endif
                                 </td>
                                 <td>{{ $r->user->pegawai->nama }}</td>

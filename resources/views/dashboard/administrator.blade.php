@@ -2,18 +2,25 @@
 @include('dashboard.sidebar.menu')
 
 @section('container')
-<h1>Pengaturan Go Live Aplikasi</h1>
-<div class="row">
-  <div class="container mt-3">
-    <div class="col-lg-6">
+
+
+<div class="container-fluid px-4">
+    <div class="row">
+      <h1 class="mt-4">Pengaturan Go Live Aplikasi</h1>
+    </div>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
+    </ol>
+
+    <div class="conten">
       <div class="card">
         <div class="card-header">
           <h5>Aktifasi Modul</h5>
         </div>
   
-        <div class="card-body">
+        <div class="card-body table-respo">
             <form>
-              <table class="table">
+              <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <td>Nama Modul</td>
@@ -49,7 +56,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 

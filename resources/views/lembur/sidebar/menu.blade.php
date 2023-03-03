@@ -5,12 +5,12 @@
         <div class="nav">
 
             @can("lemburUser")
-                <a class="nav-link" href="/lembur">
+                <a class="nav-link {{ Request::is('lembur') ? 'active' : ''}}" href="/lembur">
                     <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
                     Lembur
                 </a>
 
-                <a class="nav-link" href="/lembur_settings/approver">
+                <a class="nav-link {{ Request::is('lembur_settings/approver') ? 'active' : ''}}" href="/lembur_settings/approver">
                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Pengaturan
                 </a>
@@ -26,15 +26,15 @@
 
 
             @can("lemburApprove")
-                <a class="nav-link" href="/lembur">
+                <a class="nav-link {{ Request::is('lembur') ? 'active' : ''}}" href="/lembur">
                     <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
                     Lembur
                 </a>
-                <a class="nav-link" href="/lembur_approve">
+                <a class="nav-link {{ Request::is('lembur_approve') ? 'active' : ''}}" href="/lembur_approve">
                     <div class="sb-nav-link-icon"><i class="fa fa-balance-scale"></i></div>
                     Persetujuan Lembur
                 </a>
-                <a class="nav-link" href="/lembur_settings/approver">
+                <a class="nav-link {{ Request::is('lembur_settings/approver') ? 'active' : ''}}" href="/lembur_settings/approver">
                     <div class="sb-nav-link-icon"><i class="fas fas fa-cogs"></i></div>
                     Pengaturan
                 </a>
@@ -45,23 +45,23 @@
 
 
             @can("lemburHrd")
-                <a class="nav-link" href="/lembur">
+                <a class="nav-link {{ Request::is('lembur') ? 'active' : ''}}" href="/lembur">
                     <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
                     Lembur
                 </a>
-                <a class="nav-link" href="/lembur_approve">
+                <a class="nav-link {{ Request::is('lembur_approve') ? 'active' : ''}}" href="/lembur_approve">
                     <div class="sb-nav-link-icon"><i class="fa fa-balance-scale"></i></div>
                     Persetujuan Lembur
                 </a>
-                <a class="nav-link" href="/lembur_approved">
+                <a class="nav-link {{ Request::is('lembur_approved') ? 'active' : ''}}" href="/lembur_approved">
                     <div class="sb-nav-link-icon"><i class="fas fa-folder-open"></i></div>
                     Data Lembur
                 </a>
-                <a class="nav-link" href="/lembur_report">
+                <a class="nav-link {{ Request::is('lembur_report') ? 'active' : ''}}" href="/lembur_report">
                     <div class="sb-nav-link-icon"><i class="fa fa-book"></i></div>
                     Laporan
                 </a>
-                <a class="nav-link" href="/lembur_settings">
+                <a class="nav-link {{ Request::is('lembur_settings') ? 'active' : ''}}" href="/lembur_settings">
                     <div class="sb-nav-link-icon"><i class="fas fas fa-cogs"></i></div>
                     Pengaturan
                 </a>        
@@ -73,19 +73,19 @@
 
 
             @can("lemburAdmin")
-                <a class="nav-link" href="/lembur">
+                <a class="nav-link {{ Request::is('lembur') ? 'active' : ''}}" href="/lembur">
                     <div class="sb-nav-link-icon"><i class="fas fa-calendar"></i></div>
                     Lembur
                 </a>
-                <a class="nav-link" href="/lembur_approve">
+                <a class="nav-link {{ Request::is('lembur_approve') ? 'active' : ''}}" href="/lembur_approve">
                     <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                     Persetujuan Lembur
                 </a>
-                <a class="nav-link" href="/lembur_approved">
+                <a class="nav-link {{ Request::is('lembur_approved') ? 'active' : ''}}" href="/lembur_approved">
                     <div class="sb-nav-link-icon"><i class="fas fa-folder-open"></i></div>
                     Data Lembur
                 </a>
-                <a class="nav-link" href="/lembur_settings">
+                <a class="nav-link {{ Request::is('lembur_settings') ? 'active' : ''}}" href="/lembur_settings">
                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                     Pengaturan
                 </a>   
@@ -94,9 +94,12 @@
 
         </div>
     </div>
-    <div class="sb-sidenav-footer">
-        <div class="fa fa-address-card"></div>
+    <div class="sb-sidenav-footer" align="center">
+        <p align="center">
+            <img src="{{ foto() }}" width="100px" style="border-radius: 50%;">
+        </p>
         {{ DB::table("pegawai")->where("user_id", auth()->user()->id)->get()[0]->nama }}
+        {{ DB::table("users")->where("id", auth()->user()->id)->get()[0]->email }}
     </div>
 </nav>
     

@@ -45,12 +45,18 @@
                                 <button class="btn btn-info text-light" data-toggle="modal" data-target="#tambahDataRekening" >Tambah Data</button>
                             </span>
 
-                            <span>
-                                <form>
-                                    <input type="search" name="cari" value="{{ request()->cari }}" autocomplete="off">
-                                    <button type="submit" class="bnt btn-sm btn-dark">Cari</button>
-                                </form>
-                            </span>
+                            {{-- <span> --}}
+                                <div class="col-lg-3">
+                                    <form class="row">
+                                        <div class="col-md-8" style="padding-right: 0px">
+                                            <input class="form-control" type="search" placeholder="Nama.." aria-label="Nama.." name="cari" value="{{ request()->cari }}">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-dark text-white" type="submit">Search</button>
+                                        </div>
+                                    </form>
+                                </div> 
+                            {{-- </span> --}}
                         </div>
 
 

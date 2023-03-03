@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <form class="row">
-                                            <div class="col-md-9">
+                                            <div class="col-md-8" style="padding-right: 0px">
                                                 <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="nama" value="{{ request()->nama }}">
                                             </div>
                                             <div class="col-md-3">

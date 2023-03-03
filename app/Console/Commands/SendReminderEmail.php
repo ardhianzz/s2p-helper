@@ -46,105 +46,106 @@ class SendReminderEmail extends Command
         //ambil data reminder
        
 
-        $jumlah_one = Reminder::where("tanggal_pengingat", date("Y-m-d"))->count();
-        $jumlah_month = Reminder::where("tanggal_pengingat", date("d"))->count();
-        $jumlah_year = Reminder::where("tanggal_pengingat", date("m-d"))->count();
+        $jumlah_one = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->count();
+        $jumlah_month = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->count();
+        $jumlah_year = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->count();
 
         for($i=0; $i<$jumlah_one; $i++){
-            $id = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->id;
-            $untuk = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email;   
-            $untuk2 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_2;   
-            $untuk3 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[$i]->email_3;   
+            $id = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[$i]->email;   
+            $untuk2 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[$i]->email_3;   
 
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
         }
         for($i=0; $i<$jumlah_month; $i++){
-            $id = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->id;
-            $untuk = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email;   
-            $untuk2 = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email_2;   
-            $untuk3 = Reminder::where("tanggal_pengingat", date("d"))->get()[$i]->email_3;   
+            $id = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[$i]->email;   
+            $untuk2 = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[$i]->email_3;   
 
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
         }
         for($i=0; $i<$jumlah_year; $i++){
-            $id = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->id;
-            $untuk = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email;   
-            $untuk2 = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email_2;   
-            $untuk3 = Reminder::where("tanggal_pengingat", date("m-d"))->get()[$i]->email_3;   
+            $id = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[$i]->id;
+            $untuk = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[$i]->email;   
+            $untuk2 = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[$i]->email_2;   
+            $untuk3 = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[$i]->email_3;   
 
             $this->sendEmail(Reminder::where("id",$id)->get(), $untuk, $untuk2, $untuk3);
         }
     }
 
     private function sendEmail($reminders, $untuk, $untuk2, $untuk3){
-        $jumlah_one = Reminder::where("tanggal_pengingat", date("Y-m-d"))->count();
-        $jumlah_month = Reminder::where("tanggal_pengingat", date("d"))->count();
-        $jumlah_year = Reminder::where("tanggal_pengingat", date("m-d"))->count();
+        $jumlah_one = Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->count();
+        $jumlah_month = Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->count();
+        $jumlah_year = Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->count();
 
-        if($jumlah_one > 0){
-            //Send email one time
-            if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk2)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("Y-m-d"))->get()[0]->email_3 == !null ) 
-                {
-                Mail::to($untuk3)->send(new ReminderEmail($reminders));
-                }
+        if(DB::table("modul_email")->where("id", 3)->get()[0]->keterangan == "Aktif"){
+            if($jumlah_one > 0){
+                //Send email one time
+                if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk2)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("Y-m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == !null ) 
+                    {
+                    Mail::to($untuk3)->send(new ReminderEmail($reminders));
+                    }
+            }
+            elseif($jumlah_month > 0){
+                //Send email one time
+                if (Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk2)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == !null ) 
+                    {
+                    Mail::to($untuk3)->send(new ReminderEmail($reminders));
+                    }
+            }
+            elseif($jumlah_year > 0){
+                //Send email one time
+                if (Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == null ) 
+                    {
+                    Mail::to($untuk2)->send(new ReminderEmail($reminders));
+                    }
+                if (Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email == !null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_2 == !null ||
+                    Reminder::where("tanggal_pengingat", date("m-d"))->where("status", "=", "Ongoing")->get()[0]->email_3 == !null ) 
+                    {
+                    Mail::to($untuk3)->send(new ReminderEmail($reminders));
+                    }
+            } 
         }
-        elseif($jumlah_month > 0){
-            //Send email one time
-            if (Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_2 == null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk2)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("d"))->get()[0]->email_3 == !null ) 
-                {
-                Mail::to($untuk3)->send(new ReminderEmail($reminders));
-                }
-        }
-        elseif($jumlah_year > 0){
-            //Send email one time
-            if (Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_2 == null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_3 == null ) 
-                {
-                Mail::to($untuk2)->send(new ReminderEmail($reminders));
-                }
-            if (Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email == !null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_2 == !null ||
-                Reminder::where("tanggal_pengingat", date("m-d"))->get()[0]->email_3 == !null ) 
-                {
-                Mail::to($untuk3)->send(new ReminderEmail($reminders));
-                }
-        }
-
         
     }
 }

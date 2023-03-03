@@ -5,7 +5,7 @@
 
 <div class="container-fluid px-4">
     <div class="row">
-      <h1 class="mt-4">Pengaturan Email</h1>
+      <h1>Pengaturan Tema</h1>
     </div>
     <ol class="breadcrumb mb-4">
       <li class="breadcrumb-item active">PT Sumber Segara Primadaya</li>
@@ -14,7 +14,7 @@
   <div class="conten">
     <div class="card">
       <div class="card-header">
-        <h5>Aktifasi Pengiriman Email</h5>
+        <h5>Pemilihan tema</h5>
       </div>
 
       <div class="card-body table-respon">

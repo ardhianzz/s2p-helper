@@ -270,7 +270,7 @@ class LemburController extends Controller
         $id = Auth::user()->id;
 
         return view("lembur.lembur_approve", [
-            "title" => "Pengajuan Lembur",
+            "title" => "Persetujuan Lembur",
             "pengajuan_lembur" => Lembur::get_pengajuan_lembur($id),
         ]);
     }
@@ -391,8 +391,45 @@ class LemburController extends Controller
     }
 
     public function lembur_pengaturan_tambah_periode(Request $request){
+        $th = date("Y");
         $data['user_id'] = $request->user_id;
         $data['periode'] = $request->periode;
+        if($request->periode == "Januari $th"){
+            $data['date'] = "2023-01-01";
+        }
+        if($request->periode == "Februari $th"){
+            $data['date'] = "2023-02-01";
+        }
+        if($request->periode == "Maret $th"){
+            $data['date'] = "2023-03-01";
+        }
+        if($request->periode == "April $th"){
+            $data['date'] = "2023-04-01";
+        }
+        if($request->periode == "Mei $th"){
+            $data['date'] = "2023-05-01";
+        }
+        if($request->periode == "Juni $th"){
+            $data['date'] = "2023-06-01";
+        }
+        if($request->periode == "Juli $th"){
+            $data['date'] = "2023-07-01";
+        }
+        if($request->periode == "Agustus $th"){
+            $data['date'] = "2023-08-01";
+        }
+        if($request->periode == "September $th"){
+            $data['date'] = "2023-09-01";
+        }
+        if($request->periode == "Oktober $th"){
+            $data['date'] = "2023-10-01";
+        }
+        if($request->periode == "November $th"){
+            $data['date'] = "2023-11-01";
+        }
+        if($request->periode == "Desember $th"){
+            $data['date'] = "2023-12-01";
+        }
         $data['total_biasa'] = "00:00:00";
         $data['total_libur'] = "00:00:00";
         $data['status'] = "Belum Diajukan";
@@ -555,8 +592,45 @@ class LemburController extends Controller
 
 
     public function pengajuan_kosong(){
+        $th = date("Y");
         $data['user_id'] = Auth::user()->id;
         $data['periode'] = $this->generate_periode();
+        if($this->generate_periode() == "Januari $th"){
+            $data['date'] = "2023-01-01";
+        }
+        if($this->generate_periode() == "Februari $th"){
+            $data['date'] = "2023-02-01";
+        }
+        if($this->generate_periode() == "Maret $th"){
+            $data['date'] = "2023-03-01";
+        }
+        if($this->generate_periode() == "April $th"){
+            $data['date'] = "2023-04-01";
+        }
+        if($this->generate_periode() == "Mei $th"){
+            $data['date'] = "2023-05-01";
+        }
+        if($this->generate_periode() == "Juni $th"){
+            $data['date'] = "2023-06-01";
+        }
+        if($this->generate_periode() == "Juli $th"){
+            $data['date'] = "2023-07-01";
+        }
+        if($this->generate_periode() == "Agustus $th"){
+            $data['date'] = "2023-08-01";
+        }
+        if($this->generate_periode() == "September $th"){
+            $data['date'] = "2023-09-01";
+        }
+        if($this->generate_periode() == "Oktober $th"){
+            $data['date'] = "2023-10-01";
+        }
+        if($this->generate_periode() == "November $th"){
+            $data['date'] = "2023-11-01";
+        }
+        if($this->generate_periode() == "Desember $th"){
+            $data['date'] = "2023-12-01";
+        }
         $data['total_biasa'] = "00:00:00";
         $data['total_libur'] = "00:00:00";
         $data['status'] = "Belum Diajukan";

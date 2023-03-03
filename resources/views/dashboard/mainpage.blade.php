@@ -20,13 +20,7 @@
   <body>
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      {{-- <h5 class="my-0 mr-md-auto font-weight-normal">
-        &nbsp;
-      </h5> --}}
       <nav class="my-2 my-md-0 mr-md-3">
-        
-        
-
         <!-- Example single danger button -->
           <div class="btn-group">
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,7 +37,6 @@
             </div>
           </div>
       </nav>
-      
     </div>
 
    <div class="pricing-header px-2 py-2 pt-md-2 pb-md-2 mx-auto text-center">

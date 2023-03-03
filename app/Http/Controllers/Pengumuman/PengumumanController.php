@@ -278,6 +278,7 @@ class PengumumanController extends Controller
                                     "p_slip_gaji_detail.t_takehome")
                         ->join("p_slip_gaji_detail", "p_slip_gaji.id", "=", "p_slip_gaji_detail.p_slip_gaji_id")
                         ->join("pegawai", "pegawai.nik", "=", "p_slip_gaji_detail.nik")
+                        ->where("p_slip_gaji.periode", "like", "%".$request->cari."%")
                         ->where("p_slip_gaji.status", "Diumumkan")
                         // ->where("p_slip_gaji_detail.nik", $request->nik)
                         ->paginate(10);
@@ -585,18 +586,22 @@ class PengumumanController extends Controller
         if($request->type == "publish"){
             $data['status'] = "Diumumkan";
             if(PPengumuman::where("id", $request->publish_pengumuman)->update($data)){
-                // if($lokasi == "Jakarta"){
-                //     Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // } 
-                // if($lokasi == "Cilacap") {
-                //     Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // }
-                // if($lokasi == "Semua") {
-                //     Mail::to($email_all)->send(new send_pengumuman($pengumuman));
-                //     return back()->with('success', 'Publish Pengumuman Berhasil');
-                // }
+                if(DB::table("modul_email")->where("id", 1)->get()[0]->keterangan == "Aktif"){
+                    if($lokasi == "Jakarta"){
+                        Mail::to($email_jkt)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    } 
+                    if($lokasi == "Cilacap") {
+                        Mail::to($email_clcp)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    }
+                    if($lokasi == "Semua") {
+                        Mail::to($email_all)->send(new send_pengumuman($pengumuman));
+                        return back()->with('success', 'Publish Pengumuman Berhasil');
+                    }
+                } elseif(DB::table("modul_email")->where("id", 1)->get()[0]->keterangan == "Tidak Aktif"){
+                    return back()->with('success', 'Publish Pengumuman Berhasil Tanpa Dengan Pengiriman Email');
+                }
             }else{
                 return back()->with('error', 'proses gagal');
             }
@@ -747,7 +752,8 @@ class PengumumanController extends Controller
             case '1': return "Administrator"; break;
             case '2': return "Administrator HRD"; break;
             case '3': return "Approver"; break;
-            case '4': return "User"; break;
+            case '4': return "User Jakarta"; break;
+            case '5': return "User Cilacap"; break;
             default: return abort(403); break;
         }
     }

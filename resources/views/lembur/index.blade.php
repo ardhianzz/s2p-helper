@@ -24,10 +24,22 @@
                     <div class="box">
                         <div class="nav justify-content-between box-header">
                             <h2>Riwayat Pengajuan</h2>
-                            <form action="/lembur" method="get">
-                                <input  type="search" placeholder="Cari..." name="cari" value="{{ request()->cari }}">
-                                <button class="btn btn-dark text-light" type="submit">Cari</button>
-                            </form>
+                            <div class="col-lg-3">
+                                <form class="row">
+                                    <div class="col-md-8" style="padding-right: 0px">
+                                        <input class="form-control" type="search" placeholder="Periode.." aria-label="Periode.." name="cari" value="{{ request()->cari }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-dark text-white" type="submit">Search</button>
+                                    </div>
+                                </form>
+                            </div> 
+                            {{-- <form action="" class="search-bar">
+                                <input type="search" name="cari" value="{{ request()->cari }}" pattern=".*\S.*">
+                                <button class="search-btn" type="submit">
+                                    <span>Search</span>
+                                </button>
+                            </form> --}}
                         </div>
                         <div class="box-body table-respon">
                             <table class="table table-bordered table-striped">

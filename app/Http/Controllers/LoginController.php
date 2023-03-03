@@ -39,8 +39,9 @@ class LoginController extends Controller
                 'user_agent' => $agent,
                 ];
             
-            
-            Mail::to($request->email)->send(new notif_login($details));
+            if(DB::table("modul_email")->where("id", 2)->get()[0]->keterangan == "Aktif"){
+                Mail::to($request->email)->send(new notif_login($details));
+            }
             
 
             //insert aktifitas login
@@ -51,7 +52,8 @@ class LoginController extends Controller
             $s['ip_public'] = $check->ip;
             $s['lokasi'] = $check->city;
             DB::table("sessions")->insert($s);
-                
+
+            // return redirect()->intended("/home");
             return redirect()->intended("/main");
         }
         return back()->with("LoginError", "Login Failed");

@@ -4,11 +4,18 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+img {
+    width: 100px;
+    border-radius: 50%;
+ }
 
 html, body{
-    display: grid;
-    height: 100%;
-    width: 100%;
+    display:grid;
+    /* padding-bottom: 10%; */
+    /* padding-top: 10%; */
+    /* margin-bottom: 100px; */
+    height: 1%;
+    /* width: 50px; */
     place-items: center;
     background: linear-gradient(315deg, #ffffff, #d7e1ec);
 }
@@ -17,13 +24,17 @@ a{
     text-decoration: none;
 }
 .wrapper{
-    /* display: inline-flex; */
     display: inline-flex;
     cursor: pointer;
+    flex-wrap: wrap;
+    width: 70%;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .wrapper .icon{
     margin: 0 50px;
+    margin-bottom: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -93,32 +104,38 @@ a{
     text-shadow: 0px -1px 0px rgba(0,0,0,0.4);
 }
 
-.wrapper .facebook:hover span,
-.wrapper .facebook:hover .tooltip,
-.wrapper .facebook:hover .tooltip:before{
+.wrapper .pegawai:hover span,
+.wrapper .pegawai:hover .tooltip,
+.wrapper .pegawai:hover .tooltip:before{
     background: #3b5999;
 }
 
-.wrapper .twitter:hover span,
-.wrapper .twitter:hover .tooltip,
-.wrapper .twitter:hover .tooltip:before{
+.wrapper .lembur:hover span,
+.wrapper .lembur:hover .tooltip,
+.wrapper .lembur:hover .tooltip:before{
     background: #46c1f6;
 }
 
-.wrapper .instagram:hover span,
-.wrapper .instagram:hover .tooltip,
-.wrapper .instagram:hover .tooltip:before{
-    background: #e1306c;
-}
-
-.wrapper .github:hover span,
-.wrapper .github:hover .tooltip,
-.wrapper .github:hover .tooltip:before{
+.wrapper .absensi:hover span,
+.wrapper .absensi:hover .tooltip,
+.wrapper .absensi:hover .tooltip:before{
     background: #333;
 }
 
-.wrapper .youtube:hover span,
-.wrapper .youtube:hover .tooltip,
-.wrapper .youtube:hover .tooltip:before{
-    background: #DE463B;
+.wrapper .kendaraan:hover span,
+.wrapper .kendaraan:hover .tooltip,
+.wrapper .kendaraan:hover .tooltip:before{
+    background: #1cdfb2;
+}
+
+.wrapper .reminder:hover span,
+.wrapper .reminder:hover .tooltip,
+.wrapper .reminder:hover .tooltip:before{
+    background: #0aad17;
+}
+
+.wrapper .pengumuman:hover span,
+.wrapper .pengumuman:hover .tooltip,
+.wrapper .pengumuman:hover .tooltip:before{
+    background: #ea1303;
 }

@@ -127,7 +127,7 @@
                                         @if($d->status == "Ongoing")
                                         <td><b>Ongoing</b></td> 
                                         @elseif($d->status == "prosess")
-                                        <td><b>Finished</b></td> 
+                                        <td><b>Closed</b></td> 
                                         @endif
                                     @endforeach
                                 </tr>
